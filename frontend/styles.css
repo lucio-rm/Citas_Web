@@ -6,6 +6,12 @@
 }
 body{
     background-color: #FEEFEF;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 15% 1fr;
+    grid-template-areas: 
+        "navbar navbar"
+        "editor vista-previa";
 }
 li, a, button{
     font-weight: 500;
@@ -30,9 +36,10 @@ button:hover{
     height: 60px;
     object-fit: contain;
     cursor: pointer;
-        flex-shrink: 0;
+    flex-shrink: 0;
 }
 nav{
+    grid-area: navbar;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -55,8 +62,66 @@ nav{
 .nav-links li a:hover{
     color: #facfcf;
 }
-.botones{
+.nav-botones{
     display: flex;
     gap: 10px;
     margin-left: auto;
+}
+.editar-perfil{
+    grid-area: editor;
+    padding: 30px 30px;
+    overflow-y: auto;;
+}
+.editar-perfil strong{
+    font-size: 28px;
+    color: #FE7877;
+    margin-bottom: 20px;
+    display: block;
+}
+.editar-perfil-form{
+    background-color: #fef9f9;
+    border-radius: 30px;
+    padding: 20px;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+.editar-perfil-form label{
+    display: block;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+.editar-perfil-form input{
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid #FE7877;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+.editar-perfil-form input:focus{
+    outline: none;
+    border-color: #fa9f9f;
+}
+.editar-perfil-form textarea{
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid #FE7877;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    resize: vertical;
+}
+.editar-perfil-form textarea:focus{
+    outline: none;
+    border-color: #fa9f9f;
+}
+
+.vista-previa{
+    grid-area: vista-previa;
+    background-color: #f9e7e7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
