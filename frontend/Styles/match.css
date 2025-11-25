@@ -2,12 +2,19 @@
     background-color: #fef9f9;
     border-radius: 30px;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.1);
-    width: 50%;
-    height: 70%;
+    width: 60%;
+    height: 80%;
     margin: 50px auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
+}
+
+.scrollable-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
 }
 
 .match-img {
@@ -24,6 +31,9 @@
     background-color: #FE7877;
     border-top: #FE7877;
     text-align: center;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 
 .match-footer .card-footer-item {
