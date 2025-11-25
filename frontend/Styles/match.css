@@ -5,6 +5,9 @@
     width: 50%;
     height: 70%;
     margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .match-img {
@@ -14,12 +17,25 @@
     height: 70%;
     object-fit: cover;
     text-align: center;
+    padding-bottom: 2%;
 }
 
-.title is-4 {
-    color: black;
+.match-footer {
+    background-color: #FE7877;
+    border-top: #FE7877;
+    text-align: center;
 }
 
+.match-footer .card-footer-item {
+    border: none;
+}
+
+.title {
+    color: #6d6767;
+}
+.content {
+    color: #8b8484;
+}
 body {
     display: block;
 }
