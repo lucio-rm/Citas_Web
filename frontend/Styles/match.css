@@ -26,7 +26,10 @@
     text-align: center;
     padding-bottom: 2%;
 }
-
+.image {
+    width: 48px;
+    height: 48px;
+}
 .match-footer {
     background-color: #FE7877;
     border-top: #FE7877;
@@ -40,8 +43,20 @@
     border: none;
 }
 
+.contenido {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
 .title {
     color: #6d6767;
+}
+.letra {
+    color: #6d6767;
+    font: 1,5em sans-serif;
 }
 .content {
     color: #8b8484;
