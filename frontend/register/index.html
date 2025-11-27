@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear cuenta · Red Thread</title>
+
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+    <!-- Estilos del proyecto -->
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <link rel="stylesheet" href="../Styles/register.css">
+
+    <!-- Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar-registro">
+        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class="nav-links">
+            <li><a href="../explorar/index.html">Explorar</a></li>
+            <li><a href="../mis_matchs/index.html">Mis matches</a></li>
+        </ul>
+
+        <div class="nav-botones">
+            <button onclick="window.location.href='../login/index.html'">Iniciar Sesión</button>
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR -->
+    <section class="form-container">
+        <h1 class="titulo-registro">Crear tu cuenta</h1>
+
+        <form class="registro-form">
+
+            <!-- COLUMNA 1 -->
+            <div class="columna">
+
+                <label>Nombre completo</label>
+                <input type="text" placeholder="Ej: Juan Pérez" required>
+
+                <label>Email</label>
+                <input type="email" placeholder="Ej: juan@mail.com" required>
+
+                <label>Contraseña</label>
+                <input type="password" placeholder="Mínimo 6 caracteres" required>
+
+                <label>Repetir contraseña</label>
+                <input type="password" placeholder="Repite tu contraseña" required>
+
+                <label>Ciudad</label>
+                <input type="text" placeholder="Ej: Buenos Aires">
+
+            </div>
+
+            <!-- COLUMNA 2 -->
+            <div class="columna">
+
+                <label>Edad</label>
+                <input type="number" min="18" max="99" placeholder="Ej: 25">
+
+                <label>Orientación</label>
+                <input type="text" placeholder="Ej: Heterosexual / Bisexual / Otro">
+
+                <label>Bio</label>
+                <textarea rows="3" placeholder="Escribe algo sobre vos"></textarea>
+
+                <label>Hobbies</label>
+                <input type="text" placeholder="Música, deportes, lectura...">
+
+                <label>Tags / Intereses</label>
+                <input type="text" placeholder="Ej: cine, café, gatos...">
+
+            </div>
+
+            <!-- FOTO -->
+            <div class="foto-input">
+                <label>Foto de perfil</label>
+                <input type="file" accept="image/*">
+            </div>
+
+            <!-- BOTON CREAR -->
+            <button class="boton-crear-cuenta">Crear cuenta</button>
+
+        </form>
+
+    </section>
+
+</body>
+</html>

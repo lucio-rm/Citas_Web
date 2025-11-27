@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preferencias · Red Thread</title>
+
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+    <!-- Estilos globales -->
+    <link rel="stylesheet" href="../Styles/styles.css">
+
+    <!-- Estilos específicos -->
+    <link rel="stylesheet" href="../Styles/preferencias.css">
+
+    <!-- Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar-preferencias">
+        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class="nav-links">
+            <li><a href="../explorar/index.html">Explorar</a></li>
+            <li><a href="../mis_matchs/index.html">Mis matches</a></li>
+        </ul>
+
+        <div class="nav-botones">
+            <button onclick="window.location.href='/login'">Mi cuenta</button>
+        </div>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <section class="preferencias-container">
+
+        <h1 class="titulo-pref">Configurar tus preferencias</h1>
+
+        <form class="pref-form">
+
+            <!-- COLUMNA 1 -->
+            <div class="columna-pref">
+                <label>Género preferido</label>
+                <input type="text" placeholder="Ej: Mujer / Hombre / Cualquiera">
+
+                <label>Edad mínima</label>
+                <input type="number" min="18" max="99" placeholder="Ej: 20">
+
+                <label>Edad máxima</label>
+                <input type="number" min="18" max="99" placeholder="Ej: 35">
+            </div>
+
+            <!-- COLUMNA 2 -->
+            <div class="columna-pref">
+                <label>Hobbies preferidos</label>
+                <input type="text" placeholder="Ej: música, viajes, deporte...">
+
+                <label>Intereses / Tags preferidos</label>
+                <input type="text" placeholder="Ej: cine, café, gatos...">
+            </div>
+
+            <!-- BOTÓN GUARDAR -->
+            <button class="boton-guardar-pref">Guardar preferencias</button>
+        </form>
+
+    </section>
+
+</body>
+</html>
