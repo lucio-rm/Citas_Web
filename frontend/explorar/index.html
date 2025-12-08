@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="/frontend/Styles/styles.css">
     <link rel="stylesheet" href="/frontend/Styles/match.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <title>Red Thread</title>
 </head>
 <body>
@@ -27,44 +26,44 @@
             <div class="card-image">
                 <figure class="match-img">
                     <img
-                        src="https://bulma.io/assets/images/placeholders/1280x960.png"
-                        alt="Placeholder image"
+                        id = "match-img" src="https://bulma.io/assets/images/placeholders/1280x960.png"
+                        alt="Foto de perfil"
                     />
                 </figure>
             </div>
             <div class="card-content">
                 <div class="media">
                     <div >
-                        <p class="title is-4">Nombre apellido</p>
+                        <p id = "match-nombre" class="title is-4">Nombre apellido</p>
                     </div>
                 </div>
 
-                <div class="content">
+                <div id = "match-desc" class="content">
                     Descripcion personal del usuario
                 </div>
                 <div class="content">
                     <p class="title is-5">Información</p>
-                    <p class="is-6">Edad: 25</p>
-                    <p class="is-6">Ciudad: Ciudad Ejemplo</p>
-                    <p class="is-6">Orientacion Sexual: Heterosexual</p>
+                    <p id = "match-edad" class="is-6">Edad:</p>
+                    <p id = "match-ubi" class="is-6">Ciudad:</p>
+                    <p id = "match-orientacion" class="is-6">Orientacion Sexual:</p>
                 </div>
                 <div class="content">
                     <p class="title is-5">Hobbies</p>
-                    <p class="is-6">Hobbies</p>
+                    <p id = "match-hobbies" class="is-6">Hobbies</p>
                 </div>
                 <div class="content">
                     <p class="title is-5">Tags</p>
-                    <p class="is-6">Tags</p>
+                    <p id = "match-tags" class="is-6">Tags</p>
                 </div>
             </div>
         </div>
 
         <div class="card">
             <footer class="card-footer match-footer">
-                <a href="#" class="card-footer-item">
+                <button id="like" class="card-footer-item color-boton">
                     <i class="fa-solid fa-heart"></i>
                 </a>
-                <a href="#" class="card-footer-item">
+                <button id="xmark" class="card-footer-item color-boton">
                     <i class="fa-solid fa-xmark"></i>
                 </a>
             </footer>
@@ -72,4 +71,5 @@
     </div>
 
 </body>
+<script src="/backend/scripts/pag_inicial.js"></script>
 </html>
