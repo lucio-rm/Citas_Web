@@ -1,5 +1,6 @@
 const personas = [
  {
+        id : 1,
         nombre: "Ana Torres",
         descripcion: "Amo viajar y sacar fotos.",
         imagen: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Miyabi_Moriya_during_Gotham_Angel_City_Sep_7_25-010_%28cropped%29.jpg",
@@ -10,6 +11,7 @@ const personas = [
         tags: "#aventurera #artística"
     },
     {
+        id : 2,
         nombre: "Lucas Pérez",
         descripcion: "Fan de los videojuegos y el gym.",
         imagen: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHww",
@@ -20,6 +22,7 @@ const personas = [
         tags: "#gamer #fit"
     },
     {
+        id : 3,
         nombre: "María Gómez",
         descripcion: "Me encanta cocinar y leer.",
         imagen: "https://img.freepik.com/free-photo/expressive-woman-posing-outdoor_344912-3079.jpg?semt=ais_hybrid&w=740&q=80lma.io/assets/images/placeholders/1280x960.pnghttps://img.freepik.com/free-photo/expressive-woman-posing-outdoor_344912-3079.jpg?semt=ais_hybrid&w=740&q=80https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHwwhttps://i.pinimg.com/474x/31/9d/1e/319d1e1b798ae1da876b122cf078c51b.jpghttps://mir-s3-cdn-cf.behance.net/project_modules/1400/e98f2535036667.58bc6981515a3.jpg",
@@ -30,7 +33,8 @@ const personas = [
         tags: "#chef #relax"
     }
 ];
-
+let cola = [...personas];
+let usuarioActual = null;
 const img = document.getElementById("match-img");
 const nombre = document.getElementById("match-nombre");
 const descripcion = document.getElementById("match-desc");
@@ -40,27 +44,59 @@ const orientacion = document.getElementById("match-orientacion");
 const hobbies = document.getElementById("match-hobbies");
 const tags = document.getElementById("match-tags");
 
-function cargarPersonaAleatoria() {
-    const indiceAleatorio = Math.floor(Math.random() * personas.length);
-    const persona = personas[indiceAleatorio];
-    img.src = persona.imagen;
-    nombre.textContent = persona.nombre;
-    descripcion.textContent = persona.descripcion;
-    ubicacion.textContent = `Ciudad: ${persona.ciudad}`;
-    edad.textContent = `Edad: ${persona.edad}`;
-    orientacion.textContent = `Orientación Sexual: ${persona.orientacion}`;
-    hobbies.textContent = persona.hobbies;
-    tags.textContent = persona.tags;
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+function inicializarCola() {
+    cola = shuffleArray([...personas]);
+    usuarioActual = cola.shift();
+    cargarPersona(usuarioActual);
+}
+
+function obtenerSiguientePersona() {
+    if (cola.length === 0) {
+        mostrarFinDePersonas();
+        return;
+    }
+    usuarioActual = cola.shift();
+    cargarPersona(usuarioActual);
+}
+
+function mostrarFinDePersonas() {
+    img.src = "https://cdn-icons-png.flaticon.com/512/4076/4076549.png";
+    nombre.textContent = "No hay más personas disponibles";
+    descripcion.textContent = "";
+    ubicacion.textContent = "";
+    edad.textContent = "";
+    orientacion.textContent = "";
+    hobbies.textContent = "";
+    tags.textContent = "";
+}
+
+function cargarPersona() {
+    img.src = usuarioActual.imagen;
+    nombre.textContent = usuarioActual.nombre;
+    descripcion.textContent = usuarioActual.descripcion;
+    ubicacion.textContent = `Ciudad: ${usuarioActual.ciudad}`;
+    edad.textContent = `Edad: ${usuarioActual.edad}`;
+    orientacion.textContent = `Orientación Sexual: ${usuarioActual.orientacion}`;
+    hobbies.textContent = usuarioActual.hobbies;
+    tags.textContent = usuarioActual.tags;
 }
 
 document.getElementById("like").addEventListener("click", function (event) {
     event.preventDefault();
-    cargarPersonaAleatoria();
+    obtenerSiguientePersona();
 });
 
 document.getElementById("xmark").addEventListener("click", function (event) {
     event.preventDefault();
-    cargarPersonaAleatoria();
+    obtenerSiguientePersona();
 });
 
-cargarPersonaAleatoria();
+inicializarCola();
