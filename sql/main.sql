@@ -16,6 +16,7 @@ CREATE TABLE usuarios (
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     edad_preferida_min INT,
     edad_preferida_max INT
+    
     -- NOTA:
     -- de esta tabla me faltaron Hobbies, Hábitos y Orientación que tienen los 'tags' que van en las tablas satélites.
 );
