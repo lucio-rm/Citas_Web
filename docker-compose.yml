@@ -12,7 +12,6 @@ services:
 
   backend:
     build: ./backend
-    command: node scripts/index.js
     ports:
       - "3000:3000"
     env_file:
