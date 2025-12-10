@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node scripts/index",
     "dev": "node --watch scripts/index.js"
   },
   "keywords": [],
