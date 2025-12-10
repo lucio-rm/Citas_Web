@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/frontend/Styles/styles.css">
+    <title>Red Thread</title>
+</head>
+<body>
+    <nav>
+        <img class = "logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class = "nav-links">
+            <li><a href="#">Explorar</a></li>
+            <li><a href="#">Mis matches</a></li>
+        </ul>
+        <div class="nav-botones">
+            <button>Iniciar Sesión</button>
+            <button>Registrarse</button>
+        </div>
+    </nav>
+    
+    <div class="editar-perfil">
+        <strong>Editar perfil</strong>
+        <form class="editar-perfil-form" action="editar-perfil" method="post">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="editar-nombre" autocomplete="off">
+            <br>
+            <label for="Email">Email</label>
+            <input type="email"
+            id="editar-email"
+            autocomplete="off"
+            required
+            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+            title="nombre@dominio.com">
+            <br>
+            <label for="Contraseña">Contraseña</label>
+            <input type="password"
+            id="editar-contraseña"
+            autocomplete="off"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s])[\S]{8,}"
+            title="Al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
+            >
+            <br>
+            <label for="Bio">Bio</label>
+            <textarea id="editar-bio" rows="4"></textarea>
+            <br>
+            <label for="Edad">Edad</label>
+            <input type="number" id="editar-edad">
+            <br>
+            <label for="Orientacion-Sexual">Orientación Sexual</label>
+            <input type="text" id="editar-orientacion-sexual" autocomplete="off">
+            <br>
+            <label for="Genero">Género</label>
+            <input type="text" id="editar-genero" autocomplete="off">
+            <br>
+            <label for="Ubicacion">Ubicación</label>
+            <input type="text" id="editar-ubicacion" autocomplete="off">
+            <br>
+            
+            <button type="submit">Guardar cambios</button>
+        </form>
+    </div>
+
+    <aside class="vista-previa">
+        <strong>Vista previa</strong>
+        <div class="carta-perfil">
+            <div class="vista-previa img">
+                <img src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="foto-perfil">
+            </div>
+            <h3 class="letra" id="vista-previa-nombre"></h3>
+            <p id="vista-previa-bio"></p>
+            <h3 class="letra">Información</h3>
+            <p id="vista-previa-edad"></p>
+            <p id="vista-previa-ciudad"></p>
+            <p id="vista-previa-orientacion"></p>
+            <h3 class="letra">Hobbies</h3>
+            <p id="vista-previa-hobbies">Hobbies</p>
+            <h3 class="letra">Tags</h3> 
+            <p id="vista-previa-tags">Tags</p>
+
+        </div>
+    </aside>
+    
+    <script src="/backend/scripts/editar-perfil.js"></script>
+</body>
+</html>
