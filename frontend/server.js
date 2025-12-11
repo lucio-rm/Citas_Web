@@ -1,17 +1,12 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url';
+const express = require("express");
+const path = require("path");
 
 const app = express();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+app.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, "explorar/index.html"));
+});
 
 app.use(express.static(__dirname));
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
 
-app.listen(8080, () => {
-    console.log('Frontend server is running on http://localhost:8080');
-});
+app.listen(8080, () => console.log("Frontend running on port 8080"));
