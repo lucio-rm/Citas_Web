@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node scripts/index",
     "dev": "node --watch scripts/index.js"
+    "comentario": "acá listamos todas las dependencias (express, pg, cors, dotenv)",
+    "com2": "definimos los scripts (npm run dev para correr el servidor)",
+    "c3": "definimos que es un módulo ES6 ('type': 'module')"
   },
   "keywords": [],
   "author": "",
