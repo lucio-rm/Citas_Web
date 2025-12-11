@@ -22,8 +22,8 @@ CREATE TABLE usuarios (
     foto_perfil VARCHAR(255),
     ubicacion VARCHAR(100),
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    edad_preferida_min INT,
-    edad_preferida_max INT
+    edad_preferida_min INT DEFAULT 18,
+    edad_preferida_max INT DEFAULT 99
 );
 
 
