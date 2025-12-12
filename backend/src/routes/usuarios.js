@@ -18,9 +18,6 @@ router.put('/:id', controladores.actualizarUsuario);
 // eliminar un usuario
 router.delete('/:id', controladores.eliminarUsuario);
 
-//registro de usuario
-router.post('/registro', controladores.registrarUsuario);
-
 // login
 router.post('/login', controladores.loginUsuario);
 

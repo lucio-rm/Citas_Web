@@ -6,7 +6,7 @@ const obtenerUsuarios = async (req, res) => {
         res.json(result.rows);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Error al querer obtener usuarios'});
+        res.status(500).json({ error: 'Error al querer obtener usuarios' });
     }
 };
 
@@ -16,13 +16,13 @@ const obtenerUsuarioPorId = async (req, res) => {
         const result = await pool.query('SELECT * FROM usuarios WHERE id = $1', [id]);
 
         if (result.rows.length === 0) {
-            return res.status(404).json({ error : 'No se encontró el Usuario, probá de nuevo.'});
+            return res.status(404).json({ error : 'No se encontró el usuario, probá de nuevo.' });
         }
 
         res.json(result.rows[0]);
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: 'Error al obtener usuario.'});
+        res.status(500).json({ error: 'Error al obtener usuario.' });
     }
 };
 
@@ -57,33 +57,6 @@ const crearUsuario = async (req, res) => {
             return res.status(400).json({ error: 'El email ya está registrado' });
         }
         res.status(500).json({ error: 'Error al crear usuario' });
-    }
-};
-
-const registrarUsuario = async (req, res) => {
-    try {
-        const { nombre, apellido, fecha_nacimiento, mail, contrasenia, 
-                sexo_genero, ubicacion } = req.body;
-        
-        if (!nombre || !apellido || !mail || !contrasenia) {
-            return res.status(400).json({ error: 'Faltan campos obligatorios, llenalos por favor.' });
-        }
-        
-        const result = await pool.query(
-            `INSERT INTO usuarios (nombre, apellido, fecha_nacimiento, mail, contrasenia,
-             sexo_genero, ubicacion)
-             VALUES ($1, $2, $3, $4, $5, $6, $7)
-             RETURNING id, nombre, apellido, mail`,
-            [nombre, apellido, fecha_nacimiento, mail, contrasenia, sexo_genero, ubicacion]
-        );
-        
-        res.status(201).json({ message: 'Usuario registrado', usuario: result.rows[0] });
-    } catch (err) {
-        console.error(err);
-        if (err.code === '23505') {
-            return res.status(400).json({ error: 'El email ya está registrado' });
-        }
-        res.status(500).json({ error: 'Error al registrar usuario' });
     }
 };
 
@@ -143,15 +116,20 @@ const loginUsuario = async (req, res) => {
         }
         
         const result = await pool.query(
-            'SELECT id, nombre, apellido, mail FROM usuarios WHERE mail = $1 AND contrasenia = $2',
-            [mail, contrasenia]
+            'SELECT * FROM usuarios WHERE mail = $1',
+            [mail]
         );
         
         if (result.rows.length === 0) {
-            return res.status(401).json({ error: 'Credenciales inválidas' });
+            return res.status(401).json({ error: 'Mail inexistente' });
         }
-        
+        const usuario = result.rows[0];
+        if (usuario.contrasenia !== contrasenia) {
+            return res.status(401).json({ error: 'Contraseña inválida' });
+        }
+
         res.json({ message: 'Login exitoso', usuario: result.rows[0] });
+
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Error al hacer login' });
@@ -162,7 +140,6 @@ module.exports = {
     obtenerUsuarios,
     obtenerUsuarioPorId,
     crearUsuario,
-    registrarUsuario,
     actualizarUsuario,
     eliminarUsuario,
     loginUsuario
