@@ -1,7 +1,6 @@
 import express from 'express';
-
+import * as controladores from '../controllers/controladorUsuario.js';
 const router = express.Router();
-const controladores = require('../controllers/usuariosController');
 
 // obtenemos todos los usuarios
 router.get('/', controladores.obtenerUsuarios);
