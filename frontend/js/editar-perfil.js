@@ -112,6 +112,28 @@ function manejarClickTag(tag, btn){
             alert('No puedes seleccionar mas tags de esta categoria.')
         }
     }
+    mostrarVistaPreviaTags();
+}
+
+function mostrarVistaPreviaTags(){
+
+    const renderizarTags = (contenedor, listaTags) => {
+        const contenedorVistaPrevia = document.querySelector(contenedor);
+        contenedorVistaPrevia.innerHTML = '';
+
+        listaTags.forEach(tag => {
+            const span = document.createElement('span');
+            span.className= 'tag-vista';
+            span.textContent = tag;
+            contenedorVistaPrevia.appendChild(span);
+        });
+    }
+
+    renderizarTags('.vista-previa-hobbies', seleccionados['HOBBIES'])
+    renderizarTags('.vista-previa-habitos', seleccionados['HABITOS'])
+    const extras = seleccionados['SIGNOS'].concat(seleccionados['ORIENTACION'])
+    renderizarTags('.vista-previa-extras', extras)
+
 }
 
 incializarTags();
@@ -124,3 +146,4 @@ mostrarVistaPrevia(inputBio, vistaPreviaBio, 'Sin biografía');
 mostrarVistaPrevia(inputUbicacion, vistaPreviaUbicacion, '-', 'Ciudad: ');
 mostrarVistaPrevia(inputEdad, vistaPreviaEdad, '-', 'Edad: ');
 mostrarVistaPreviaImagen(inputFotoPerfil, vistaPreviaFotoPerfil, 'https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?b=1&s=612x612&w=0&k=20&c=xGKz23oV80Alrtdt1xj_jr_MBSiJ9gnlOYtQv14ISwY=');
+mostrarVistaPreviaTags();
