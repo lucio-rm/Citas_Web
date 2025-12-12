@@ -187,3 +187,20 @@ nav{
     background-color: #FE7877 !important;
     color: white !important;
 }
+.contenedor-tags-vista-previa{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+}
+.tag-vista{
+    background-color: #FE7877;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
+    cursor: default;
+}
