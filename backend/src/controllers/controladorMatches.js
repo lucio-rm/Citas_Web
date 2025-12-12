@@ -25,3 +25,16 @@ const obtenerMatchPorId = async (req, res) => {
     }
 };
 
+const crearMatch = async (req, res) => {
+    try {
+        const { usuario1_id, usuario2_id, fecha_match } = req.body;
+        const result = await pool.query(
+            'INSERT INTO matches (usuario1_id, usuario2_id, fecha_match) VALUES ($1, $2, $3) RETURNING *',
+            [usuario1_id, usuario2_id, fecha_match]
+        );
+        res.status(201).json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al crear match' });
+    }
+};
