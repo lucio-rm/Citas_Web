@@ -123,7 +123,7 @@ function mostrarVistaPreviaTags(){
 
         listaTags.forEach(tag => {
             const span = document.createElement('span');
-            span.className= 'tag-vista';
+            span.className= 'tag-vista-previa';
             span.textContent = tag;
             contenedorVistaPrevia.appendChild(span);
         });
