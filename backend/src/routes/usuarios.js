@@ -10,7 +10,7 @@ router.get('/', controladores.obtenerUsuarios);
 router.get('/:id', controladores.obtenerUsuarioPorId);
 
 // acá creamos un nuevo usuario:
-router.post('/',), controladores.crearUsuario;
+router.post('/', controladores.crearUsuario);
 
 // actualizamos un usuario
 router.put('/:id', controladores.actualizarUsuario);
