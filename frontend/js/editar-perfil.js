@@ -80,27 +80,32 @@ function incializarTags() {
         btn.textContent = tag.nombre;
         btn.className = 'tag tag-btn'
 
-        btn.onclick = () => manejarClickTag(tag);
+        btn.onclick = () => manejarClickTag(tag, btn);
 
         contenedor.appendChild(btn);
     })
 }
 
-function manejarClickTag(tag){
+function manejarClickTag(tag, btn){
     const cat = tag.tipo;
     const listaActual = seleccionados[cat];
     const indice = listaActual.indexOf(tag.nombre);
 
     if (indice > -1) {
         listaActual.splice(indice , 1);
+        btn.classList.remove('seleccionado')
     }
     else{
         if (listaActual.length < MAXIMOS[cat]){
             listaActual.push(tag.nombre);
+            btn.classList.add('seleccionado')
             console.log('aaaaa')
         }
         else if (MAXIMOS[cat] === 1){
             seleccionados[cat] = [tag.nombre];
+            const hermanos = btn.parentElement.querySelectorAll('.tag-btn');
+            hermanos.forEach(b => b.classList.remove('seleccionado'));
+            btn.classList.add('seleccionado')
             console.log('bbbbb')
         }
         else{
