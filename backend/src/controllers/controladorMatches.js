@@ -53,7 +53,7 @@ const eliminarMatch = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     obtenerMatches,
     obtenerMatchPorId,
     crearMatch,

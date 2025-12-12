@@ -158,7 +158,7 @@ const loginUsuario = async (req, res) => {
     }
 };
 
-module.exports = {
+export {
     obtenerUsuarios,
     obtenerUsuarioPorId,
     crearUsuario,
