@@ -48,6 +48,8 @@ const listaTags = [
     {id: 2, nombre: 'Cine', tipo : 'HOBBIES'},
     {id: 3, nombre: 'Lectura', tipo : 'HOBBIES'},
     {id: 4, nombre: 'Videojuegos', tipo : 'HOBBIES'},
+    {id: 5, nombre: 'Jardineria', tipo: 'HOBBIES'},
+    {id: 6, nombre: 'Cocinar', tipo: 'HOBBIES'},
     {id: 11, nombre: 'Fumar', tipo : 'HABITOS'},
     {id: 12, nombre: 'Beber Socialmente', tipo : 'HABITOS'},
     {id: 13, nombre: 'Tomar café', tipo : 'HABITOS'},
@@ -78,8 +80,33 @@ function incializarTags() {
         btn.textContent = tag.nombre;
         btn.className = 'tag tag-btn'
 
+        btn.onclick = () => manejarClickTag(tag);
+
         contenedor.appendChild(btn);
     })
+}
+
+function manejarClickTag(tag){
+    const cat = tag.tipo;
+    const listaActual = seleccionados[cat];
+    const indice = listaActual.indexOf(tag.nombre);
+
+    if (indice > -1) {
+        listaActual.splice(indice , 1);
+    }
+    else{
+        if (listaActual.length < MAXIMOS[cat]){
+            listaActual.push(tag.nombre);
+            console.log('aaaaa')
+        }
+        else if (MAXIMOS[cat] === 1){
+            seleccionados[cat] = [tag.nombre];
+            console.log('bbbbb')
+        }
+        else{
+            alert('No puedes seleccionar mas tags de esta categoria.')
+        }
+    }
 }
 
 incializarTags();
