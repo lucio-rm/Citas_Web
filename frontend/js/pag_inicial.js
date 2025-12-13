@@ -35,6 +35,7 @@ const personas = [
 ];
 let cola = [...personas];
 let usuarioActual = null;
+const personaas = fetch('localhost:3000/:id');
 const img = document.getElementById("match-img");
 const nombre = document.getElementById("match-nombre");
 const descripcion = document.getElementById("match-desc");

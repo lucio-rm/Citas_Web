@@ -19,7 +19,18 @@
 .color-boton {
     background-color: #FE7877;
     color: #FEEFEF;
+    padding: 10px 25px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+    font-weight: 500;
+    font-size: 24px;
+    text-decoration: none;
 }
+
+.color-boton:hover {
+    background-color: #efdddd;
+}   
 .match-img {
     display: block;
     margin: 0 auto;
