@@ -59,8 +59,6 @@ CREATE TABLE usuarios_tags (
     FOREIGN KEY (id_tag) REFERENCES tags(id) ON DELETE CASCADE
 );
 
-
-
 CREATE TABLE matches (
     id SERIAL PRIMARY KEY,
     id_usuario_1 INT NOT NULL,
@@ -70,7 +68,14 @@ CREATE TABLE matches (
     FOREIGN KEY (id_usuario_2) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
-
+CREATE TABLE likes (
+    id SERIAL PRIMARY KEY,
+    id_usuario_1 INT NOT NULL,
+    id_usuario_2 INT NOT NULL,
+    gusta BOOLEAN NOT NULL,
+    FOREIGN KEY (id_usuario_1) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario_2) REFERENCES usuarios(id) ON DELETE CASCADE
+);
 
 CREATE TABLE citas (
     id SERIAL PRIMARY KEY,
