@@ -40,14 +40,14 @@
             title="Al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
             >
             <br>
+            <label for="Foto-Perfil">Foto de Perfil</label>
+            <input type="text" id="editar-foto-perfil" autocomplete="off">
+            <br>
             <label for="Bio">Bio</label>
             <textarea id="editar-bio" rows="4"></textarea>
             <br>
             <label for="Edad">Edad</label>
-            <input type="number" id="editar-edad">
-            <br>
-            <label for="Orientacion-Sexual">Orientación Sexual</label>
-            <input type="text" id="editar-orientacion-sexual" autocomplete="off">
+            <input type="number" id="editar-edad" min="18">
             <br>
             <label for="Genero">Género</label>
             <input type="text" id="editar-genero" autocomplete="off">
@@ -55,6 +55,18 @@
             <label for="Ubicacion">Ubicación</label>
             <input type="text" id="editar-ubicacion" autocomplete="off">
             <br>
+            <label for="Orientacion-Sexual">Orientación Sexual</label>
+            <div class="editor-orientacion contenedor-tags-editor"></div>
+            <label for="Hobbies">Hobbies (Max 5)</label>
+            <div class="editor-hobbies contenedor-tags-editor"></div>
+            <label for="Habitos">Habitos (Max 5)</label>
+            <div class="editor-habitos contenedor-tags-editor"></div>
+            <label for="Signos">Signos</label>
+            <div class="editor-signos contenedor-tags-editor"></div>
+            <label for="edad-preferida-min">Edad Preferida (mínima)</label>
+            <input type="number" id="editar-edad-pref-min" autcomplete="off" min="18">
+            <label for="edad-preferida-max">Edad Preferida (máxima)</label>
+            <input type="number" id="editar-edad-pref-max">
             
             <button class="boton" type="submit">Guardar cambios</button>
         </form>
@@ -63,20 +75,20 @@
     <aside class="vista-previa">
         <strong>Vista previa</strong>
         <div class="carta-perfil">
-            <div class="vista-previa img">
-                <img src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="foto-perfil">
-            </div>
+            <img id="vista-previa-img" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="foto-perfil">
             <h3 class="letra" id="vista-previa-nombre"></h3>
             <p id="vista-previa-bio"></p>
+
             <h3 class="letra">Información</h3>
             <p id="vista-previa-edad"></p>
             <p id="vista-previa-ciudad"></p>
-            <p id="vista-previa-orientacion"></p>
+            <div class="vista-previa-extras contenedor-tags-vista-previa"></div>
+            
             <h3 class="letra">Hobbies</h3>
-            <p id="vista-previa-hobbies">Hobbies</p>
-            <h3 class="letra">Tags</h3> 
-            <p id="vista-previa-tags">Tags</p>
+            <div class="vista-previa-hobbies contenedor-tags-vista-previa"></div>
 
+            <h3 class="letra">Habitos</h3> 
+            <div class="vista-previa-habitos contenedor-tags-vista-previa"></div>
         </div>
     </aside>
     
