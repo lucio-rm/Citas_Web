@@ -1,7 +1,7 @@
 async function cargarMatches () {
     try {
         const id = usuario.id; // Mas adelante se importa usuario desde el login
-        const response = await fetch('http://localhost:8080/matches/${id}');
+        const response = await fetch(`http://localhost:8080/matches/${id}`);
         const matches = await response.json();
         return matches;
     }
@@ -11,17 +11,17 @@ async function cargarMatches () {
 }
 
 async function cargarPersona (id) {
-    const response = await fetch('http://localhost:8080/usuarios/${id}');
+    const response = await fetch(`http://localhost:8080/usuarios/${id}`);
     const pareja = await response.json();
     return pareja;
 }
 
 async function mostrarMatches () {
     const matches = await cargarMatches();
-    matches.forEach(async match => {
+    for (const match of matches) {
         const template = `
-                    <img id="foto" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="icon">
-                    <h1 id="nombre" class="letra">Nombre y apellido</h1>
+                    <img class="foto" src="https://bulma.io/assets/images/placeholders/96x96.png" alt="icon">
+                    <h1 class="nombre letra"></h1>
                 <div>
                     <button class="color-boton boton">Eliminar</button>
                     <button class="color-boton boton">Organizar evento</button>
@@ -36,11 +36,9 @@ async function mostrarMatches () {
         const pareja = await cargarPersona(id);
         const nombre = pareja.nombre + ' ' + pareja.apellido;
         const img = pareja.imagen_url;
-        const nombreElemento = getElementById('nombre');
-        const imgElemento = getElementById('foto');
-        nombreElemento.textContent = nombre;
-        imgElemento.src = img;
-    });
+        matchActual.querySelector('.nombre').textContent = nombre;
+        matchActual.querySelector('.foto').src = img;
+    };
 }
 
 mostrarMatches();
