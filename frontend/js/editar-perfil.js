@@ -78,7 +78,7 @@ function incializarTags() {
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.textContent = tag.nombre;
-        btn.className = 'tag tag-btn'
+        btn.className = 'boton tag tag-btn'
 
         btn.onclick = () => manejarClickTag(tag, btn);
 
