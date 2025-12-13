@@ -29,7 +29,7 @@ const crearMatch = async (req, res) => {
     try {
         const { usuario1_id, usuario2_id, fecha_match } = req.body;
         const result = await pool.query(
-            'INSERT INTO matches (usuario1_id, usuario2_id, fecha_match) VALUES ($1, $2, $3) RETURNING *',
+            'INSERT INTO matches (id_usuario_1, id_usuario_2, fecha_match) VALUES ($1, $2, $3) RETURNING *',
             [usuario1_id, usuario2_id, fecha_match]
         );
         res.status(201).json(result.rows[0]);
