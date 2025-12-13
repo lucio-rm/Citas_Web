@@ -22,7 +22,7 @@
     <main class="contenedor-citas">
 
         <section class="bloque-citas">
-            <strong>Citas pendientes</strong>
+            <strong class="strong1">Citas pendientes</strong>
 
             <div class="lista-citas">
                 <article class="tarjeta-cita">
@@ -46,7 +46,7 @@
 
 
         <section class="bloque-citas">
-            <strong>Citas anteriores</strong>
+            <strong class="strong1">Citas anteriores</strong>
 
             <div class="lista-citas">
                 <article class="tarjeta-cita">
@@ -71,5 +71,42 @@
         </section>
         
     </main>
+
+    <div class="modal-calificacion-cita">
+        <strong class="strong1">Calificar Cita</strong>
+        <p class="letra">Cita con AAAAA</p>
+
+        <form action="calificar-cita" class="calificar-cita-form">
+            <label>¿Cómo estuvo el evento?</label>
+            <input type="number" min="1" max="5" required>
+            <label>¿Qué tal tu pareja?</label>
+            <input type="number" min="1" max="5" required>
+            <label>Puntualidad</label>
+            <input type="number" min="1" max="5" required>
+            <label>Fluidez/Conexión</label>
+            <input type="number" min="1" max="5" required>
+            <label>Comodidad</label>
+            <input type="number" min="1" max="5" required>
+            <label>Calidad del evento</label>
+            <input type="number" min="1" max="5" required>
+            
+            <label>¿Repetirías la cita?</label>
+            <div class="opciones-repetir-cita">
+                <label>Si</label>
+                <input type="radio">
+                <label>No</label>
+                <input type="radio">
+            </div>
+
+            <label>Nota extra</label>
+            <textarea clarows="2" placeholder="Algo más..."></textarea>
+            
+            <button class="boton">Enviar</button>
+
+
+        </form>
+    </div>
+
+
 </body>
 </html>
