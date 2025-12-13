@@ -38,4 +38,5 @@ formulario.addEventListener('submit', (e) => {
     
     modal.style.display = 'none';
     alert('Calificación guardada');
+    formulario.reset();
 })
