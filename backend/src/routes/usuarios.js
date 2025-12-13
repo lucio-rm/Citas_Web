@@ -1,7 +1,6 @@
 import express from 'express';
-
+import * as controladores from '../controllers/controladorUsuario.js';
 const router = express.Router();
-const controladores = require('../controllers/usuariosController');
 
 // obtenemos todos los usuarios
 router.get('/', controladores.obtenerUsuarios);
@@ -17,9 +16,6 @@ router.put('/:id', controladores.actualizarUsuario);
 
 // eliminar un usuario
 router.delete('/:id', controladores.eliminarUsuario);
-
-//registro de usuario
-router.post('/registro', controladores.registrarUsuario);
 
 // login
 router.post('/login', controladores.loginUsuario);
