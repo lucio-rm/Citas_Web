@@ -44,6 +44,13 @@
     width: 96px;
     height: 96px;
 }
+
+.foto{
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 .match-footer {
     background-color: #FE7877;
     border-top: #FE7877;
