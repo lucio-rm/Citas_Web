@@ -239,6 +239,7 @@ strong.strong1{
     border-color: #fa9f9f;
 }
 .modal-calificacion-cita {
+    display: block;
     position: fixed;
     z-index: 1;
     top: 50%;
