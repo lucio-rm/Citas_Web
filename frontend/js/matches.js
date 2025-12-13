@@ -1,6 +1,7 @@
 async function cargarMatches () {
     try {
-        const response = await fetch('http://localhost:8080/matches/:id');
+        const id = usuario.id; // Mas adelante se importa usuario desde el login
+        const response = await fetch('http://localhost:8080/matches/${id}');
         const matches = await response.json();
         return matches;
     }
