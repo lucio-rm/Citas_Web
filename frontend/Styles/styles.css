@@ -269,3 +269,12 @@ strong.strong1{
     font-size: 18px;
     font-weight: 400px;
 }
+.cerrar-modal {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 35px;
+    font-weight: bold;
+    color: #FE7877;
+    cursor: pointer;
+}
