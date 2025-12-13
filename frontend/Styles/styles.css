@@ -157,3 +157,52 @@ nav{
     margin-bottom: 5px;
     word-break: break-all;
 }
+body.pag-citas{
+    display:block;
+    height: auto;
+    overflow-y: auto;
+}
+.contenedor-citas {
+    padding: 30px 10%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+.bloque-citas {
+    width: 100%;
+}
+.contenedor-citas strong {
+    font-size: 28px;
+    color: #FE7877;
+    margin-bottom: 20px;
+    display: block;
+}
+.lista-citas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+.tarjeta-cita {
+    background-color: #fef9f9; /* Tu color de fondo de carta */
+    border-radius: 30px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05);
+}
+.foto-cita {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 20px;
+    border: 2px solid #FE7877;
+}
+.info-cita p {
+    font-size: 18px;
+    color: #6d6767;
+}
+.info-cita {
+    flex-grow: 1;
+}
