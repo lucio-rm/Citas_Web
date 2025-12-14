@@ -1,6 +1,6 @@
 import { pool } from '../db.js'; // Asegurate que la ruta a db.js sea correcta
 
-export const obtenerCitas = async (req, res) => {
+const obtenerCitas = async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM citas');
         res.json(result.rows);
@@ -10,7 +10,7 @@ export const obtenerCitas = async (req, res) => {
     }
 };
 
-export const obtenerCitaPorId = async (req, res) => {
+const obtenerCitaPorId = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await pool.query('SELECT * FROM citas WHERE id = $1', [id]);
@@ -26,8 +26,8 @@ export const obtenerCitaPorId = async (req, res) => {
     }
 };
 
-// 3. CREAR CITA
-export const crearCita = async (req, res) => {
+
+const crearCita = async (req, res) => {
     try {
         const { id_match, lugar, fecha_hora, tipo_encuentro, duracion_estimada_minutos } = req.body;
         
@@ -50,13 +50,13 @@ export const crearCita = async (req, res) => {
     }
 };
 
-// 4. ACTUALIZAR CITA
-export const actualizarCita = async (req, res) => {
+
+const actualizarCita = async (req, res) => {
     try {
         const { id } = req.params;
         const { lugar, fecha_hora, tipo_encuentro, estado, duracion_estimada_minutos } = req.body;
         
-        // Update simple sin COALESCE (sobreescribe todo)
+        
         const result = await pool.query(
             `UPDATE citas 
              SET lugar = $1, 
@@ -80,8 +80,8 @@ export const actualizarCita = async (req, res) => {
     }
 };
 
-// 5. ELIMINAR CITA
-export const eliminarCita = async (req, res) => {
+
+const eliminarCita = async (req, res) => {
     try {
         const { id } = req.params;
         const result = await pool.query('DELETE FROM citas WHERE id = $1 RETURNING *', [id]);
