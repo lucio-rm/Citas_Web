@@ -28,7 +28,7 @@ formulario.addEventListener('submit', async (e) => {
     const idCita = modal.dataset.idCita; //recupera el id de la tarjeta que se guardó en el modal *1
 
     const calificaciones = {
-        idCita : idCita,
+        id_citas : idCita,
         id_usuario : 1,
         evento : puntajes[0].value,
         pareja : puntajes[1].value,
@@ -36,7 +36,7 @@ formulario.addEventListener('submit', async (e) => {
         fluidez_conexion : puntajes[3].value,
         comodidad : puntajes[4].value,
         calidad_evento : puntajes[5].value,
-        repitirias : repiteSeleccionado ? repiteSeleccionado.value : 'no',
+        repetirias : repiteSeleccionado ? repiteSeleccionado.value : 'no',
         nota_extra : notaExtra
     }
     console.log(calificaciones)
@@ -44,7 +44,7 @@ formulario.addEventListener('submit', async (e) => {
     try {
         const respuesta = await fetch('http://localhost:3000/citas/feedback', {
             method : 'POST',
-            header : {'Content-type' : 'application/json'},
+            headers : {'Content-Type' : 'application/json'},
             body : JSON.stringify(calificaciones)
         });
 
