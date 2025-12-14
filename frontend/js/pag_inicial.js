@@ -41,9 +41,24 @@ const nombre = document.getElementById("match-nombre");
 const descripcion = document.getElementById("match-desc");
 const ubicacion = document.getElementById("match-ubi");
 const edad = document.getElementById("match-edad");
-const orientacion = document.getElementById("match-orientacion");
+const genero = document.getElementById("match-genero");
 const hobbies = document.getElementById("match-hobbies");
-const tags = document.getElementById("match-tags");
+const habitos = document.getElementById("match-habitos");
+const orientacion = document.getElementById("match-orientacion");
+const signo = document.getElementById("match-signo");
+
+async function cargarTags(id_pareja) {
+    const response = await fetch(`http://localhost:8080/tags/${id_pareja}`);
+    const tags = await response.json();
+    
+    const hobbies = tags.filter(tag => tag.categoria === 'HOBBY').map(tag => tag.nombre);
+    const habitos = tags.filter(tag => tag.categoria === 'HABITOS').map(tag => tag.nombre);
+    const orientacion = tags.filter(tag => tag.categoria === 'ORIENTACION').map(tag => tag.nombre);
+    const signo = tags.filter(tag => tag.categoria === 'SIGNO').map(tag => tag.nombre);
+
+    return { hobbies, habitos, orientacion, signo };
+
+}
 
 async function cargarPersonas () {
     try {
@@ -58,7 +73,7 @@ async function cargarPersonas () {
             imagen: persona.imagen_url,
             edad: persona.edad,
             ciudad: persona.ubicacion,
-            orientacion: persona.orientacion_sexual
+            genero: persona.sexo_genero
         }));
         return personas_filtradas;
     }
@@ -93,20 +108,25 @@ function mostrarFinDePersonas() {
     descripcion.textContent = "";
     ubicacion.textContent = "";
     edad.textContent = "";
-    orientacion.textContent = "";
+    genero.textContent = "";
     hobbies.textContent = "";
-    tags.textContent = "";
+    habitos.textContent = "";
+    orientacion.textContent = "";
+    signo.textContent = "";
 }
 
-function mostrarPersona(usuarioActual) {
+async function mostrarPersona(usuarioActual) {
     img.src = usuarioActual.imagen;
     nombre.textContent = usuarioActual.nombre;
     descripcion.textContent = usuarioActual.descripcion;
     ubicacion.textContent = `Ciudad: ${usuarioActual.ciudad}`;
     edad.textContent = `Edad: ${usuarioActual.edad}`;
-    orientacion.textContent = `Orientación Sexual: ${usuarioActual.orientacion}`;
-    hobbies.textContent = usuarioActual.hobbies || "";
-    tags.textContent = usuarioActual.tags || "";
+    genero.textContent = `Genero: ${usuarioActual.genero}`;
+    const tags = await cargarTags(usuarioActual.id);
+    hobbies.textContent = tags.hobbies.join(', ') || "";
+    habitos.textContent = tags.habitos.join(', ') || "";
+    orientacion.textContent = tags.orientacion || "";
+    signo.textContent = tags.signo || "";
 }
 
 async function darLike() {
