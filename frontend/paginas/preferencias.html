@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Preferencias · Red Thread</title>
+
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+    <!-- Estilos del proyecto -->
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <link rel="stylesheet" href="../Styles/preferencias.css">
+</head>
+
+<body>
+
+    <nav class="navbar-preferencias">
+        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+
+        <ul class="nav-links">
+            <li><a href="explorar.html">Explorar</a></li>
+            <li><a href="matches.html">Mis matches</a></li>
+        </ul>
+
+        <div class="nav-botones">
+            <a href="login.html">Cerrar sesión</a>
+        </div>
+    </nav>
+
+    <section class="form-container">
+        <h1 class="titulo-preferencias">Tus preferencias</h1>
+
+        <form id="preferencias-form" class="preferencias-form">
+
+            <label>Rango de edad preferido</label>
+            <div class="rango-edad">
+                <input type="number" id="edadMin" min="18" max="99" placeholder="Mín">
+                <input type="number" id="edadMax" min="18" max="99" placeholder="Máx">
+            </div>
+
+            <label>Intereses principales</label>
+            <input type="text" id="interesesPreferidos" placeholder="Ej: cine, viajes, café">
+
+            <label>Tipo de cita preferida</label>
+            <select id="tipoCita">
+                <option value="">Seleccionar</option>
+                <option value="cafe">Café</option>
+                <option value="cena">Cena</option>
+                <option value="actividad">Actividad</option>
+                <option value="aire_libre">Aire libre</option>
+            </select>
+
+            <button type="submit" class="boton-guardar">
+                Guardar preferencias
+            </button>
+
+        </form>
+    </section>
+
+    <script src="../js/preferencias.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/frontend/Styles/styles.css">
+    <title>Red Thread</title>
+</head>
+<body>
+    <nav>
+        <img class = "logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class = "nav-links">
+            <li><a href="./explorar.html">Explorar</a></li>
+            <li><a href="./matches.html">Mis matches</a></li>
+        </ul>
+        <div class="nav-botones">
+            <a href="./pag-editar-perfil.html" class="boton">Cuenta</a>
+        </div>
+    </nav>
+    
+    <div class="editar-perfil">
+        <strong>Editar perfil</strong>
+        <form class="editar-perfil-form" action="editar-perfil" method="post">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="editar-nombre" autocomplete="off">
+            <br>
+            <label for="Email">Email</label>
+            <input type="email"
+            id="editar-email"
+            autocomplete="off"
+            required
+            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
+            title="nombre@dominio.com">
+            <br>
+            <label for="Contraseña">Contraseña</label>
+            <input type="password"
+            id="editar-contraseña"
+            autocomplete="off"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s])[\S]{8,}"
+            title="Al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
+            >
+            <br>
+            <label for="Foto-Perfil">Foto de Perfil</label>
+            <input type="text" id="editar-foto-perfil" autocomplete="off">
+            <br>
+            <label for="Bio">Bio</label>
+            <textarea id="editar-bio" rows="4"></textarea>
+            <br>
+            <label for="Edad">Edad</label>
+            <input type="number" id="editar-edad" min="18">
+            <br>
+            <label for="Genero">Género</label>
+            <input type="text" id="editar-genero" autocomplete="off">
+            <br>
+            <label for="Ubicacion">Ubicación</label>
+            <input type="text" id="editar-ubicacion" autocomplete="off">
+            <br>
+            <label for="Orientacion-Sexual">Orientación Sexual</label>
+            <div class="editor-orientacion contenedor-tags-editor"></div>
+            <label for="Hobbies">Hobbies (Max 5)</label>
+            <div class="editor-hobbies contenedor-tags-editor"></div>
+            <label for="Habitos">Habitos (Max 5)</label>
+            <div class="editor-habitos contenedor-tags-editor"></div>
+            <label for="Signos">Signos</label>
+            <div class="editor-signos contenedor-tags-editor"></div>
+            <label for="edad-preferida-min">Edad Preferida (mínima)</label>
+            <input type="number" id="editar-edad-pref-min" autcomplete="off" min="18">
+            <label for="edad-preferida-max">Edad Preferida (máxima)</label>
+            <input type="number" id="editar-edad-pref-max">
+            
+            <button class="boton" type="submit">Guardar cambios</button>
+        </form>
+    </div>
+
+    <aside class="vista-previa">
+        <strong>Vista previa</strong>
+        <div class="carta-perfil">
+            <img id="vista-previa-img" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="foto-perfil">
+            <h3 class="letra" id="vista-previa-nombre"></h3>
+            <p id="vista-previa-bio"></p>
+
+            <h3 class="letra">Información</h3>
+            <p id="vista-previa-edad"></p>
+            <p id="vista-previa-ciudad"></p>
+            <div class="vista-previa-extras contenedor-tags-vista-previa"></div>
+            
+            <h3 class="letra">Hobbies</h3>
+            <div class="vista-previa-hobbies contenedor-tags-vista-previa"></div>
+
+            <h3 class="letra">Habitos</h3> 
+            <div class="vista-previa-habitos contenedor-tags-vista-previa"></div>
+        </div>
+    </aside>
+    
+    <script src="/frontend/js/editar-perfil.js"></script>
+</body>
+</html>
