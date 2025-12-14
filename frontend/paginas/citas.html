@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <title>Red Thread</title>
+</head>
+<body class="pag-citas">
+    <nav>
+        <img class = "logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class = "nav-links">
+            <li><a href="/paginas/explorar.html">Explorar</a></li>
+            <li><a href="/paginas/matches.html">Mis matches</a></li>
+            <li><a href="/paginas/citas.html">Mis citas</a></li>
+        </ul>
+        <div class="nav-botones">
+            <a href="/paginas/pag-editar-perfil.html" class="boton">Cuenta</a>
+        </div>
+    </nav>
+    
+    <main class="contenedor-citas">
+
+        <section class="bloque-citas">
+            <strong class="strong1">Citas pendientes</strong>
+
+            <div class="lista-citas">
+                <article class="tarjeta-cita">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF_IdW_JHgWJh_GBrudxZXPOFfdf5598pnew&s" alt="foto-perfil" class="foto-cita">
+                    <div class="info-cita">
+                        <h3 class="letra">Nombre 1</h3>
+                        <p class="info-fecha">09/12/2018 • 19:00</p>
+                        <p class="info-lugar">Airbag - Velez</p>
+                    </div>
+                    <button class="boton boton-cancelar">Cancelar</button>
+                </article>
+                <article class="tarjeta-cita">
+                    <img src="https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?b=1&s=612x612&w=0&k=20&c=xGKz23oV80Alrtdt1xj_jr_MBSiJ9gnlOYtQv14ISwY=" alt="foto-perfil" class="foto-cita">
+                    <div class="info-cita">
+                        <h3 class="letra">Nombre 2</h3>
+                        <p class="fecha">22/06/2020 • 1:00</p>
+                        <p class="info-lugar">Final Torneo Clausura</p>
+                    </div>
+                    <button class="boton boton-cancelar">Cancelar</button>
+                </article>
+            </div>
+        </section>
+
+
+        <section class="bloque-citas">
+            <strong class="strong1">Citas anteriores</strong>
+
+            <div class="lista-citas">
+                <article class="tarjeta-cita">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTF_IdW_JHgWJh_GBrudxZXPOFfdf5598pnew&s" alt="foto-perfil" class="foto-cita">
+                    <div class="info-cita">
+                        <h3 class="letra">Nombre 1</h3>
+                        <p class="info-fecha">09/12/2018 • 19:00</p>
+                        <p class="info-lugar">Airbag - Velez</p>
+                    </div>
+                    <button class="boton">Calificar</button>
+                </article>
+                <article class="tarjeta-cita">
+                    <img src="https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?b=1&s=612x612&w=0&k=20&c=xGKz23oV80Alrtdt1xj_jr_MBSiJ9gnlOYtQv14ISwY=" alt="foto-perfil" class="foto-cita">
+                    <div class="info-cita">
+                        <h3 class="letra">Nombre 2</h3>
+                        <p class="fecha">22/06/2020 • 1:00</p>
+                        <p class="info-lugar">Final Torneo Clausura</p>
+                    </div>
+                    <button class="boton">Calificar</button>
+                </article>
+            </div>
+        </section>
+        
+    </main>
+
+    <div class="modal-calificacion-cita">
+        <span class="cerrar-modal" id="btn-cerrar-modal">&times;</span>
+        <strong class="strong1">Calificar Cita</strong>
+        <p class="letra">Cita con <span id="modal-nombre-persona"></span></p>
+
+        <form action="calificar-cita" class="calificar-cita-form">
+            <label>¿Cómo estuvo el evento?</label>
+            <input type="number" min="1" max="5" required>
+            <label>¿Qué tal tu pareja?</label>
+            <input type="number" min="1" max="5" required>
+            <label>Puntualidad</label>
+            <input type="number" min="1" max="5" required>
+            <label>Fluidez/Conexión</label>
+            <input type="number" min="1" max="5" required>
+            <label>Comodidad</label>
+            <input type="number" min="1" max="5" required>
+            <label>Calidad del evento</label>
+            <input type="number" min="1" max="5" required>
+            
+            <label>¿Repetirías la cita?</label>
+            <div class="opciones-repetir-cita">
+                <label>Si</label>
+                <input type="radio" name="repite-cita" value="yes" required>
+                <label>No</label>
+                <input type="radio" name="repite-cita" value="no">
+            </div>
+
+            <label>Nota extra</label>
+            <textarea clarows="2" placeholder="Algo más..."></textarea>
+            
+            <button class="boton" type="submit">Enviar</button>
+
+
+        </form>
+    </div>
+
+    <script src="../js/citas.js"></script>
+</body>
+</html>
