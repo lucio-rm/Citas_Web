@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesión · Red Thread</title>
+
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+    <!-- Estilos globales -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/styles.css') }}">
+
+    <!-- Estilos específicos -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='Styles/login.css') }}">
+
+    <!-- Íconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar-login">
+        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+
+        <ul class="nav-links">
+            <li><a href="{{ url_for('explorar') }}">Explorar</a></li>
+            <li><a href="{{ url_for('mis_matches') }}">Mis matches</a></li>
+        </ul>
+
+        <div class="nav-botones">
+            <a href="{{ url_for('register') }}">
+                Registrarse
+            </a>
+
+        </div>
+    </nav>
+
+    <!-- CONTENEDOR LOGIN -->
+    <section class="login-container">
+
+        <h1 class="login-titulo">Iniciar sesión</h1>
+
+        <form class="login-form" method="POST" action="/login">
+
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Ej: juan@mail.com" required>
+
+            <label>Contraseña</label>
+            <input type="password" name="password" placeholder="Tu contraseña" required>
+
+            <button type="submit" class="login-boton">
+                Entrar
+            </button>
+
+        </form>
+
+        <p class="login-extra">
+            ¿No tenés cuenta?
+            <a href="{{ url_for('register') }}">Crear una</a>
+        </p>
+
+    </section>
+
+</body>
+</html>
