@@ -46,5 +46,22 @@ document.querySelectorAll('.bloque-citas:first-of-type .boton-cancelar').forEach
         const tarjeta = e.target.closest('.tarjeta-cita');
         const nombrePersona = tarjeta.querySelector('h3').innerText;
         const confirmar = confirm(`¿Seguro que quieres cancelar la cita con ${nombrePersona}?`);
+        const idCita = tarjeta.dataset.id;
+
+        if (confirmar) {
+            try {
+                const respuesta = await fetch(`hhtp://localhost:3000/citas/cancelar/${idCita}`, {
+                    method : 'PATCH'
+                });
+                const datos = await respuesta.json();
+                alert(datos.mensaje);
+
+                if (respuesta.ok) {
+                    location.reload();
+                }
+            } catch (error) {
+                console.error('Error al cancelar la cita: ', error);
+            }
+        }
     })
-})
+});
