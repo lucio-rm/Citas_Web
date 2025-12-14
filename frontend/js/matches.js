@@ -1,7 +1,8 @@
+const id_logueado = usuario.id; // Mas adelante se importa usuario desde el login
+
 async function cargarMatches () {
     try {
-        const id = usuario.id; // Mas adelante se importa usuario desde el login
-        const response = await fetch(`http://localhost:8080/matches/${id}`);
+        const response = await fetch(`http://localhost:8080/matches/${id_logueado}`);
         const matches = await response.json();
         return matches;
     }
@@ -9,7 +10,6 @@ async function cargarMatches () {
         console.error('Error al cargar los matches:', error);
     }
 }
-
 async function cargarPersona (id) {
     const response = await fetch(`http://localhost:8080/usuarios/${id}`);
     const pareja = await response.json();
@@ -32,8 +32,13 @@ async function mostrarMatches () {
         matchActual.classList.add('contenido');
         matchActual.innerHTML = template;
         matchDiv.appendChild(matchActual);
-        const id = match.id_usuario_2; // Suponiendo que el id del otro usuario está en id_usuario_2 (Hacer verificación luego)
-        const pareja = await cargarPersona(id);
+        let id_pareja;
+        if (match.id_usuario_1 === id_logueado) {
+            id_pareja = match.id_usuario_2;
+        } else {
+            id_pareja = match.id_usuario_1;
+        }
+        const pareja = await cargarPersona(id_pareja);
         const nombre = pareja.nombre + ' ' + pareja.apellido;
         const img = pareja.imagen_url;
         matchActual.querySelector('.nombre').textContent = nombre;
