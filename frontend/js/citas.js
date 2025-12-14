@@ -40,3 +40,11 @@ formulario.addEventListener('submit', (e) => {
     alert('Calificación guardada');
     formulario.reset();
 })
+
+document.querySelectorAll('.bloque-citas:first-of-type .boton-cancelar').forEach(boton => {
+    boton.addEventListener('click', async (e) => {
+        const tarjeta = e.target.closest('.tarjeta-cita');
+        const nombrePersona = tarjeta.querySelector('h3').innerText;
+        const confirmar = confirm(`¿Seguro que quieres cancelar la cita con ${nombrePersona}?`);
+    })
+})

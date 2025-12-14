@@ -279,3 +279,11 @@ strong.strong1{
     color: #FE7877;
     cursor: pointer;
 }
+.boton-cancelar {
+    background-color: #f0f0f0;
+    color: #666;
+}
+.boton-cancelar:hover {
+    background-color: #dcdada;
+    color: whie;
+}
