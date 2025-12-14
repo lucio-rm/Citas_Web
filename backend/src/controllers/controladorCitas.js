@@ -50,3 +50,22 @@ export const guardarFeedback = async (req, res) => {
         });
     }
 }
+
+export const obtenerCitas = async (req, res) => {
+    try {
+        const querySql = `SELECT c.id AS id_cita, c.lugar, c.fecha_hora, c.tipo_encuentro, c.estado, u.id AS id_pareja, u.nombre AS nombre_pareja, u.foto_perfil
+        FROM citas c
+        JOIN matches m ON c.id_match = m.id
+        JOIN usuarios u ON (m.id_usuario_1 = u.id OR m.id_usuario_2 = u.id)
+        WHERE u.id != 1 AND (m.id_usuario_1 = 1 OR m.id_usuario_2 = 1)
+        AND (c.estado != 'cancelada')`
+        
+        const resul = await pool.query(querySql);
+        res.json(resul.rows);
+    } catch (err) {
+        console.error('Error al recuperar los datos: ',err);
+        res.status(500).json({
+            mensaje : 'Error al obtener las citas'
+        });
+    };
+}
