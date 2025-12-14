@@ -50,15 +50,15 @@ async function cargarPersonas () {
         const response = await fetch(`http://localhost:8080/usuarios/`);
         const personas = await response.json();
         const personas_filtradas = personas
-        .filter(personas => personas.id !== id_logueado)
-        .map(personas_filtradas => ({
-            id: personas_filtradas.id,
-            nombre: `${personas_filtradas.nombre} ${personas_filtradas.apellido}`,
-            descripcion: personas_filtradas.descripcion_personal,
-            imagen: personas_filtradas.imagen_url,
-            edad: personas_filtradas.edad,
-            ciudad: personas_filtradas.ubicacion,
-            orientacion: personas_filtradas.orientacion_sexual
+        .filter(persona => persona.id !== id_logueado)
+        .map(persona => ({
+            id: persona.id,
+            nombre: `${persona.nombre} ${persona.apellido}`,
+            descripcion: persona.descripcion_personal,
+            imagen: persona.imagen_url,
+            edad: persona.edad,
+            ciudad: persona.ubicacion,
+            orientacion: persona.orientacion_sexual
         }));
         return personas_filtradas;
     }
@@ -75,7 +75,7 @@ async function inicializarCola() {
         return;
     }
     usuarioActual = cola.shift();
-    cargarPersona(usuarioActual);
+    mostrarPersona(usuarioActual);
 }
 
 function obtenerSiguientePersona() {
@@ -84,7 +84,7 @@ function obtenerSiguientePersona() {
         return;
     }
     usuarioActual = cola.shift();
-    cargarPersona(usuarioActual);
+    mostrarPersona(usuarioActual);
 }
 
 function mostrarFinDePersonas() {
@@ -98,15 +98,36 @@ function mostrarFinDePersonas() {
     tags.textContent = "";
 }
 
-function cargarPersona() {
+function mostrarPersona(usuarioActual) {
     img.src = usuarioActual.imagen;
     nombre.textContent = usuarioActual.nombre;
     descripcion.textContent = usuarioActual.descripcion;
     ubicacion.textContent = `Ciudad: ${usuarioActual.ciudad}`;
     edad.textContent = `Edad: ${usuarioActual.edad}`;
     orientacion.textContent = `Orientación Sexual: ${usuarioActual.orientacion}`;
-    hobbies.textContent = usuarioActual.hobbies;
-    tags.textContent = usuarioActual.tags;
+    hobbies.textContent = usuarioActual.hobbies || "";
+    tags.textContent = usuarioActual.tags || "";
+}
+
+async function darLike() {
+    try {
+        const response = await fetch(`http://localhost:8080/likes/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_usuario_1: id_logueado,
+                id_usuario_2: usuarioActual.id,
+                gusta: true
+            })
+        });
+        if (!response.ok) {
+            throw new Error('Error al registrar el like');
+        }
+    } catch (error) {
+        console.error('Error al dar like:', error);
+    }
 }
 
 document.getElementById("like").addEventListener("click", function (event) {
