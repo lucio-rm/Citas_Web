@@ -1,4 +1,4 @@
-import { pool } from '../db.js'; // Asegurate que la ruta a db.js sea correcta
+import { pool } from '../db.js'; 
 
 const obtenerCitas = async (req, res) => {
     try {
