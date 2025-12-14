@@ -132,6 +132,7 @@ async function darLike() {
 
 document.getElementById("like").addEventListener("click", function (event) {
     event.preventDefault();
+    darLike();
     obtenerSiguientePersona();
 });
 
