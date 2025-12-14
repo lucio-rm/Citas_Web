@@ -50,7 +50,7 @@ document.querySelectorAll('.bloque-citas:first-of-type .boton-cancelar').forEach
 
         if (confirmar) {
             try {
-                const respuesta = await fetch(`hhtp://localhost:3000/citas/cancelar/${idCita}`, {
+                const respuesta = await fetch(`http://localhost:3000/citas/cancelar/${idCita}`, {
                     method : 'PATCH'
                 });
                 const datos = await respuesta.json();
