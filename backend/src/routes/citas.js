@@ -4,4 +4,6 @@ const router = express.Router();
 
 router.patch('/cancelar/:id', controladores.cancelarCita);
 
+router.post('/feedback', controladores.guardarFeedback);
+
 export default router;
