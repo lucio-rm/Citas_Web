@@ -10,6 +10,7 @@ btnCerrarModal.addEventListener('click' , () => {
 document.querySelectorAll('.bloque-citas:last-of-type .boton').forEach(boton => {
     boton.addEventListener('click', (e) => {
         const tarjeta = e.target.closest('.tarjeta-cita');
+        modal.dataset.idCita = tarjeta.dataset.id; //le pasamos el id de la tarjeta al modal *1
         const nombrePersona = tarjeta.querySelector('h3').innerText;
         nombreEnModal.innerText = nombrePersona;
         modal.style.display = 'block';
@@ -17,14 +18,18 @@ document.querySelectorAll('.bloque-citas:last-of-type .boton').forEach(boton => 
     });
 });
 
-formulario.addEventListener('submit', (e) => {
+formulario.addEventListener('submit', async (e) => {
     e.preventDefault()
 
-    const puntajes = formulario.querySelectorAll('input[type="number"]');
-    const repiteSeleccionado = formulario.querySelector('input[type="radio"]:checked');
-    const notaExtra = formulario.querySelector('textarea').value;
+    const puntajes = formulario.querySelectorAll('input[type="number"]'); //guarda todos los puntajes
+    const repiteSeleccionado = formulario.querySelector('input[type="radio"]:checked'); //si repite o no
+    const notaExtra = formulario.querySelector('textarea').value;//nota extra
+
+    const idCita = modal.dataset.idCita; //recupera el id de la tarjeta que se guardó en el modal *1
 
     const calificaciones = {
+        idCita : idCita,
+        id_usuario : 1,
         evento : puntajes[0].value,
         pareja : puntajes[1].value,
         puntualidad : puntajes[2].value,
@@ -36,9 +41,25 @@ formulario.addEventListener('submit', (e) => {
     }
     console.log(calificaciones)
     
-    modal.style.display = 'none';
-    alert('Calificación guardada');
-    formulario.reset();
+    try {
+        const respuesta = await fetch('http://localhost:3000/citas/feedback', {
+            method : 'POST',
+            header : {'Content-type' : 'application/json'},
+            body : JSON.stringify(calificaciones)
+        });
+
+        const datos = await respuesta.json();
+        alert(datos.mensaje);
+
+        if (respuesta.ok) {
+            modal.style.display = 'none';
+            formulario.reset();
+            location.reload();
+        }
+    } catch (error) {
+        console.error("Error al enviar el feedback: ", error);
+    }
+
 })
 
 document.querySelectorAll('.bloque-citas:first-of-type .boton-cancelar').forEach(boton => {
