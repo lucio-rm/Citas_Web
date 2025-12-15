@@ -29,13 +29,13 @@ export const cancelarCita = async (req, res) => {
 
 export const guardarFeedback = async (req, res) => {
     const {
-        id_citas, id_usuario, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra
+        id_citas, id_usuario_calificado, id_usuario_calificador, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra
     } = req.body;
 
     try {
-        const querySql = `INSERT INTO feedback(id_citas, id_usuario, clasificacion_evento, clasificacion_pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`
+        const querySql = `INSERT INTO feedback(id_citas, id_usuario_calificador, id_usuario_calificado, clasificacion_evento, clasificacion_pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`
 
-        const datos = [id_citas, id_usuario, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra];
+        const datos = [id_citas, id_usuario_calificador, id_usuario_calificado, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra];
         
         const resul = await pool.query(querySql, datos);
 
@@ -59,13 +59,14 @@ export const obtenerCitas = async (req, res) => {
             mensaje : 'Falta el id del usuario'
         });
     }
-    
+
     const querySql = `SELECT c.id AS id_cita, c.lugar, c.fecha_hora, c.tipo_encuentro, c.estado, u.id AS id_pareja, u.nombre AS nombre_pareja, u.foto_perfil, f.id AS id_feedback
     FROM citas c
     JOIN matches m ON c.id_match = m.id
     JOIN usuarios u ON (m.id_usuario_1 = u.id OR m.id_usuario_2 = u.id)
-    LEFT JOIN feedback f ON c.id = f.id_citas
-    WHERE u.id != $1 AND (m.id_usuario_1 = $1 OR m.id_usuario_2 = $1)
+    LEFT JOIN feedback f ON (c.id = f.id_citas AND f.id_usuario_calificador = $1)
+    WHERE u.id != $1
+    AND (m.id_usuario_1 = $1 OR m.id_usuario_2 = $1)
     AND (c.estado != 'cancelada')`
 
     try {

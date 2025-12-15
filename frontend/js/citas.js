@@ -61,11 +61,13 @@ formulario.addEventListener('submit', async (e) => {
     
     const idCita = modal.dataset.idCita; //recupera el id de la tarjeta que se guardó en el modal *1
     const idPareja = modal.dataset.idPareja; //recupera el id de la pareja que se guardó en el modal *2
+    const idUsuario = localStorage.getItem('idUsuario') || 1; //id del usuario que califica (desde el localStorage o 1 por defecto)
     
     // objeto con los datos a enviar
     const calificaciones = {
         id_citas : idCita,
-        id_usuario : idPareja,
+        id_usuario_calificador : idUsuario,
+        id_usuario_calificado : idPareja,
         evento : puntajes[0].value,
         pareja : puntajes[1].value,
         puntualidad : puntajes[2].value,
