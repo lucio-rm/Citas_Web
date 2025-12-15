@@ -1,5 +1,5 @@
 import express from 'express';
-import * as controladores from '../controllers/controladorMatch.js';
+import * as controladores from '../controllers/controladorMatches.js';
 const router = express.Router();
 
 router.get('/', controladores.obtenerMatches);
