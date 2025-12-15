@@ -225,7 +225,13 @@ const cargarCitas = async () => {
                 listaAnteriores.innerHTML += tarjeta;
             }
         });
-        
+
+        if (citas.filter(c => c.estado === 'pendiente').length === 0) {
+            listaPendientes.innerHTML = '<p class="letra">No tienes citas pendientes.</p>';
+        }
+        if (citas.filter(c => c.estado !== 'pendiente').length === 0) {
+            listaAnteriores.innerHTML = '<p class="letra">Aún no has tenido citas.</p>';
+        }
         configurarBotones();
 
     } catch (error) {
