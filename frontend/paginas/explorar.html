@@ -21,8 +21,39 @@
             <a href="/paginas/pag-editar-perfil.html" class="boton">Cuenta</a>
         </div>
     </nav>
-
+    <div id="overlay-filtros" class="overlay">
+        <div class="overlay-content">
+            <h2 class="title is-5">Filtrar personas</h2>
+            <label class="title is-6">Edad mínima: <input type="number" id="filtro-edad-min" min="18"></label>
+            <label class="title is-6">Edad máxima: <input type="number" id="filtro-edad-max" min="18"></label>
+            <label class="title is-6">Ciudad: <input type="text" id="filtro-ciudad"></label>
+            <label class="title is-6">Género: <input type="text" id="filtro-genero"></label>
+            <label class="title is-6">Signo: 
+                <select id="filtro-signo">
+                    <option value="">Cualquiera</option>
+                    <option value="Aries">Aries</option>
+                    <option value="Tauro">Tauro</option>
+                    <option value="Géminis">Géminis</option>
+                    <option value="Cáncer">Cáncer</option>
+                    <option value="Leo">Leo</option>
+                    <option value="Virgo">Virgo</option>
+                    <option value="Libra">Libra</option>
+                    <option value="Escorpio">Escorpio</option>
+                    <option value="Sagitario">Sagitario</option>
+                    <option value="Capricornio">Capricornio</option>
+                    <option value="Acuario">Acuario</option>
+                    <option value="Piscis">Piscis</option>
+                </select>
+            </label>
+            </label>
+            <div class="overlay-buttons">
+                <button id="aplicar-filtros" class="boton">Aplicar filtros</button>
+                <button id="cerrar-filtros" class="boton">Cerrar</button>
+            </div>
+        </div>
+    </div>
     <div class="box">
+        <button id="abrir-filtros" class="boton">Filtros</button>
         <div class="scrollable-container">
             <div class="card-image">
                 <figure class="match-img">
@@ -46,15 +77,17 @@
                     <p class="title is-5">Información</p>
                     <p id = "match-edad" class="is-6">Edad:</p>
                     <p id = "match-ubi" class="is-6">Ciudad:</p>
-                    <p id = "match-orientacion" class="is-6">Orientacion Sexual:</p>
+                    <p id = "match-genero" class="is-6">Genero:</p>
+                    <p id = "match-orientacion" class="is-6">Orientación:</p>
+                    <p id = "match-signo" class="is-6">Signo:</p>
                 </div>
                 <div class="content">
                     <p class="title is-5">Hobbies</p>
                     <p id = "match-hobbies" class="is-6">Hobbies</p>
                 </div>
                 <div class="content">
-                    <p class="title is-5">Tags</p>
-                    <p id = "match-tags" class="is-6">Tags</p>
+                    <p class="title is-5">Habitos</p>
+                    <p id = "match-habitos" class="is-6">Habitos</p>
                 </div>
             </div>
         </div>
@@ -70,7 +103,6 @@
             </footer>
         </div>
     </div>
-
 </body>
 <script src="../js/explorar.js"> </script>
 </html>
