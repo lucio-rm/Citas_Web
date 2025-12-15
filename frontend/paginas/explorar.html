@@ -10,6 +10,12 @@
     <title>Red Thread</title>
 </head>
 <body>
+    <script>
+        const usuario = localStorage.getItem("usuario");
+        if (!usuario) {
+            window.location.href = "login.html";
+        }
+    </script>
     <nav>
         <img class = "logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
         <ul class = "nav-links">
@@ -19,6 +25,7 @@
         </ul>
         <div class="nav-botones">
             <a href="/paginas/pag-editar-perfil.html" class="boton">Cuenta</a>
+            <button id="logout-btn" class="boton">Cerrar sesión</button>
         </div>
     </nav>
     <div id="overlay-filtros" class="overlay">
@@ -105,4 +112,6 @@
     </div>
 </body>
 <script src="../js/explorar.js"> </script>
+<script src="../js/pag-inicial.js"></script>
+<script src="../js/logout.js"></script>
 </html>
