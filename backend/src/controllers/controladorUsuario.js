@@ -136,32 +136,31 @@ const loginUsuario = async (req, res) => {
     }
 };
 
-const actualizarPreferencias = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { edad_preferida_min, edad_preferida_max } = req.body;
 
-        const result = await pool.query(
-            `UPDATE usuarios
-             SET edad_preferida_min = $1,
-                 edad_preferida_max = $2
-             WHERE id = $3
-             RETURNING *`,
-            [edad_preferida_min, edad_preferida_max, id]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: "Usuario no encontrado" });
-        }
-
-        res.json(result.rows[0]);
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Error al guardar preferencias" });
-    }
-};
-
-
+//const actualizarPreferencias = async (req, res) => {
+//    try {
+//        const { id } = req.params;
+//        const { edad_preferida_min, edad_preferida_max } = req.body;
+//
+//        const result = await pool.query(
+//            `UPDATE usuarios
+//             SET edad_preferida_min = $1,
+//                 edad_preferida_max = $2
+//            WHERE id = $3
+//             RETURNING *`,
+//            [edad_preferida_min, edad_preferida_max, id]
+//        );
+//
+//        if (result.rows.length === 0) {
+//            return res.status(404).json({ error: "Usuario no encontrado" });
+//        }
+//
+//        res.json(result.rows[0]);
+//    } catch (err) {
+//        console.error(err);
+//        res.status(500).json({ error: "Error al guardar preferencias" });
+//    }
+//};
 
 export {
     obtenerUsuarios,
@@ -169,6 +168,6 @@ export {
     crearUsuario,
     actualizarUsuario,
     eliminarUsuario,
-    loginUsuario,
-    actualizarPreferencias
+    loginUsuario
+    //actualizarPreferencias
 };

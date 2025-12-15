@@ -9,92 +9,109 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Red Thread</title>
 </head>
-
 <body>
-
-    <!-- PROTECCIÓN DE SESIÓN -->
     <script>
         const usuario = localStorage.getItem("usuario");
         if (!usuario) {
             window.location.href = "login.html";
         }
     </script>
-
     <nav>
-        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
-        <ul class="nav-links">
-            <li><a href="./explorar.html">Explorar</a></li>
-            <li><a href="./matches.html">Mis matches</a></li>
+        <img class = "logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class = "nav-links">
+            <li><a href="/paginas/explorar.html">Explorar</a></li>
+            <li><a href="/paginas/matches.html">Mis matches</a></li>
+            <li><a href="/paginas/citas.html">Mis citas</a></li>
         </ul>
-
         <div class="nav-botones">
-            <a href="./pag-editar-perfil.html" class="boton">Cuenta</a>
-
-            <!-- LOGOUT -->
+            <a href="/paginas/pag-editar-perfil.html" class="boton">Cuenta</a>
             <button id="logout-btn" class="boton">Cerrar sesión</button>
         </div>
     </nav>
-
+    <div id="overlay-filtros" class="overlay">
+        <div class="overlay-content">
+            <h2 class="title is-5">Filtrar personas</h2>
+            <label class="title is-6">Edad mínima: <input type="number" id="filtro-edad-min" min="18"></label>
+            <label class="title is-6">Edad máxima: <input type="number" id="filtro-edad-max" min="18"></label>
+            <label class="title is-6">Ciudad: <input type="text" id="filtro-ciudad"></label>
+            <label class="title is-6">Género: <input type="text" id="filtro-genero"></label>
+            <label class="title is-6">Signo: 
+                <select id="filtro-signo">
+                    <option value="">Cualquiera</option>
+                    <option value="Aries">Aries</option>
+                    <option value="Tauro">Tauro</option>
+                    <option value="Géminis">Géminis</option>
+                    <option value="Cáncer">Cáncer</option>
+                    <option value="Leo">Leo</option>
+                    <option value="Virgo">Virgo</option>
+                    <option value="Libra">Libra</option>
+                    <option value="Escorpio">Escorpio</option>
+                    <option value="Sagitario">Sagitario</option>
+                    <option value="Capricornio">Capricornio</option>
+                    <option value="Acuario">Acuario</option>
+                    <option value="Piscis">Piscis</option>
+                </select>
+            </label>
+            </label>
+            <div class="overlay-buttons">
+                <button id="aplicar-filtros" class="boton">Aplicar filtros</button>
+                <button id="cerrar-filtros" class="boton">Cerrar</button>
+            </div>
+        </div>
+    </div>
     <div class="box">
+        <button id="abrir-filtros" class="boton">Filtros</button>
         <div class="scrollable-container">
             <div class="card-image">
                 <figure class="match-img">
                     <img
-                        id="match-img"
-                        src="https://bulma.io/assets/images/placeholders/1280x960.png"
+                        id = "match-img" src="https://bulma.io/assets/images/placeholders/1280x960.png"
                         alt="Foto de perfil"
                     />
                 </figure>
             </div>
-
             <div class="card-content">
                 <div class="media">
-                    <div>
-                        <p id="match-nombre" class="title is-4">Nombre apellido</p>
+                    <div >
+                        <p id = "match-nombre" class="title is-4">Nombre apellido</p>
                     </div>
                 </div>
 
-                <div id="match-desc" class="content">
+                <div id = "match-desc" class="content">
                     Descripcion personal del usuario
                 </div>
-
                 <div class="content">
                     <p class="title is-5">Información</p>
-                    <p id="match-edad" class="is-6">Edad:</p>
-                    <p id="match-ubi" class="is-6">Ciudad:</p>
-                    <p id="match-orientacion" class="is-6">Orientacion Sexual:</p>
+                    <p id = "match-edad" class="is-6">Edad:</p>
+                    <p id = "match-ubi" class="is-6">Ciudad:</p>
+                    <p id = "match-genero" class="is-6">Genero:</p>
+                    <p id = "match-orientacion" class="is-6">Orientación:</p>
+                    <p id = "match-signo" class="is-6">Signo:</p>
                 </div>
-
                 <div class="content">
                     <p class="title is-5">Hobbies</p>
-                    <p id="match-hobbies" class="is-6">Hobbies</p>
+                    <p id = "match-hobbies" class="is-6">Hobbies</p>
                 </div>
-
                 <div class="content">
-                    <p class="title is-5">Tags</p>
-                    <p id="match-tags" class="is-6">Tags</p>
+                    <p class="title is-5">Habitos</p>
+                    <p id = "match-habitos" class="is-6">Habitos</p>
                 </div>
             </div>
         </div>
 
         <div class="card">
             <footer class="card-footer match-footer">
-                <button id="like" class="card-footer-item color-boton" type="button">
+                <button id="like" class="card-footer-item color-boton">
                     <i class="fa-solid fa-heart"></i>
-                </button>
-
-                <button id="xmark" class="card-footer-item color-boton" type="button">
+                </a>
+                <button id="xmark" class="card-footer-item color-boton">
                     <i class="fa-solid fa-xmark"></i>
-                </button>
+                </a>
             </footer>
         </div>
     </div>
-
-    <!-- TU JS (si carga datos del perfil/match) -->
-    <script src="../js/pag-inicial.js"></script>
-
-    <!-- LOGOUT JS -->
-    <script src="../js/logout.js"></script>
-
 </body>
+<script src="../js/explorar.js"> </script>
+<script src="../js/pag-inicial.js"></script>
+<script src="../js/logout.js"></script>
 </html>

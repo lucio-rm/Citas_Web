@@ -3,9 +3,6 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-console.log("DB_PASS =", process.env.DB_PASS);
-
-
 const { Pool } = pkg;
 
 export const pool = new Pool({

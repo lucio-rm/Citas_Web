@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <title>Red Thread</title>
+</head>
+<body class="pag-citas">
+    <nav>
+        <img class = "logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class = "nav-links">
+            <li><a href="/paginas/explorar.html">Explorar</a></li>
+            <li><a href="/paginas/matches.html">Mis matches</a></li>
+            <li><a href="/paginas/citas.html">Mis citas</a></li>
+        </ul>
+        <div class="nav-botones">
+            <a href="/paginas/pag-editar-perfil.html" class="boton">Cuenta</a>
+        </div>
+    </nav>
+    
+    <main class="contenedor-citas">
+
+        <section class="bloque-citas">
+            <strong class="strong1">Citas pendientes</strong>
+
+            <div class="lista-citas" id="contenedor-pendientes">
+                <!-- aca se cargan las tarjetas de citas pendientes -->
+            </div>
+        </section>
+
+
+        <section class="bloque-citas">
+            <strong class="strong1">Citas anteriores</strong>
+
+            <div class="lista-citas" id="contenedor-anteriores">
+                <!-- aca se cargan las tarjetas de citas anteriores -->
+            </div>
+        </section>
+        
+    </main>
+
+    <div class="modal-calificacion-cita">
+        <span class="cerrar-modal" id="btn-cerrar-modal">&times;</span>
+        <strong class="strong1">Calificar Cita</strong>
+        <p class="letra">Cita con <span id="modal-nombre-persona"></span></p>
+
+        <form id="form-calificar-cita" class="calificar-cita-form">
+            <label>¿Cómo estuvo el evento?</label>
+            <input type="number" min="1" max="5" required>
+            <label>¿Qué tal tu pareja?</label>
+            <input type="number" min="1" max="5" required>
+            <label>Puntualidad</label>
+            <input type="number" min="1" max="5" required>
+            <label>Fluidez/Conexión</label>
+            <input type="number" min="1" max="5" required>
+            <label>Comodidad</label>
+            <input type="number" min="1" max="5" required>
+            <label>Calidad del evento</label>
+            <input type="number" min="1" max="5" required>
+            
+            <label>¿Repetirías la cita?</label>
+            <div class="opciones-repetir-cita">
+                <label>Si</label>
+                <input type="radio" name="repite-cita" value="yes" required>
+                <label>No</label>
+                <input type="radio" name="repite-cita" value="no">
+            </div>
+
+            <label>Nota extra</label>
+            <textarea clarows="2" placeholder="Algo más..."></textarea>
+            
+            <button class="boton" type="submit">Enviar</button>
+
+
+        </form>
+    </div>
+    <div id="modal-editar-cita" class="modal-calificacion-cita">
+        <span class="cerrar-modal" id="btn-cerrar-editar">&times;</span>
+        <strong class="strong1">Editar cita</strong>
+        <p class="letra">Cita con <span id="nombre-editar"></span></p>
+
+        <form id="form-editar-cita" class="calificar-cita-form">
+
+            <label>Lugar de la cita</label>
+            <input id="lugar-editar" type="text" required>
+            <label>Fecha y hora</label>
+            <input id="fecha-hora-editar" type="datetime-local" required>
+            <label>Tipo de encuentro</label>
+            <input id="tipo-encuentro-editar" type="text" required>
+            <label>Duración estimada</label>
+            <input id="duracion-editar" type="number" required>
+            
+            <button class="boton" type="submit">Guardar cambios</button>
+
+        </form>
+    </div>
+
+    
+
+
+    <script src="../js/citas.js"></script>
+</body>
+</html>
