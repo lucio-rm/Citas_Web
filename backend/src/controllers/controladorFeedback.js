@@ -55,3 +55,27 @@ export {
     crearFeedback,
     obtenerFeedbackPorCita
 };
+
+export const guardarFeedback = async (req, res) => {
+    const {
+        id_citas, id_usuario_calificado, id_usuario_calificador, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra
+    } = req.body;
+
+    try {
+        const querySql = `INSERT INTO feedback(id_citas, id_usuario_calificador, id_usuario_calificado, clasificacion_evento, clasificacion_pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`
+
+        const datos = [id_citas, id_usuario_calificador, id_usuario_calificado, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra];
+        
+        const resul = await pool.query(querySql, datos);
+
+        res.status(201).json({
+            mensaje : 'Feedback guardado correctamente',//se muestra en el alert(front)
+            feedback : resul.rows[0] //fila creada
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            mensaje : "Error al guardar el feedback"
+        });
+    }
+}
