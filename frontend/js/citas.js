@@ -81,7 +81,7 @@ formulario.addEventListener('submit', async (e) => {
     
     try {
         // le pide al backendd que guarde el feedback
-        const respuesta = await fetch('http://localhost:3000/citas/feedback', {
+        const respuesta = await fetch('http://localhost:3000/feedback/guardar', {
             method : 'POST',
             headers : {'Content-Type' : 'application/json'},
             body : JSON.stringify(calificaciones)
@@ -107,7 +107,7 @@ const cargarCitas = async () => {
 
         const idUsuario = localStorage.getItem('idUsuario') || 1;
         // pide las citas al backend
-        const respuesta = await fetch(`http://localhost:3000/citas?idUsuario=${idUsuario}`);
+        const respuesta = await fetch(`http://localhost:3000/citas/ver?idUsuario=${idUsuario}`);
         const citas = await respuesta.json();
 
         //toma los contenedores de citas (pendientes y anteriores)

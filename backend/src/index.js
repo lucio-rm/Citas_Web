@@ -4,6 +4,7 @@ import cors from 'cors';
 import usuariosRouter from './routes/usuarios.js';
 import citasRouter from './routes/citas.js';
 import matchesRouter from './routes/matches.js';
+import feedbackRouter from './routes/feedback.js';
 
 
 
@@ -14,6 +15,7 @@ app.use(cors());
 app.use('/usuarios', usuariosRouter);
 app.use('/citas', citasRouter);
 app.use('/matches', matchesRouter);
+app.use('/feedback', feedbackRouter);
 
 
 

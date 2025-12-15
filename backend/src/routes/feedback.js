@@ -4,6 +4,8 @@ const router = express.Router();
 
 router.post('/', controladores.crearFeedback);
 
+router.post('/guardar', controladores.guardarFeedback);
+
 router.get('/cita/:id_cita', controladores.obtenerFeedbackPorCita);
 
 export default router;
