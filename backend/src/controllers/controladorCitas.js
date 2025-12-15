@@ -58,11 +58,12 @@ export const obtenerCitas = async (req, res) => {
         JOIN matches m ON c.id_match = m.id
         JOIN usuarios u ON (m.id_usuario_1 = u.id OR m.id_usuario_2 = u.id)
         LEFT JOIN feedback f ON c.id = f.id_citas
-        WHERE u.id != 1 AND (m.id_usuario_1 = 1 OR m.id_usuario_2 = 1)
+        WHERE u.id != 1 AND (m.id_usuario_1 = 1 OR m.id_usuario_2 = 1) --hardcodeado el id del usuario actual (luego cambiar por el usuario logeado)
         AND (c.estado != 'cancelada')`
         
         const resul = await pool.query(querySql);
         res.json(resul.rows);
+        
     } catch (err) {
         console.error('Error al recuperar los datos: ',err);
         res.status(500).json({
