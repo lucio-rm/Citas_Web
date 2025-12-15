@@ -2,7 +2,7 @@ const id_logueado = usuario.id; // Mas adelante se importa usuario desde el logi
 
 async function cargarMatches () {
     try {
-        const response = await fetch(`http://localhost:8080/matches/${id_logueado}`);
+        const response = await fetch(`http://localhost:3000/matches/${id_logueado}`);
         const matches = await response.json();
         return matches;
     }
@@ -11,7 +11,7 @@ async function cargarMatches () {
     }
 }
 async function cargarPersona (id) {
-    const response = await fetch(`http://localhost:8080/usuarios/${id}`);
+    const response = await fetch(`http://localhost:3000/usuarios/${id}`);
     const pareja = await response.json();
     return pareja;
 }
@@ -54,7 +54,7 @@ contenedorMatches.addEventListener('click', async (evento) => {
         const matchId = matchDiv.dataset.matchId;
         if (!confirm('¿Estás seguro de qué queres eliminar este match?')) return;
         try {
-            const response = await fetch(`http://localhost:8080/matches/${matchId}`, {
+            const response = await fetch(`http://localhost:3000/matches/${matchId}`, {
                 method: 'DELETE'
             });
             if (response.ok) {

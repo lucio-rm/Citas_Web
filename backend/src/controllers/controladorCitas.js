@@ -1,5 +1,110 @@
 import { pool } from "../db.js"
 
+const obtenerCitas = async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM citas');
+        res.json(result.rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al buscar las citas' });
+    }
+};
+
+const obtenerCitaPorId = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query('SELECT * FROM citas WHERE id = $1', [id]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'No encontré esa cita' });
+        }
+        
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al buscar la cita' });
+    }
+};
+
+
+const crearCita = async (req, res) => {
+    try {
+        const { id_match, lugar, fecha_hora, tipo_encuentro, duracion_estimada_minutos } = req.body;
+        
+        if (!id_match || !lugar || !fecha_hora) {
+            return res.status(400).json({ error: 'Faltan datos obligatorios para la cita' });
+        }
+        
+        const result = await pool.query(
+            `INSERT INTO citas (id_match, lugar, fecha_hora, tipo_encuentro, estado, duracion_estimada_minutos)
+            VALUES ($1, $2, $3, $4, 'pendiente', $5)
+            RETURNING *`,
+            [id_match, lugar, fecha_hora, tipo_encuentro, duracion_estimada_minutos]
+        );
+        
+        res.status(201).json(result.rows[0]);
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al crear la cita. Verificá los datos.' });
+    }
+};
+
+
+const actualizarCita = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { lugar, fecha_hora, tipo_encuentro, estado, duracion_estimada_minutos } = req.body;
+        
+        
+        const result = await pool.query(
+            `UPDATE citas 
+            SET lugar = $1, 
+            fecha_hora = $2, 
+            tipo_encuentro = $3, 
+            estado = $4, 
+            duracion_estimada_minutos = $5
+            WHERE id = $6
+            RETURNING *`,
+            [lugar, fecha_hora, tipo_encuentro, estado, duracion_estimada_minutos, id]
+        );
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'No encontré la cita para actualizar' });
+        }
+        
+        res.json(result.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al actualizar la cita' });
+    }
+};
+
+
+const eliminarCita = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = await pool.query('DELETE FROM citas WHERE id = $1 RETURNING *', [id]);
+        
+        if (result.rows.length === 0) {
+            return res.status(404).json({ error: 'No encontré la cita para borrar' });
+        }
+        
+        res.json({ message: 'Cita borrada', cita: result.rows[0] });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al borrar la cita' });
+    }
+};
+
+export {
+    obtenerCitas,
+    obtenerCitaPorId,
+    crearCita,
+    actualizarCita,
+    eliminarCita
+};
+
 export const cancelarCita = async (req, res) => {
     const { id } = req.params;
     console.log(`Intentando cancelar la cita con ID: ${id} en la base de datos`)
@@ -24,30 +129,6 @@ export const cancelarCita = async (req, res) => {
         res.status(500).json({
             mensaje : "Error al actualizar el estado"
         })
-    }
-}
-
-export const guardarFeedback = async (req, res) => {
-    const {
-        id_citas, id_usuario_calificado, id_usuario_calificador, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra
-    } = req.body;
-
-    try {
-        const querySql = `INSERT INTO feedback(id_citas, id_usuario_calificador, id_usuario_calificado, clasificacion_evento, clasificacion_pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`
-
-        const datos = [id_citas, id_usuario_calificador, id_usuario_calificado, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra];
-        
-        const resul = await pool.query(querySql, datos);
-
-        res.status(201).json({
-            mensaje : 'Feedback guardado correctamente',//se muestra en el alert(front)
-            feedback : resul.rows[0] //fila creada
-        });
-    } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            mensaje : "Error al guardar el feedback"
-        });
     }
 }
 
