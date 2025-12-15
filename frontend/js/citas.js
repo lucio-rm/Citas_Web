@@ -3,32 +3,62 @@ const modal = document.querySelector('.modal-calificacion-cita');
 const nombreEnModal = document.getElementById('modal-nombre-persona');
 const formulario = document.querySelector('.calificar-cita-form')
 
+//boton para cerrar el modal (formulario de calificacion)
 btnCerrarModal.addEventListener('click' , () => {
     modal.style.display = 'none';
 });
 
-document.querySelectorAll('.bloque-citas:last-of-type .boton').forEach(boton => {
-    boton.addEventListener('click', (e) => {
-        const tarjeta = e.target.closest('.tarjeta-cita');
-        modal.dataset.idCita = tarjeta.dataset.id; //le pasamos el id de la tarjeta al modal *1
-        modal.dataset.idPareja = tarjeta.dataset.pareja; //le pasamos el id de la pareja al modal *2
-        const nombrePersona = tarjeta.querySelector('h3').innerText;
-        nombreEnModal.innerText = nombrePersona;
-        modal.style.display = 'block';
-
+const configurarBotones = () => {
+    //boton para abrir el modal (formulario de calificacion)
+    document.querySelectorAll('.boton-abrir-modal').forEach(boton => {
+        boton.addEventListener('click', (e) => {
+            const tarjeta = e.target.closest('.tarjeta-cita');
+            modal.dataset.idCita = tarjeta.dataset.id; //le pasamos el id de la tarjeta al modal *1
+            modal.dataset.idPareja = tarjeta.dataset.pareja; //le pasamos el id de la pareja al modal *2
+            const nombrePersona = tarjeta.querySelector('h3').innerText;
+            nombreEnModal.innerText = nombrePersona;
+            modal.style.display = 'block';
+            
+        });
     });
-});
+    
+    //boton para cancelar cita
+    document.querySelectorAll('.boton-cancelar').forEach(boton => {
+        boton.addEventListener('click', async (e) => {
+            const tarjeta = e.target.closest('.tarjeta-cita');
+            const nombrePersona = tarjeta.querySelector('h3').innerText;
+            const confirmar = confirm(`¿Seguro que quieres cancelar la cita con ${nombrePersona}?`);
+            const idCita = tarjeta.dataset.id;
+    
+            if (confirmar) {
+                try {
+                    const respuesta = await fetch(`http://localhost:3000/citas/cancelar/${idCita}`, {
+                        method : 'PATCH'
+                    });
+                    const datos = await respuesta.json();
+                    alert(datos.mensaje);
+    
+                    if (respuesta.ok) {
+                        location.reload();
+                    }
+                } catch (error) {
+                    console.error('Error al cancelar la cita: ', error);
+                }
+            }
+        })
+    });
+};
 
 formulario.addEventListener('submit', async (e) => {
     e.preventDefault()
-
+    
     const puntajes = formulario.querySelectorAll('input[type="number"]'); //guarda todos los puntajes
     const repiteSeleccionado = formulario.querySelector('input[type="radio"]:checked'); //si repite o no
     const notaExtra = formulario.querySelector('textarea').value;//nota extra
-
+    
     const idCita = modal.dataset.idCita; //recupera el id de la tarjeta que se guardó en el modal *1
     const idPareja = modal.dataset.idPareja; //recupera el id de la pareja que se guardó en el modal *2
-
+    
     const calificaciones = {
         id_citas : idCita,
         id_usuario : idPareja,
@@ -64,30 +94,6 @@ formulario.addEventListener('submit', async (e) => {
 
 })
 
-document.querySelectorAll('.bloque-citas:first-of-type .boton-cancelar').forEach(boton => {
-    boton.addEventListener('click', async (e) => {
-        const tarjeta = e.target.closest('.tarjeta-cita');
-        const nombrePersona = tarjeta.querySelector('h3').innerText;
-        const confirmar = confirm(`¿Seguro que quieres cancelar la cita con ${nombrePersona}?`);
-        const idCita = tarjeta.dataset.id;
-
-        if (confirmar) {
-            try {
-                const respuesta = await fetch(`http://localhost:3000/citas/cancelar/${idCita}`, {
-                    method : 'PATCH'
-                });
-                const datos = await respuesta.json();
-                alert(datos.mensaje);
-
-                if (respuesta.ok) {
-                    location.reload();
-                }
-            } catch (error) {
-                console.error('Error al cancelar la cita: ', error);
-            }
-        }
-    })
-});
 
 const cargarCitas = async () => {
     try {
@@ -128,7 +134,7 @@ const cargarCitas = async () => {
             }
         });
 
-
+        configurarBotones();
 
     } catch (error) {
 
