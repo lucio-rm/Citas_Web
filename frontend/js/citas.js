@@ -11,6 +11,7 @@ document.querySelectorAll('.bloque-citas:last-of-type .boton').forEach(boton => 
     boton.addEventListener('click', (e) => {
         const tarjeta = e.target.closest('.tarjeta-cita');
         modal.dataset.idCita = tarjeta.dataset.id; //le pasamos el id de la tarjeta al modal *1
+        modal.dataset.idPareja = tarjeta.dataset.pareja; //le pasamos el id de la pareja al modal *2
         const nombrePersona = tarjeta.querySelector('h3').innerText;
         nombreEnModal.innerText = nombrePersona;
         modal.style.display = 'block';
@@ -26,10 +27,11 @@ formulario.addEventListener('submit', async (e) => {
     const notaExtra = formulario.querySelector('textarea').value;//nota extra
 
     const idCita = modal.dataset.idCita; //recupera el id de la tarjeta que se guardó en el modal *1
+    const idPareja = modal.dataset.idPareja; //recupera el id de la pareja que se guardó en el modal *2
 
     const calificaciones = {
         id_citas : idCita,
-        id_usuario : 1,
+        id_usuario : idPareja,
         evento : puntajes[0].value,
         pareja : puntajes[1].value,
         puntualidad : puntajes[2].value,
