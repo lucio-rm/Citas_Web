@@ -120,9 +120,13 @@ const cargarCitas = async () => {
                         <p class="info-fecha">${fechaFormateada}</p>
                         <p class="info-lugar">${cita.lugar}</p>
                     </div>
-                    ${cita.estado === 'pendiente' ?
-                    '<button class="boton boton-cancelar">Cancelar</button>' :
-                    '<button class="boton boton-abrir-modal">Calificar</button>'}
+                    ${
+                        cita.estado === 'pendiente' ?
+                        '<button class="boton boton-cancelar">Cancelar</button>' :
+                        cita.id_feedback ? //si id_feedback tiene valor
+                        '<button class="boton boton-calificado">Ya calificado</button>' : //si ya calificó
+                        '<button class="boton boton-abrir-modal">Calificar</button>' //si no calificó aun
+                        }
                     
                 </article>
             `;
