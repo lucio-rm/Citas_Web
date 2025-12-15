@@ -14,43 +14,62 @@
 
 <body>
 
+    <!-- NAVBAR -->
     <nav class="navbar-preferencias">
         <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
 
         <ul class="nav-links">
-            <li><a href="explorar.html">Explorar</a></li>
-            <li><a href="matches.html">Mis matches</a></li>
+            <li><a href="./explorar.html">Explorar</a></li>
+            <li><a href="./matches.html">Mis matches</a></li>
         </ul>
 
-        <div class="nav-botones">
-            <a href="login.html">Cerrar sesión</a>
-        </div>
+        <button onclick="window.location.href='pag-editar-perfil.html'">
+            Cuenta
+        </button>
     </nav>
 
-    <section class="form-container">
-        <h1 class="titulo-preferencias">Tus preferencias</h1>
+    <!-- CONTENEDOR -->
+    <section class="preferencias-container">
 
-        <form id="preferencias-form" class="preferencias-form">
+        <h1 class="titulo-pref">Completá tu perfil</h1>
 
-            <label>Rango de edad preferido</label>
-            <div class="rango-edad">
-                <input type="number" id="edadMin" min="18" max="99" placeholder="Mín">
-                <input type="number" id="edadMax" min="18" max="99" placeholder="Máx">
+        <form id="preferencias-form" class="pref-form">
+
+            <!-- COLUMNA IZQUIERDA -->
+            <div class="columna-pref">
+
+                <label>Edad mínima preferida</label>
+                <input type="number" id="edadMin" min="18" max="99" value="18">
+
+                <label>Edad máxima preferida</label>
+                <input type="number" id="edadMax" min="18" max="99" value="99">
+
+                <label>Hobbies que tenés</label>
+                <input type="text" id="hobbiesPropios" placeholder="Ej: fútbol, cine, lectura">
+
+                <label>Hábitos que tenés</label>
+                <input type="text" id="habitosPropios" placeholder="Ej: café, gimnasio">
+
             </div>
 
-            <label>Intereses principales</label>
-            <input type="text" id="interesesPreferidos" placeholder="Ej: cine, viajes, café">
+            <!-- COLUMNA DERECHA -->
+            <div class="columna-pref">
 
-            <label>Tipo de cita preferida</label>
-            <select id="tipoCita">
-                <option value="">Seleccionar</option>
-                <option value="cafe">Café</option>
-                <option value="cena">Cena</option>
-                <option value="actividad">Actividad</option>
-                <option value="aire_libre">Aire libre</option>
-            </select>
+                <label>Orientación</label>
+                <input type="text" id="orientacionPropia" placeholder="Ej: heterosexual">
 
-            <button type="submit" class="boton-guardar">
+                <label>Qué hobbies buscás</label>
+                <input type="text" id="hobbiesBusco" placeholder="Ej: viajar, cine">
+
+                <label>Qué hábitos buscás</label>
+                <input type="text" id="habitosBusco" placeholder="Ej: actividad física">
+
+                <label>Orientación buscada</label>
+                <input type="text" id="orientacionBusco" placeholder="Ej: bisexual">
+
+            </div>
+
+            <button type="submit" class="boton-guardar-pref">
                 Guardar preferencias
             </button>
 

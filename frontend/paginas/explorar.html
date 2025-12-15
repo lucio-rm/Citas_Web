@@ -9,15 +9,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Red Thread</title>
 </head>
+
 <body>
+
+    <!-- PROTECCIÓN DE SESIÓN -->
+    <script>
+        const usuario = localStorage.getItem("usuario");
+        if (!usuario) {
+            window.location.href = "login.html";
+        }
+    </script>
+
     <nav>
-        <img class = "logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
-        <ul class = "nav-links">
+        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class="nav-links">
             <li><a href="./explorar.html">Explorar</a></li>
             <li><a href="./matches.html">Mis matches</a></li>
         </ul>
+
         <div class="nav-botones">
             <a href="./pag-editar-perfil.html" class="boton">Cuenta</a>
+
+            <!-- LOGOUT -->
+            <button id="logout-btn" class="boton">Cerrar sesión</button>
         </div>
     </nav>
 
@@ -26,49 +40,61 @@
             <div class="card-image">
                 <figure class="match-img">
                     <img
-                        id = "match-img" src="https://bulma.io/assets/images/placeholders/1280x960.png"
+                        id="match-img"
+                        src="https://bulma.io/assets/images/placeholders/1280x960.png"
                         alt="Foto de perfil"
                     />
                 </figure>
             </div>
+
             <div class="card-content">
                 <div class="media">
-                    <div >
-                        <p id = "match-nombre" class="title is-4">Nombre apellido</p>
+                    <div>
+                        <p id="match-nombre" class="title is-4">Nombre apellido</p>
                     </div>
                 </div>
 
-                <div id = "match-desc" class="content">
+                <div id="match-desc" class="content">
                     Descripcion personal del usuario
                 </div>
+
                 <div class="content">
                     <p class="title is-5">Información</p>
-                    <p id = "match-edad" class="is-6">Edad:</p>
-                    <p id = "match-ubi" class="is-6">Ciudad:</p>
-                    <p id = "match-orientacion" class="is-6">Orientacion Sexual:</p>
+                    <p id="match-edad" class="is-6">Edad:</p>
+                    <p id="match-ubi" class="is-6">Ciudad:</p>
+                    <p id="match-orientacion" class="is-6">Orientacion Sexual:</p>
                 </div>
+
                 <div class="content">
                     <p class="title is-5">Hobbies</p>
-                    <p id = "match-hobbies" class="is-6">Hobbies</p>
+                    <p id="match-hobbies" class="is-6">Hobbies</p>
                 </div>
+
                 <div class="content">
                     <p class="title is-5">Tags</p>
-                    <p id = "match-tags" class="is-6">Tags</p>
+                    <p id="match-tags" class="is-6">Tags</p>
                 </div>
             </div>
         </div>
 
         <div class="card">
             <footer class="card-footer match-footer">
-                <button id="like" class="card-footer-item color-boton">
+                <button id="like" class="card-footer-item color-boton" type="button">
                     <i class="fa-solid fa-heart"></i>
-                </a>
-                <button id="xmark" class="card-footer-item color-boton">
+                </button>
+
+                <button id="xmark" class="card-footer-item color-boton" type="button">
                     <i class="fa-solid fa-xmark"></i>
-                </a>
+                </button>
             </footer>
         </div>
     </div>
-    <script src="../js/pag-inicial.js"> </script> 
-</body>  
+
+    <!-- TU JS (si carga datos del perfil/match) -->
+    <script src="../js/pag-inicial.js"></script>
+
+    <!-- LOGOUT JS -->
+    <script src="../js/logout.js"></script>
+
+</body>
 </html>

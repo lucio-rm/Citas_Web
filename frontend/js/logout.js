@@ -1,13 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Borramos el usuario del storage
-    localStorage.removeItem("user");
+  const btnLogout = document.getElementById("logout-btn");
+  if (!btnLogout) return;
 
-    // Redirigimos al login
+  btnLogout.addEventListener("click", () => {
+    localStorage.removeItem("usuario");
     window.location.href = "login.html";
+  });
 });
-
-const usuario = JSON.parse(localStorage.getItem("usuario"));
-
-if (!usuario) {
-  window.location.href = "/frontend/paginas/login.html";
-}

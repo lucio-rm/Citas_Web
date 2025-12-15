@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       // Guardamos usuario logueado (simple)
-      sessionStorage.setItem("usuario", JSON.stringify(data.usuario));
+     localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
       // Redirigimos a pantalla principal
       window.location.href = "explorar.html";

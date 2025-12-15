@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded", () => {
-  const usuarioJSON = sessionStorage.getItem("usuario");
+  const usuarioJSON = localStorage.getItem("usuario");
 
   // Si NO hay sesión → login
   if (!usuarioJSON) {
