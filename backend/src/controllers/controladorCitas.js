@@ -141,7 +141,7 @@ export const obtenerVistaCitas = async (req, res) => {
         });
     }
 
-    const querySql = `SELECT c.id AS id_cita, c.lugar, c.fecha_hora, c.tipo_encuentro, c.estado, c.duracion_estimada_minutos u.id AS id_pareja, u.nombre AS nombre_pareja, u.foto_perfil, f.id AS id_feedback
+    const querySql = `SELECT c.id AS id_cita, c.lugar, c.fecha_hora, c.tipo_encuentro, c.estado, c.duracion_estimada_minutos, u.id AS id_pareja, u.nombre AS nombre_pareja, u.foto_perfil, f.id AS id_feedback
     FROM citas c
     JOIN matches m ON c.id_match = m.id
     JOIN usuarios u ON (m.id_usuario_1 = u.id OR m.id_usuario_2 = u.id)
