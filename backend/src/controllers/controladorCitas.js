@@ -53,10 +53,11 @@ export const guardarFeedback = async (req, res) => {
 
 export const obtenerCitas = async (req, res) => {
     try {
-        const querySql = `SELECT c.id AS id_cita, c.lugar, c.fecha_hora, c.tipo_encuentro, c.estado, u.id AS id_pareja, u.nombre AS nombre_pareja, u.foto_perfil
+        const querySql = `SELECT c.id AS id_cita, c.lugar, c.fecha_hora, c.tipo_encuentro, c.estado, u.id AS id_pareja, u.nombre AS nombre_pareja, u.foto_perfil, f.id AS id_feedback
         FROM citas c
         JOIN matches m ON c.id_match = m.id
         JOIN usuarios u ON (m.id_usuario_1 = u.id OR m.id_usuario_2 = u.id)
+        LEFT JOIN feedback f ON c.id = f.id_citas
         WHERE u.id != 1 AND (m.id_usuario_1 = 1 OR m.id_usuario_2 = 1)
         AND (c.estado != 'cancelada')`
         
