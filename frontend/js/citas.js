@@ -68,8 +68,9 @@ const configurarBotones = () => {
             
 
             nombreEnModalEditar.innerText = info.nombre_pareja;
-            modalEditar.dataset.idCita = tarjeta.dataset.id;
+            modalEditar.dataset.idCita = tarjeta.dataset.id; //le pasamos el id de la tarjeta al modal *1
 
+            //le agrega al formulario los datos actuales de la cita
             document.getElementById('lugar-editar').value = info.lugar;
             document.getElementById('duracion-editar').value = info.duracion_estimada_minutos;
             document.getElementById('tipo-encuentro-editar').value = info.tipo_encuentro;
@@ -77,7 +78,8 @@ const configurarBotones = () => {
             if (info.fecha_hora) {
                 document.getElementById('fecha-hora-editar').value = info.fecha_hora.substring(0, 16);
             }
-
+            
+            //muestra el modal de editar
             modalEditar.style.display = 'block';
         });
     });
@@ -139,7 +141,7 @@ formularioEditar.addEventListener('submit', async (e) => {
 
     e.preventDefault();
 
-    const idCita = modalEditar.dataset.idCita;
+    const idCita = modalEditar.dataset.idCita; //recupera el id de la tarjeta que se guardó en el modal *3
 
     //toma los datos del formulario de editar
     const datosActualizados = {
@@ -175,7 +177,7 @@ formularioEditar.addEventListener('submit', async (e) => {
 const cargarCitas = async () => {
     try {
 
-        const idUsuario = localStorage.getItem('idUsuario') || 1;
+        const idUsuario = localStorage.getItem('idUsuario') || 1; //dato temporal hasta tener el login
         // pide las citas al backend
         const respuesta = await fetch(`http://localhost:3000/citas/ver?idUsuario=${idUsuario}`);
         const citas = await respuesta.json();
@@ -196,6 +198,7 @@ const cargarCitas = async () => {
 
             const citaJSON = JSON.stringify(cita);
 
+            //crea la tarjeta de la cita (pendiente o anterior, calificada o no calificada)
             const tarjeta = `
             <article class="tarjeta-cita" data-id="${cita.id_cita}" data-pareja="${cita.id_pareja}" data-info='${citaJSON}'>
                     <img src="${cita.foto_perfil}" alt="foto-perfil" class="foto-cita">
@@ -226,6 +229,7 @@ const cargarCitas = async () => {
             }
         });
 
+        //por si el usuario no tiene citas en alguna de las dos secciones
         if (citas.filter(c => c.estado === 'pendiente').length === 0) {
             listaPendientes.innerHTML = '<p class="letra">No tienes citas pendientes.</p>';
         }
