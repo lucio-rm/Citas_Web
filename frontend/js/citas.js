@@ -102,8 +102,10 @@ formulario.addEventListener('submit', async (e) => {
 
 const cargarCitas = async () => {
     try {
+
+        const idUsuario = localStorage.getItem('idUsuario') || 1;
         // pide las citas al backend
-        const respuesta = await fetch('http://localhost:3000/citas');
+        const respuesta = await fetch(`http://localhost:3000/citas?idUsuario=${idUsuario}`);
         const citas = await respuesta.json();
 
         //toma los contenedores de citas (pendientes y anteriores)
