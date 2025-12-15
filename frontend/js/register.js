@@ -1,43 +1,46 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("register-form");
+  const form = document.getElementById("register-form");
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-        const usuario = {
-            nombre: document.getElementById("nombre").value,
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value,
-            edad: Number(document.getElementById("edad").value),
-            ciudad: document.getElementById("ciudad").value,
-            orientacion: document.getElementById("orientacion").value,
-            bio: document.getElementById("bio").value,
-            hobbies: document.getElementById("hobbies").value,
-            intereses: document.getElementById("intereses").value
-        };
+    const usuario = {
+      nombre: document.getElementById("nombre").value,
+      apellido: document.getElementById("apellido").value,
+      fecha_nacimiento: document.getElementById("fecha_nacimiento").value,
+      mail: document.getElementById("email").value,
+      contrasenia: document.getElementById("password").value,
+      sexo_genero: document.getElementById("sexo_genero").value,
+      descripcion_personal: document.getElementById("bio").value,
+      foto_perfil: null, // más adelante
+      ubicacion: document.getElementById("ciudad").value,
+      edad_preferida_min: 18,
+      edad_preferida_max: 99
+    };
 
-        try {
-            const response = await fetch("http://localhost:3000/usuarios", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(usuario)
-            });
+    try {
+      const res = await fetch("http://localhost:3000/usuarios", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(usuario)
+      });
 
-            if (!response.ok) {
-                alert("Error al crear el usuario");
-                return;
-            }
+      const data = await res.json();
 
-            alert("Cuenta creada correctamente");
+      if (!res.ok) {
+        alert(data.error || "Error al crear usuario");
+        return;
+      }
 
-            // Redirigimos a login
-            window.location.href = "login.html";
+      alert("Usuario creado correctamente");
+      console.log(data);
+      window.location.href = "login.html";
 
-        } catch (error) {
-            console.error(error);
-            alert("Error al conectar con el servidor");
-        }
-    });
+    } catch (error) {
+      console.error(error);
+      alert("No se pudo conectar con el servidor");
+    }
+  });
 });

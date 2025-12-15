@@ -14,6 +14,7 @@
 
 <body>
 
+    <!-- NAVBAR -->
     <nav class="navbar-registro">
         <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
 
@@ -27,14 +28,19 @@
         </div>
     </nav>
 
+    <!-- CONTENEDOR FORM -->
     <section class="form-container">
         <h1 class="titulo-registro">Crear tu cuenta</h1>
 
         <form id="register-form" class="registro-form">
 
+            <!-- COLUMNA 1 -->
             <div class="columna">
-                <label>Nombre completo</label>
+                <label>Nombre</label>
                 <input type="text" id="nombre" required>
+
+                <label>Apellido</label>
+                <input type="text" id="apellido" required>
 
                 <label>Email</label>
                 <input type="email" id="email" required>
@@ -42,27 +48,32 @@
                 <label>Contraseña</label>
                 <input type="password" id="password" required>
 
-                <label>Edad</label>
-                <input type="number" id="edad" min="18" max="99" required>
+                <label>Fecha de nacimiento</label>
+                <input type="date" id="fecha_nacimiento" required>
+            </div>
+
+            <!-- COLUMNA 2 -->
+            <div class="columna">
+                <label>Sexo / Género</label>
+                <select id="sexo_genero" required>
+                    <option value="">Seleccionar</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="No binario">No binario</option>
+                    <option value="Prefiero no decirlo">Prefiero no decirlo</option>
+                </select>
 
                 <label>Ciudad</label>
                 <input type="text" id="ciudad">
-            </div>
-
-            <div class="columna">
-                <label>Orientación</label>
-                <input type="text" id="orientacion">
 
                 <label>Bio</label>
                 <textarea id="bio" rows="3"></textarea>
 
-                <label>Hobbies</label>
-                <input type="text" id="hobbies">
-
-                <label>Intereses</label>
-                <input type="text" id="intereses">
+                <label>Foto de perfil</label>
+                <input type="file" id="foto" accept="image/*">
             </div>
 
+            <!-- BOTÓN -->
             <button class="boton-crear-cuenta" type="submit">
                 Crear cuenta
             </button>
@@ -70,6 +81,7 @@
         </form>
     </section>
 
+    <!-- JS -->
     <script src="../js/register.js"></script>
 </body>
 </html>

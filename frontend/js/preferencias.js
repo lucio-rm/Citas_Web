@@ -46,3 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
+const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+if (!usuario) {
+  window.location.href = "/frontend/paginas/login.html";
+}

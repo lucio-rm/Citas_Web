@@ -5,3 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // Redirigimos al login
     window.location.href = "login.html";
 });
+
+const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+if (!usuario) {
+  window.location.href = "/frontend/paginas/login.html";
+}

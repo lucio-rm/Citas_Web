@@ -1,37 +1,34 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const form = document.getElementById("login-form");
+document.querySelector("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+  const mail = document.querySelector("input[name='email']").value;
+  const contrasenia = document.querySelector("input[name='password']").value;
 
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
+  const res = await fetch("http://localhost:3000/usuarios/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ mail, contrasenia })
+  });
 
-        try {
-            const response = await fetch("http://localhost:3000/usuarios/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ email, password })
-            });
+  const data = await res.json();
 
-            if (!response.ok) {
-                alert("Credenciales incorrectas");
-                return;
-            }
+  if (!res.ok) {
+    alert(data.error);
+    return;
+  }
 
-            const data = await response.json();
+  // guardamos usuario logueado
+  localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-            // Guardamos usuario logueado (simple)
-            localStorage.setItem("user", JSON.stringify(data.usuario));
-
-            // Redirigimos a explorar
-            window.location.href = "explorar.html";
-
-        } catch (error) {
-            console.error(error);
-            alert("Error al conectar con el servidor");
-        }
-    });
+  // redirige a página real
+  window.location.href = "/frontend/paginas/explorar.html";
 });
+
+
+const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+if (!usuario) {
+  window.location.href = "/frontend/paginas/login.html";
+}
