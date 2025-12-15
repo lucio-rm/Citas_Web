@@ -3,7 +3,8 @@ const modal = document.querySelector('.modal-calificacion-cita');
 const btnCerrarEditar = document.getElementById('btn-cerrar-editar');
 const modalEditar = document.getElementById('modal-editar-cita');
 const nombreEnModal = document.getElementById('modal-nombre-persona');
-const formulario = document.querySelector('form-calificar-cita')
+const nombreEnModalEditar = document.getElementById('nombre-editar');
+const formulario = document.getElementById('form-calificar-cita');
 const formularioEditar = document.getElementById('form-editar-cita');
 
 //boton para cerrar el modal (formulario de calificacion)
@@ -66,7 +67,7 @@ const configurarBotones = () => {
             const modalEditar = document.getElementById('modal-editar-cita');
             
 
-            modalEditar.querySelector('#modal-nombre-persona').innerText = info.nombre_pareja;
+            nombreEnModalEditar.innerText = info.nombre_pareja;
             modalEditar.dataset.idCita = tarjeta.dataset.id;
 
             document.getElementById('lugar-editar').value = info.lugar;
@@ -134,6 +135,42 @@ formulario.addEventListener('submit', async (e) => {
 
 })
 
+formularioEditar.addEventListener('submit', async (e) => {
+
+    e.preventDefault();
+
+    const idCita = modalEditar.dataset.idCita;
+
+    //toma los datos del formulario de editar
+    const datosActualizados = {
+        lugar : document.getElementById('lugar-editar').value,
+        fecha_hora : document.getElementById('fecha-hora-editar').value,
+        duracion_estimada_minutos : document.getElementById('duracion-editar').value,
+        tipo_encuentro : document.getElementById('tipo-encuentro-editar').value,
+        estado : 'pendiente'
+    }
+
+    try {
+
+        const respuesta = await fetch(`http://localhost:3000/citas/${idCita}`, {
+            method : 'PUT',
+            headers : {'Content-Type' : 'application/json'},
+            body : JSON.stringify(datosActualizados)
+        })
+
+        if (respuesta.ok) {
+            alert('Cita actualizada con éxito');
+            location.reload();
+        } else {
+            alert('Hubo un error al actualizar la cita');
+        }
+
+
+    } catch (error) {
+        console.error("Error al actualizar la cita: ", error);
+    }
+})
+
 
 const cargarCitas = async () => {
     try {
@@ -188,7 +225,7 @@ const cargarCitas = async () => {
                 listaAnteriores.innerHTML += tarjeta;
             }
         });
-
+        
         configurarBotones();
 
     } catch (error) {
