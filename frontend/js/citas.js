@@ -86,3 +86,53 @@ document.querySelectorAll('.bloque-citas:first-of-type .boton-cancelar').forEach
         }
     })
 });
+
+const cargarCitas = async () => {
+    try {
+        const respuesta = await fetch('http://localhost:3000/citas');
+        const citas = await respuesta.json();
+
+        const listaPendientes = document.getElementById('contenedor-pendientes')
+        const listaAnteriores = document.getElementById('contenedor-anteriores')
+
+        citas.forEach( cita => {
+            const fechaFormateada = new Date(cita.fecha_hora).toLocaleString('es-AR', {
+                day : '2-digit',
+                month : '2-digit',
+                year : 'numeric',
+                hour : '2-digit',
+                minute : '2-digit',
+            });
+
+            const tarjeta = `
+            <article class="tarjeta-cita" data-id="${cita.id_cita}" data-pareja="${cita.id_pareja}">
+                    <img src="${cita.foto_perfil}" alt="foto-perfil" class="foto-cita">
+                    <div class="info-cita">
+                        <h3 class="letra">${cita.nombre_pareja}</h3>
+                        <p class="info-fecha">${fechaFormateada}</p>
+                        <p class="info-lugar">${cita.lugar}</p>
+                    </div>
+                    ${cita.estado === 'pendiente' ?
+                    '<button class="boton boton-cancelar">Cancelar</button>' :
+                    '<button class="boton boton-abrir-modal">Calificar</button>'}
+                    
+                </article>
+            `;
+
+            if (cita.estado === 'pendiente') {
+                listaPendientes.innerHTML += tarjeta;
+            } else {
+                listaAnteriores.innerHTML += tarjeta;
+            }
+        });
+
+
+
+    } catch (error) {
+
+        console.error("Error al cargar las citas", error)
+
+    }
+}
+
+document.addEventListener('DOMContentLoaded', cargarCitas);
