@@ -1,33 +1,32 @@
-import express from 'express';
-import cors from 'cors';
+import express from "express";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
-import usuariosRouter from './routes/usuarios.js';
-//import citasRouter from './routes/citas.js';
-import matchesRouter from './routes/matches.js';
-
-
+import usuariosRoutes from "./routes/usuarios.js";
 
 const app = express();
-app.use(express.json());
+const PORT = 3000;
+
+// Para __dirname en ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Middlewares
 app.use(cors());
+app.use(express.json());
 
-app.use('/usuarios', usuariosRouter);
-//app.use('/citas', citasRouter);
-app.use('/matches', matchesRouter);
+// 👉 SERVIR FRONTEND (ESTO ES LO QUE FALTABA)
+app.use("/frontend", express.static(path.join(__dirname, "../../frontend")));
 
+// Rutas API
+app.use("/usuarios", usuariosRoutes);
 
-
-app.get('/', (req, res) => {
-    res.json({ message: 'El backend funciona'});
+// Ruta test
+app.get("/", (req, res) => {
+  res.send("Backend Red Thread funcionando");
 });
 
-//manejo de errores
-app.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).json({ error: 'Error interno del servidor'});
-});
-
-const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`El servidor está corriendo en http://localhost:${PORT}`);
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
