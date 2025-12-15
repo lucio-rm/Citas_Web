@@ -1,11 +1,18 @@
 const btnCerrarModal = document.getElementById('btn-cerrar-modal');
 const modal = document.querySelector('.modal-calificacion-cita');
+const btnCerrarEditar = document.getElementById('btn-cerrar-editar');
+const modalEditar = document.getElementById('modal-editar-cita');
 const nombreEnModal = document.getElementById('modal-nombre-persona');
-const formulario = document.querySelector('.calificar-cita-form')
+const formulario = document.querySelector('form-calificar-cita')
+const formularioEditar = document.getElementById('form-editar-cita');
 
 //boton para cerrar el modal (formulario de calificacion)
 btnCerrarModal.addEventListener('click' , () => {
     modal.style.display = 'none'; //le quita el display al modal (formulario)
+});
+//boton para cerrar el modal de editar cita
+btnCerrarEditar.addEventListener('click', () => {
+    modalEditar.style.display = 'none';
 });
 
 const configurarBotones = () => {
@@ -48,6 +55,32 @@ const configurarBotones = () => {
             }
         })
     });
+
+    //boton para editar cita
+    document.querySelectorAll('.boton-editar').forEach( boton => {
+        boton.addEventListener('click', async (e) => {
+
+            const tarjeta = e.target.closest('.tarjeta-cita'); //obtiene la tarjeta completa
+
+            const info = JSON.parse(tarjeta.dataset.info); //obtiene la info de la tarjeta en formato JSON
+            const modalEditar = document.getElementById('modal-editar-cita');
+            
+
+            modalEditar.querySelector('#modal-nombre-persona').innerText = info.nombre_pareja;
+            modalEditar.dataset.idCita = tarjeta.dataset.id;
+
+            document.getElementById('lugar-editar').value = info.lugar;
+            document.getElementById('duracion-editar').value = info.duracion_estimada_minutos;
+            document.getElementById('tipo-encuentro-editar').value = info.tipo_encuentro;
+
+            if (info.fecha_hora) {
+                document.getElementById('fecha-hora-editar').value = info.fecha_hora.substring(0, 16);
+            }
+
+            modalEditar.style.display = 'block';
+        });
+    });
+    
 };
 
 // boton para enviar el formulario de calificacion
@@ -124,8 +157,10 @@ const cargarCitas = async () => {
                 minute : '2-digit',
             });
 
+            const citaJSON = JSON.stringify(cita);
+
             const tarjeta = `
-            <article class="tarjeta-cita" data-id="${cita.id_cita}" data-pareja="${cita.id_pareja}">
+            <article class="tarjeta-cita" data-id="${cita.id_cita}" data-pareja="${cita.id_pareja}" data-info='${citaJSON}'>
                     <img src="${cita.foto_perfil}" alt="foto-perfil" class="foto-cita">
                     <div class="info-cita">
                         <h3 class="letra">${cita.nombre_pareja}</h3>
@@ -134,7 +169,10 @@ const cargarCitas = async () => {
                     </div>
                     ${
                         cita.estado === 'pendiente' ?
-                        '<button class="boton boton-cancelar">Cancelar</button>' :
+                        `<div class="botones-contenedor">
+                            <button class="boton boton-cancelar">Cancelar</button>
+                            <button class="boton boton-editar">Editar</button>
+                        </div>`:
                         cita.id_feedback ? //si id_feedback tiene valor
                         '<button class="boton boton-calificado">Ya calificado</button>' : //si ya calificó
                         '<button class="boton boton-abrir-modal">Calificar</button>' //si no calificó aun
