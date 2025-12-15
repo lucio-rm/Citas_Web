@@ -93,7 +93,8 @@ CREATE TABLE citas (
 CREATE TABLE feedback (
     id SERIAL PRIMARY KEY,
     id_citas INT NOT NULL,
-    id_usuario INT NOT NULL,
+    id_usuario_calificador INT NOT NULL,
+    id_usuario_calificado INT NOT NULL,
     clasificacion_evento INT NOT NULL,
     clasificacion_pareja INT NOT NULL,
     repetirias VARCHAR(10) NOT NULL,
@@ -104,7 +105,8 @@ CREATE TABLE feedback (
     calidad_evento INT NOT NULL,
     nota_extra TEXT,
     FOREIGN KEY (id_citas) REFERENCES citas(id) ON DELETE CASCADE,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE
+    FOREIGN KEY (id_usuario_calificador) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario_calificado) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
 
