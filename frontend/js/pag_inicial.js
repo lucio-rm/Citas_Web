@@ -34,7 +34,8 @@
 //     }
 // ];
 //let cola = [...personas];
-const id_logueado = usuario.id; // Mas adelante se importa usuario desde el login
+
+//const id_logueado = usuario.id; // Mas adelante se importa usuario desde el login
 let usuarioActual = null;
 const img = document.getElementById("match-img");
 const nombre = document.getElementById("match-nombre");
@@ -48,7 +49,7 @@ const orientacion = document.getElementById("match-orientacion");
 const signo = document.getElementById("match-signo");
 
 async function cargarTags(id_pareja) {
-    const response = await fetch(`http://localhost:8080/tags/${id_pareja}`);
+    const response = await fetch(`http://localhost:3000/usuarios/tags?id=${id_pareja}`);
     const tags = await response.json();
     
     const hobbies = tags.filter(tag => tag.categoria === 'HOBBY').map(tag => tag.nombre);
@@ -62,7 +63,7 @@ async function cargarTags(id_pareja) {
 
 async function cargarPersonas () {
     try {
-        const response = await fetch(`http://localhost:8080/usuarios/`);
+        const response = await fetch(`http://localhost:3000/usuarios/disponibles?id=${id_logueado}`);
         const personas = await response.json();
         const personas_filtradas = personas
         .filter(persona => persona.id !== id_logueado)
@@ -82,6 +83,19 @@ async function cargarPersonas () {
     }
 }
 
+async function cargarPersonasConFiltro(filtros) {
+    const personas = await cargarPersonas();
+    if (!personas) return [];
+
+    return personas.filter(p => {
+        if (filtros.edad_min && p.edad < filtros.edad_min) return false;
+        if (filtros.edad_max && p.edad > filtros.edad_max) return false;
+        if (filtros.ciudad && p.ciudad.toLowerCase() !== filtros.ciudad.toLowerCase()) return false;
+        if (filtros.genero && p.genero.toLowerCase() !== filtros.genero.toLowerCase()) return false; 
+        if (filtros.signo && p.signo !== filtros.signo) return false;
+
+    })
+}
 
 async function inicializarCola() {
     cola = await cargarPersonas();
@@ -131,7 +145,7 @@ async function mostrarPersona(usuarioActual) {
 
 async function darLike() {
     try {
-        const response = await fetch(`http://localhost:8080/likes/`, {
+        const response = await fetch(`http://localhost:3000/likes/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -160,5 +174,54 @@ document.getElementById("xmark").addEventListener("click", function (event) {
     event.preventDefault();
     obtenerSiguientePersona();
 });
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.getElementById("overlay-filtros");
+    const boton_abrir = document.getElementById("abrir-filtros");
+    const boton_cerrar = document.getElementById("cerrar-filtros");
+    const boton_aplicar = document.getElementById("aplicar-filtros")
+
+    // Abrir overlay
+    boton_abrir.addEventListener("click", () => {
+        overlay.style.display = "flex";
+    });
+
+    // Cerrar overlay con botón
+    boton_cerrar.addEventListener("click", () => {
+        overlay.style.display = "none";
+    });
+
+    // Cerrar overlay al hacer clic fuera del contenido
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            overlay.style.display = "none";
+        }
+    });
+
+    // Aplicar filtros
+    boton_aplicar.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const filtros = {
+            edad_min: parseInt(document.getElementById("filtro-edad-min").value) || undefined,
+            edad_max: parseInt(document.getElementById("filtro-edad-max").value) || undefined,
+            ciudad: document.getElementById("filtro-ciudad").value || undefined,
+            genero: document.getElementById("filtro-genero").value || undefined,
+            signo: document.getElementById("filtro-signo").value || undefined,
+
+        }
+        overlay.style.display = "none";
+        cola = await cargarPersonasConFiltro(filtros);
+
+        if (!cola || cola.length === 0){
+            mostrarFinDePersonas();
+            return;
+        }
+
+        usuarioActual = cola.shift();
+        mostrarPersona(usuarioActual);
+    })
+});
+
 
 inicializarCola();
