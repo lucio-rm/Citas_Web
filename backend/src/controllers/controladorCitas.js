@@ -51,7 +51,7 @@ export const guardarFeedback = async (req, res) => {
     }
 }
 
-export const obtenerCitas = async (req, res) => {
+export const obtenerVistaCitas = async (req, res) => {
     const { idUsuario } = req.query;
 
     if (!idUsuario) {

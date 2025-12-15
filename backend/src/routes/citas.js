@@ -6,6 +6,6 @@ router.patch('/cancelar/:id', controladores.cancelarCita);
 
 router.post('/feedback', controladores.guardarFeedback);
 
-router.get('/', controladores.obtenerCitas)
+router.get('/', controladores.obtenerVistaCitas)
 
 export default router;
