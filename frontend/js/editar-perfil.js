@@ -56,22 +56,7 @@ function mostrarVistaPreviaImagen(editarElemento, vistaPreviaElemento, urlDefaul
     editarElemento.addEventListener('input', actualizarVistaPreviaImagen);
 }
 //temporal
-const listaTags = [
-    {id: 1, nombre: 'Futbol', tipo : 'HOBBIES'},
-    {id: 2, nombre: 'Cine', tipo : 'HOBBIES'},
-    {id: 3, nombre: 'Lectura', tipo : 'HOBBIES'},
-    {id: 4, nombre: 'Videojuegos', tipo : 'HOBBIES'},
-    {id: 5, nombre: 'Jardineria', tipo: 'HOBBIES'},
-    {id: 6, nombre: 'Cocinar', tipo: 'HOBBIES'},
-    {id: 11, nombre: 'Fumar', tipo : 'HABITOS'},
-    {id: 12, nombre: 'Beber Socialmente', tipo : 'HABITOS'},
-    {id: 13, nombre: 'Tomar café', tipo : 'HABITOS'},
-    {id: 21, nombre: 'Aries', tipo : 'SIGNOS'},
-    {id: 22, nombre: 'Sagitario', tipo : 'SIGNOS'},
-    {id: 31, nombre: 'Heterosexual', tipo : 'ORIENTACION'},
-    {id: 32, nombre: 'Homosexual', tipo : 'ORIENTACION'},
-    {id: 33, nombre: 'Bisexual', tipo : 'ORIENTACION'},
-]
+const listaTags = []
 
 function incializarTags() {
     const mapeoContenedores = {
