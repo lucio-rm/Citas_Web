@@ -1,6 +1,9 @@
 const MAXIMOS= {HOBBY:5, HABITOS:5, SIGNO:1, ORIENTACION:1}; //maximos seleccionables por categoria
 let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]}; //tags seleccionados por categoria
 
+//variable del formulario
+const formPerfil = document.querySelector('.editar-perfil-form');
+
 //variables de los inputs
 const inputNombre = document.getElementById('editar-nombre');
 const inputApellido = document.getElementById('editar-apellido');
@@ -292,6 +295,7 @@ const actualizarTagsUsuario = async (usuarioId) => {
 
 // actualiza los datos del usuario
 const guardarCambiosUsuario = async (e) => {
+
     e.preventDefault();
 
     const idUsuario = localStorage.getItem('idUsuario') || 1;
@@ -337,3 +341,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
 
     cargarDatosUsuario();
 });
+
+if (formPerfil) { 
+    formPerfil.addEventListener('submit', guardarCambiosUsuario);
+}
