@@ -27,7 +27,7 @@ const obtenerUsuarioPorId = async (req, res) => {
 };
 
 const crearUsuario = async (req, res) => {
-    try {
+    try {       
         const { nombre, apellido, fecha_nacimiento, mail, 
             contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion, 
             edad_preferida_min, edad_preferida_max} = req.body;
@@ -39,6 +39,7 @@ const crearUsuario = async (req, res) => {
         if (!mail.includes('@')) {
             return res.status(400).json({ error: 'Email inválido. Fijate bien.' });
         }
+        
 
         // si pasa las condiciones, ingresamos todo para crear el usuario.
         const result = await pool.query(
@@ -51,14 +52,23 @@ const crearUsuario = async (req, res) => {
         );
 
         res.status(201).json(result.rows[0]);
+    //} catch (err) {
+    //    console.error(err);
+    //    if (err.code === '23505') { // error 23505 que manda ps = usuario ya existe
+    //        return res.status(400).json({ error: 'El email ya está registrado' });
+    //    }
+    //    res.status(500).json({ error: 'Error al crear usuario' });
+    //}
+
     } catch (err) {
-        console.error(err);
-        if (err.code === '23505') { // error 23505 que manda ps = usuario ya existe
-            return res.status(400).json({ error: 'El email ya está registrado' });
-        }
-        res.status(500).json({ error: 'Error al crear usuario' });
-    }
-};
+    console.error("ERROR POSTGRES:", err);
+    res.status(500).json({ 
+        error: err.message,
+        code: err.code,
+        detail: err.detail
+    });
+}
+}
 
 const actualizarUsuario = async (req, res) => {
     try {
