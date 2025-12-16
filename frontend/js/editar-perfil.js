@@ -263,6 +263,7 @@ const cargarDatosUsuario = async () => {
     }
 }
 
+// actualiza los tags del usuario
 const actualizarTagsUsuario = async (usuarioId) => {
     const tagsAEnviar = [
         ...seleccionados.HOBBY,
@@ -287,6 +288,47 @@ const actualizarTagsUsuario = async (usuarioId) => {
     } catch (error) {
         console.error("Error al actualizar los tags del usuario: ", error);
     }
+}
+
+// actualiza los datos del usuario
+const guardarCambiosUsuario = async (e) => {
+    e.preventDefault();
+
+    const idUsuario = localStorage.getItem('idUsuario') || 1;
+
+    const datosAActualizar = {
+        nombre : inputNombre.value.trim(),
+        apellido : inputApellido.value.trim(),
+        foto_perfil : inputFotoPerfil.value.trim(),
+        descripcion_personal : inputBio.value.trim(),
+        sexo_genero : inputGenero.value,
+        ubicacion : inputUbicacion.value.trim(),
+        fecha_nacimiento : inputFechaNacimiento.value,
+        contrasenia : inputContrasenia.value
+    };
+
+    try {
+        const respuesta = await fetch(`http://localhost:3000/usuarios/${idUsuario}`, {
+            method : 'PUT',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify(datosAActualizar)
+        });
+
+        if (!respuesta.ok) {
+            throw new Error(`Fallo al actualizar los datos del usuario. Status: ${respuesta.status}`);
+        };
+        await actualizarTagsUsuario(usuarioId);
+
+        alert('Cambios guardados exitosamente.');
+
+
+    } catch (error) {
+        console.error("Error al guardar los cambios del usuario: ", error);
+        alert('Error al guardar los cambios. Por favor, intenta nuevamente.');
+    }
+
 }
 
 
