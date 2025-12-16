@@ -149,6 +149,7 @@ function mostrarVistaPreviaTags(){
 
 }
 
+//listo
 const cargarDatosUsuario = async () => {
     try {
 
@@ -195,5 +196,7 @@ const cargarDatosUsuario = async () => {
         console.error("Error al cargar datos del usuario: ", error);
     }
 }
+
+
 
 document.addEventListener('DOMContentLoaded', cargarDatosUsuario);
