@@ -263,6 +263,31 @@ const cargarDatosUsuario = async () => {
     }
 }
 
+const actualizarTagsUsuario = async (usuarioId) => {
+    const tagsAEnviar = [
+        ...seleccionados.HOBBY,
+        ...seleccionados.HABITOS,
+        ...seleccionados.SIGNO,
+        ...seleccionados.ORIENTACION
+    ]
+
+    try {
+        const respuesta = await fetch(`http://localhost:3000/tags/usuario/${usuarioId}`, {
+            method : 'PUT',
+            headers : {
+                'Content-Type' : 'application/json'
+            },
+            body : JSON.stringify({ tags : tagsAEnviar })
+        });
+
+        if (!respuesta.ok) {
+            throw new Error(`Fallo al actualizar tags. Status: ${respuesta.status}`);
+        }
+
+    } catch (error) {
+        console.error("Error al actualizar los tags del usuario: ", error);
+    }
+}
 
 
 document.addEventListener('DOMContentLoaded', async () =>{
