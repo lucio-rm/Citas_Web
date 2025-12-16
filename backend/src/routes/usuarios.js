@@ -17,9 +17,6 @@ router.put('/:id', controladores.actualizarUsuario);
 // eliminar un usuario
 router.delete('/:id', controladores.eliminarUsuario);
 
-// obtener tags de un usuario por su id
-router.get('/tags/:id', controladores.obtenerTagsPorUsuarioId);
-
 // login
 router.post('/login', controladores.loginUsuario);
 
