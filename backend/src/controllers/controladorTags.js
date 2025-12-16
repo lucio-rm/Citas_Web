@@ -1,5 +1,51 @@
 import { pool } from '../db.js';
 
+export const obtenerTags = async (req, res) => {
+    
+    try {
+
+        const resul = await pool.query(
+            `SELECT id, nombre, categoria
+            FROM tags
+            ORDER BY categoria, nombre`
+        )
+        res.json(resul.rows);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error : "Error al obtener los tags"
+        })
+    }
+}
+
+export const obtenerTagPorId = async (req, res) => {
+    
+    try{
+
+        const { id } = req.params;
+
+        const resul = await pool.query(
+            `SELECT id, nombre, categoria
+            FROM tags
+            WHERE id = $1`,
+            [id]
+        );
+        if (resul.rows.length === 0) {
+            return res.status(404).json({
+                error : "Tag no encontrado"
+            })
+        }
+        res.json(resul.rows[0])
+
+    }catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error : "Error al obtener el tag por id"
+        });
+    }
+}
+
 export const obtenerTagsPorUsuarioId = async (req, res) => {
     try {
         const { id } = req.params;
