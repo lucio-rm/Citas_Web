@@ -1,5 +1,5 @@
-const MAXIMOS= {HOBBIES:5, HABITOS:5, SIGNOS:1, ORIENTACION:1};
-let seleccionados = {HOBBIES:[], HABITOS:[], SIGNOS:[], ORIENTACION:[]};
+const MAXIMOS= {HOBBY:5, HABITOS:5, SIGNO:1, ORIENTACION:1};
+let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]};
 
 const inputNombre = document.getElementById('editar-nombre');
 const inputBio = document.getElementById('editar-bio');
@@ -56,20 +56,44 @@ function mostrarVistaPreviaImagen(editarElemento, vistaPreviaElemento, urlDefaul
     editarElemento.addEventListener('input', actualizarVistaPreviaImagen);
 }
 //temporal
-const listaTags = []
+let listaTags = []
+
+const inicializarListaTags = async () => {
+
+    try {
+        const respuesta = await fetch('http://localhost:3000/tags', {
+            method : 'GET'
+        });
+        if (!respuesta.ok) {
+            throw new Error("Error al obtener los tags");
+        };
+
+        const tags = await respuesta.json();
+
+        listaTags = tags.map(tag => ({ //convertimos 
+            id : tag.id,
+            nombre : tag.nombre,
+            categoria : tag.categoria
+        }));
+
+    } catch (error) {
+        console.error("Error al cargar los tags: ", error);
+    };
+
+}
 
 function incializarTags() {
     const mapeoContenedores = {
-        'HOBBIES' : document.querySelector('.editor-hobbies'),
+        'HOBBY' : document.querySelector('.editor-hobbies'),
         'HABITOS' : document.querySelector('.editor-habitos'),
-        'SIGNOS' : document.querySelector('.editor-signos'),
+        'SIGNO' : document.querySelector('.editor-signos'),
         'ORIENTACION' : document.querySelector('.editor-orientacion'),
     };
 
     listaTags.forEach(tag => {
-        const contenedor = mapeoContenedores[tag.tipo];
+        const contenedor = mapeoContenedores[tag.categoria];
         if (!contenedor){
-            console.error('ERROR: Tag no encontrado')
+            console.error('ERROR: No se encontró el contenedor para la categoría:', tag.categoria, '. Revise el HTML/CSS.');
             return;
         }
 
@@ -85,7 +109,7 @@ function incializarTags() {
 }
 
 function manejarClickTag(tag, btn){
-    const cat = tag.tipo;
+    const cat = tag.categoria;
     const listaActual = seleccionados[cat];
     const indice = listaActual.indexOf(tag.nombre);
 
@@ -127,9 +151,9 @@ function mostrarVistaPreviaTags(){
         });
     }
 
-    renderizarTags('.vista-previa-hobbies', seleccionados['HOBBIES'])
+    renderizarTags('.vista-previa-hobbies', seleccionados['HOBBY'])
     renderizarTags('.vista-previa-habitos', seleccionados['HABITOS'])
-    const extras = seleccionados['SIGNOS'].concat(seleccionados['ORIENTACION'])
+    const extras = seleccionados['SIGNO'].concat(seleccionados['ORIENTACION'])
     renderizarTags('.vista-previa-extras', extras)
 
 }
@@ -184,4 +208,8 @@ const cargarDatosUsuario = async () => {
 
 
 
-document.addEventListener('DOMContentLoaded', cargarDatosUsuario);
+document.addEventListener('DOMContentLoaded', async () =>{
+    await inicializarListaTags();
+
+    cargarDatosUsuario();
+});
