@@ -27,14 +27,17 @@ const obtenerUsuarioPorId = async (req, res) => {
 };
 
 const crearUsuario = async (req, res) => {
-    try {       
-        const { nombre, apellido, fecha_nacimiento, mail, 
-            contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion, 
-            edad_preferida_min, edad_preferida_max} = req.body;
-        
-        if (!nombre || !apellido || !mail || !contrasenia) {
-            return res.status(400).json({ error: 'Faltan campos obligatorios.' });
-        }
+    try {
+        const { nombre, apellido, fecha_nacimiento, mail,
+            contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion,
+            edad_preferida_min, edad_preferida_max } = req.body;
+
+        if ( !nombre || !apellido || !mail || !contrasenia || !fecha_nacimiento || !sexo_genero) {
+            return res.status(400).json({
+            error: "Faltan campos obligatorios: nombre, apellido, mail, contrasenia, fecha_nacimiento, sexo_genero"
+        });
+}
+
 
         if (!mail.includes('@')) {
             return res.status(400).json({ error: 'Email inválido. Fijate bien.' });
