@@ -149,6 +149,7 @@ nav{
     font-weight: 700;
     margin-bottom: 5px;
     margin-top: 10px;
+    display: inline-block;
 }
 .carta-perfil p{
     font-size: 20px;

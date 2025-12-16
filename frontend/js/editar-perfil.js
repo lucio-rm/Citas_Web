@@ -3,6 +3,7 @@ let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]}; //tags sel
 
 //variables de los inputs
 const inputNombre = document.getElementById('editar-nombre');
+const inputApellido = document.getElementById('editar-apellido');
 const inputBio = document.getElementById('editar-bio');
 const inputGenero = document.getElementById('editar-genero');
 const inputUbicacion = document.getElementById('editar-ubicacion');
@@ -12,6 +13,7 @@ const inputContrasenia = document.getElementById('editar-contraseña');
 
 //variables de la vista previa
 const vistaPreviaNombre = document.getElementById('vista-previa-nombre');
+const vistaPreviaApellido = document.getElementById('vista-previa-apellido');
 const vistaPreviaBio = document.getElementById('vista-previa-bio');
 const vistaPreviaGenero = document.getElementById('vista-previa-genero');
 const vistaPreviaUbicacion = document.getElementById('vista-previa-ciudad');
@@ -228,6 +230,7 @@ const cargarDatosUsuario = async () => {
 
         // asigna los datos del usuario que recibimos del backend o un valor por defecto si no existe para evitar errores
         inputNombre.value = usuario.nombre || '';
+        inputApellido.value = usuario.apellido || '';
         inputFotoPerfil.value = usuario.foto_perfil || '';
         inputBio.value = usuario.descripcion_personal || '';
         inputGenero.value = usuario.sexo_genero || '';
@@ -237,7 +240,8 @@ const cargarDatosUsuario = async () => {
             inputFechaNacimiento.value = usuario.fecha_nacimiento.substring(0, 10); // asigna la fecha recortada a YYYY-MM-DD
         }
 
-        mostrarVistaPrevia(inputNombre, vistaPreviaNombre, 'Nombre Apellido');
+        mostrarVistaPrevia(inputNombre, vistaPreviaNombre, 'Nombre ');
+        mostrarVistaPrevia(inputApellido, vistaPreviaApellido, 'Apellido');
         mostrarVistaPrevia(inputBio, vistaPreviaBio, 'Sin biografía');
         mostrarVistaPreviaImagen(inputFotoPerfil, vistaPreviaFotoPerfil, 'https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?b=1&s=612x612&w=0&k=20&c=xGKz23oV80Alrtdt1xj_jr_MBSiJ9gnlOYtQv14ISwY=');
         mostrarVistaPrevia(inputUbicacion, vistaPreviaUbicacion, '-', 'Ciudad: ');
