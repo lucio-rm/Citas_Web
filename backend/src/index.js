@@ -1,6 +1,10 @@
 import express from 'express';
 import cors from 'cors';
 
+const app = express();
+app.use(express.json());
+app.use(cors());
+
 import usuariosRouter from './routes/usuarios.js';
 import citasRouter from './routes/citas.js';
 import matchesRouter from './routes/matches.js';
@@ -8,9 +12,7 @@ import feedbackRouter from './routes/feedback.js';
 
 
 
-const app = express();
-app.use(express.json());
-app.use(cors());
+
 
 app.use('/usuarios', usuariosRouter);
 app.use('/citas', citasRouter);
