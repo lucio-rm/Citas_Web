@@ -5,8 +5,12 @@ const inputNombre = document.getElementById('editar-nombre');
 const inputBio = document.getElementById('editar-bio');
 const inputGenero = document.getElementById('editar-genero');
 const inputUbicacion = document.getElementById('editar-ubicacion');
-const inputEdad = document.getElementById('editar-edad');
+const inputFechaNacimiento = document.getElementById('editar-fecha-nacimiento');
 const inputFotoPerfil = document.getElementById('editar-foto-perfil')
+const inputEmail = document.getElementById('editar-email');
+const inputContrasenia = document.getElementById('editar-contraseña');
+const inputEdadPrefMin = document.getElementById('editar-edad-pref-min');
+const inputEdadPrefMax = document.getElementById('editar-edad-pref-max');
 
 const vistaPreviaNombre = document.getElementById('vista-previa-nombre');
 const vistaPreviaBio = document.getElementById('vista-previa-bio');
@@ -15,6 +19,18 @@ const vistaPreviaUbicacion = document.getElementById('vista-previa-ciudad');
 const vistaPreviaEdad = document.getElementById('vista-previa-edad');
 const vistaPreviaOrientacion = document.getElementById('vista-previa-orientacion');
 const vistaPreviaFotoPerfil = document.getElementById('vista-previa-img');
+
+const calcularEdad = (fechaNacimiento) => {
+    if (!fechaNacimiento) return 0;
+    const hoy = new Date();
+    const nacimiento = new Date(fechaNacimiento);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const mes = hoy.getMonth() - nacimiento.getMonth();
+    if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+        edad--;
+    }
+    return edad;
+}
 
 function mostrarVistaPrevia(editarElemento, vistaPreviaElemento, textoDefault, prefijo = '') {
 
@@ -136,14 +152,52 @@ function mostrarVistaPreviaTags(){
 
 }
 
-incializarTags();
+const cargarDatosUsuario = async () => {
+    try {
 
+        const usuarioId = localStorage.getItem('idUsuario') || 1;
 
+        const respuesta = await fetch(`http://localhost:3000/usuarios/${usuarioId}`)
 
-mostrarVistaPrevia(inputNombre, vistaPreviaNombre, 'Nombre Apellido');
-mostrarVistaPrevia(inputBio, vistaPreviaBio, 'Sin biografía');
-//mostrarVistaPrevia(inputGenero, vistaPreviaGenero, '-', 'Género: ');
-mostrarVistaPrevia(inputUbicacion, vistaPreviaUbicacion, '-', 'Ciudad: ');
-mostrarVistaPrevia(inputEdad, vistaPreviaEdad, '-', 'Edad: ');
-mostrarVistaPreviaImagen(inputFotoPerfil, vistaPreviaFotoPerfil, 'https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?b=1&s=612x612&w=0&k=20&c=xGKz23oV80Alrtdt1xj_jr_MBSiJ9gnlOYtQv14ISwY=');
-mostrarVistaPreviaTags();
+        if (!respuesta.ok) {
+            throw new Error("Error al obtener datos del usuario");
+        }
+
+        const usuario = await respuesta.json();
+
+        // asigna los datos del usuario que recibimos del backend o un valor por defecto si no existe para evitar errores
+        inputNombre.value = usuario.nombre || '';
+        inputEmail.value = usuario.email || '';
+        inputFotoPerfil.value = usuario.foto_perfil || '';
+        inputBio.value = usuario.descripcion_personal || '';
+        inputGenero.value = usuario.sexo_genero || '';
+        inputUbicacion.value = usuario.ubicacion || '';
+        inputEdadPrefMin.value = usuario.edad_preferencia_min || '18';
+        inputEdadPrefMax.value = usuario.edad_preferencia_max || '99';
+
+        if (usuario.fecha_nacimiento) {
+            inputFechaNacimiento.value = usuario.fecha_nacimiento.substring(0, 10); // asigna la fecha recortada a YYYY-MM-DD
+        }
+
+        mostrarVistaPrevia(inputNombre, vistaPreviaNombre, 'Nombre Apellido');
+        mostrarVistaPrevia(inputBio, vistaPreviaBio, 'Sin biografía');
+        mostrarVistaPreviaImagen(inputFotoPerfil, vistaPreviaFotoPerfil, 'https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?b=1&s=612x612&w=0&k=20&c=xGKz23oV80Alrtdt1xj_jr_MBSiJ9gnlOYtQv14ISwY=');
+        mostrarVistaPrevia(inputUbicacion, vistaPreviaUbicacion, '-', 'Ciudad: ');
+        
+        const mostrarEdad = () => {
+            const fecha = inputFechaNacimiento.value;
+            const edad = calcularEdad(fecha);
+            vistaPreviaEdad.textContent = edad > 0 ? `Edad: ${edad}` : 'Edad: -';
+        }
+
+        inputFechaNacimiento.addEventListener('change', mostrarEdad); 
+        mostrarEdad();
+        incializarTags();
+        mostrarVistaPreviaTags();
+
+    } catch (error) {
+        console.error("Error al cargar datos del usuario: ", error);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', cargarDatosUsuario);
