@@ -1,5 +1,19 @@
 import express from 'express';
 import cors from 'cors';
+import { pool } from './db.js';
+import fs from 'fs'
+import path from 'path';
+
+const initDB = async() => {
+      try {
+    const sqlPath = path.join(process.cwd(), 'sql', 'main.sql');
+    const sql = fs.readFileSync(sqlPath, 'utf-8'); // lee el archivo .sql
+    await pool.query(sql); // ejecuta todo el script
+    console.log('Base de datos inicializada con éxito');
+  } catch (err) {
+    console.error('Error inicializando la base de datos:', err);
+  }
+};
 
 const app = express();
 app.use(express.json());
@@ -13,6 +27,8 @@ import feedbackRouter from './routes/feedback.js';
 
 
 
+
+initDB();
 
 app.use('/usuarios', usuariosRouter);
 app.use('/citas', citasRouter);
