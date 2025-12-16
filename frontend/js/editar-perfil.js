@@ -7,10 +7,7 @@ const inputGenero = document.getElementById('editar-genero');
 const inputUbicacion = document.getElementById('editar-ubicacion');
 const inputFechaNacimiento = document.getElementById('editar-fecha-nacimiento');
 const inputFotoPerfil = document.getElementById('editar-foto-perfil')
-const inputEmail = document.getElementById('editar-email');
 const inputContrasenia = document.getElementById('editar-contraseña');
-const inputEdadPrefMin = document.getElementById('editar-edad-pref-min');
-const inputEdadPrefMax = document.getElementById('editar-edad-pref-max');
 
 const vistaPreviaNombre = document.getElementById('vista-previa-nombre');
 const vistaPreviaBio = document.getElementById('vista-previa-bio');
@@ -157,7 +154,9 @@ const cargarDatosUsuario = async () => {
 
         const usuarioId = localStorage.getItem('idUsuario') || 1;
 
-        const respuesta = await fetch(`http://localhost:3000/usuarios/${usuarioId}`)
+        const respuesta = await fetch(`http://localhost:3000/usuarios/${usuarioId}`, {
+            method : 'GET'
+        })
 
         if (!respuesta.ok) {
             throw new Error("Error al obtener datos del usuario");
@@ -167,13 +166,10 @@ const cargarDatosUsuario = async () => {
 
         // asigna los datos del usuario que recibimos del backend o un valor por defecto si no existe para evitar errores
         inputNombre.value = usuario.nombre || '';
-        inputEmail.value = usuario.email || '';
         inputFotoPerfil.value = usuario.foto_perfil || '';
         inputBio.value = usuario.descripcion_personal || '';
         inputGenero.value = usuario.sexo_genero || '';
         inputUbicacion.value = usuario.ubicacion || '';
-        inputEdadPrefMin.value = usuario.edad_preferencia_min || '18';
-        inputEdadPrefMax.value = usuario.edad_preferencia_max || '99';
 
         if (usuario.fecha_nacimiento) {
             inputFechaNacimiento.value = usuario.fecha_nacimiento.substring(0, 10); // asigna la fecha recortada a YYYY-MM-DD
