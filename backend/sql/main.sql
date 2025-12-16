@@ -1,12 +1,13 @@
 -- CREATE DATABASE hilo_rojo;
 -- tengo entendido que la creamos automáticamente desde la configuración del archivo docker-compose.yml.
 
-DROP TABLE IF EXISTS feedback;
-DROP TABLE IF EXISTS citas;
-DROP TABLE IF EXISTS matches;
-DROP TABLE IF EXISTS usuarios_tags;
-DROP TABLE IF EXISTS tags;
-DROP TABLE IF EXISTS usuarios;
+DROP TABLE IF EXISTS feedback CASCADE;
+DROP TABLE IF EXISTS citas CASCADE;
+DROP TABLE IF EXISTS likes CASCADE;
+DROP TABLE IF EXISTS matches CASCADE;
+DROP TABLE IF EXISTS usuarios_tags CASCADE;
+DROP TABLE IF EXISTS tags CASCADE;
+DROP TABLE IF EXISTS usuarios CASCADE;
 
 
 
