@@ -136,7 +136,7 @@ const cargarTagsUsuario = async (usuarioId) => {
             tagsPorCategoria.forEach ( tagNombre => {
 
                 if (seleccionados[categoria]) {
-                    seleccionados[categoria].push(tagNombre.nombre); //lo agrega a la variables seleccionados
+                    seleccionados[categoria].push(tagNombre); //lo agrega a la variables seleccionados
                 };
         
                 const contenedor = document.querySelector(`.editor-${categoria.toLowerCase()}`);
