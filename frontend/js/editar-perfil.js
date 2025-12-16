@@ -1,6 +1,7 @@
-const MAXIMOS= {HOBBY:5, HABITOS:5, SIGNO:1, ORIENTACION:1};
-let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]};
+const MAXIMOS= {HOBBY:5, HABITOS:5, SIGNO:1, ORIENTACION:1}; //maximos seleccionables por categoria
+let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]}; //tags seleccionados por categoria
 
+//variables de los inputs
 const inputNombre = document.getElementById('editar-nombre');
 const inputBio = document.getElementById('editar-bio');
 const inputGenero = document.getElementById('editar-genero');
@@ -9,6 +10,7 @@ const inputFechaNacimiento = document.getElementById('editar-fecha-nacimiento');
 const inputFotoPerfil = document.getElementById('editar-foto-perfil')
 const inputContrasenia = document.getElementById('editar-contraseña');
 
+//variables de la vista previa
 const vistaPreviaNombre = document.getElementById('vista-previa-nombre');
 const vistaPreviaBio = document.getElementById('vista-previa-bio');
 const vistaPreviaGenero = document.getElementById('vista-previa-genero');
@@ -17,6 +19,7 @@ const vistaPreviaEdad = document.getElementById('vista-previa-edad');
 const vistaPreviaOrientacion = document.getElementById('vista-previa-orientacion');
 const vistaPreviaFotoPerfil = document.getElementById('vista-previa-img');
 
+// calcula la edad a partir de la fecha de nacimiento
 const calcularEdad = (fechaNacimiento) => {
     if (!fechaNacimiento) return 0;
     const hoy = new Date();
@@ -29,6 +32,7 @@ const calcularEdad = (fechaNacimiento) => {
     return edad;
 }
 
+// muestra los datos en la vista previa a medida que se escriben
 function mostrarVistaPrevia(editarElemento, vistaPreviaElemento, textoDefault, prefijo = '') {
 
     const actualizarVistaPrevia = () => {
@@ -45,6 +49,8 @@ function mostrarVistaPrevia(editarElemento, vistaPreviaElemento, textoDefault, p
     editarElemento.addEventListener('input', actualizarVistaPrevia);
 
 }
+
+// muestra la imagen de vista previa a medida que se escribe la url
 function mostrarVistaPreviaImagen(editarElemento, vistaPreviaElemento, urlDefault) {
     const actualizarVistaPreviaImagen = () => {
         const url = editarElemento.value.trim();
@@ -55,9 +61,10 @@ function mostrarVistaPreviaImagen(editarElemento, vistaPreviaElemento, urlDefaul
 
     editarElemento.addEventListener('input', actualizarVistaPreviaImagen);
 }
-//temporal
+
 let listaTags = []
 
+// carga los tags desde el backend a la variable listaTags
 const inicializarListaTags = async () => {
 
     try {
@@ -82,18 +89,19 @@ const inicializarListaTags = async () => {
 
 }
 
+// muestra los tags de listaTags en los contenedores correspondientes
 function incializarTags() {
     const mapeoContenedores = {
-        'HOBBY' : document.querySelector('.editor-hobbies'),
+        'HOBBY' : document.querySelector('.editor-hobby'),
         'HABITOS' : document.querySelector('.editor-habitos'),
-        'SIGNO' : document.querySelector('.editor-signos'),
+        'SIGNO' : document.querySelector('.editor-signo'),
         'ORIENTACION' : document.querySelector('.editor-orientacion'),
     };
 
     listaTags.forEach(tag => {
         const contenedor = mapeoContenedores[tag.categoria];
         if (!contenedor){
-            console.error('ERROR: No se encontró el contenedor para la categoría:', tag.categoria, '. Revise el HTML/CSS.');
+            console.error('No se encontró el contenedor');
             return;
         }
 
@@ -108,6 +116,49 @@ function incializarTags() {
     })
 }
 
+// carga los tags del usuario
+const cargarTagsUsuario = async (usuarioId) => {
+
+    try {
+        const respuesta = await fetch(`http://localhost:3000/tags/usuario/${usuarioId}`, {
+            method : 'GET'
+        });
+
+        if (!respuesta.ok) { //si hubo un error
+            throw new Error("Error al obtener los tags del usuario");
+        }
+
+        const tagsAgrupados = await respuesta.json();
+
+        Object.keys(tagsAgrupados).forEach( categoria => {
+            const tagsPorCategoria = tagsAgrupados[categoria];
+        
+            tagsPorCategoria.forEach ( tagNombre => {
+
+                if (seleccionados[categoria]) {
+                    seleccionados[categoria].push(tagNombre.nombre); //lo agrega a la variables seleccionados
+                };
+        
+                const contenedor = document.querySelector(`.editor-${categoria.toLowerCase()}`);
+        
+                if (contenedor) {
+                    const botonesTags = contenedor.querySelectorAll('.tag-btn');
+        
+                    botonesTags.forEach( btn => {
+                        if (btn.textContent === tagNombre) {
+                            btn.classList.add('seleccionado'); //le pone la clase seleccionado
+                        }
+                    });
+                }
+            })
+        });
+    } catch (error) {
+        console.error("Error al cargar los tags del usuario: ", error);
+    };
+};
+
+
+// maneja la seleccion y deseleccion de los tags
 function manejarClickTag(tag, btn){
     const cat = tag.categoria;
     const listaActual = seleccionados[cat];
@@ -137,6 +188,7 @@ function manejarClickTag(tag, btn){
     mostrarVistaPreviaTags();
 }
 
+// muestra los tags en la vista previa a medida que se seleccionan
 function mostrarVistaPreviaTags(){
 
     const renderizarTags = (contenedor, listaTags) => {
@@ -158,7 +210,7 @@ function mostrarVistaPreviaTags(){
 
 }
 
-//listo
+// carga los datos del usuario desde el backend y llama a las funciones de vista previa
 const cargarDatosUsuario = async () => {
     try {
 
@@ -199,6 +251,7 @@ const cargarDatosUsuario = async () => {
         inputFechaNacimiento.addEventListener('change', mostrarEdad); 
         mostrarEdad();
         incializarTags();
+        await cargarTagsUsuario(usuarioId);
         mostrarVistaPreviaTags();
 
     } catch (error) {
