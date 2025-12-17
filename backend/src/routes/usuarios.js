@@ -1,6 +1,7 @@
 import express from 'express';
 import * as controladores from '../controllers/controladorUsuario.js';
-//import { guardarPreferencias } from "../controllers/controladorPreferencias.js";
+
+import { guardarPreferencias } from "../controllers/controladorPreferencias.js";
 const router = express.Router();
 
 // obtener usuarios disponibles
@@ -27,8 +28,7 @@ router.post('/login', controladores.loginUsuario);
 // acá creamos un nuevo usuario:
 router.post('/', controladores.crearUsuario);
 
-//router.put("/:id/preferencias", controladores.actualizarPreferencias);
-// 👇 otras rutas que ya tengas
-//router.post("/preferencias", guardarPreferencias);
+
+router.post("/preferencias", guardarPreferencias);
 
 export default router;
