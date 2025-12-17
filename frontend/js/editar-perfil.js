@@ -323,7 +323,7 @@ const guardarCambiosUsuario = async (e) => {
         if (!respuesta.ok) {
             throw new Error(`Fallo al actualizar los datos del usuario. Status: ${respuesta.status}`);
         };
-        await actualizarTagsUsuario(usuarioId);
+        await actualizarTagsUsuario(idUsuario);
 
         alert('Cambios guardados exitosamente.');
 
