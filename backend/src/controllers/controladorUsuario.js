@@ -26,25 +26,56 @@ const obtenerUsuarioPorId = async (req, res) => {
     }
 };
 
-const crearUsuario = async (req, res) => {
+import { pool } from "../db.js";
+
+export const crearUsuario = async (req, res) => {
     try {
         const { nombre, apellido, fecha_nacimiento, mail,
             contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion,
             edad_preferida_min, edad_preferida_max } = req.body;
 
-        if ( !nombre || !apellido || !mail || !contrasenia || !fecha_nacimiento || !sexo_genero) {
+        // valido los campos obligatorios
+        if (!nombre || !apellido || !mail || !contrasenia || !fecha_nacimiento || !sexo_genero) {
             return res.status(400).json({
-            error: "Faltan campos obligatorios: nombre, apellido, mail, contrasenia, fecha_nacimiento, sexo_genero"
-        });
-}
+                error: "Faltan campos obligatorios."
+            });
+        }
 
+        // que ni el nombre ni el apelido tengan números
+        if (nombre.match(/[0-9]/) || apellido.match(/[0-9]/)) {
+            return res.status(400).json({ error: 'El nombre y apellido no pueden tener números.' });
+        }
 
-        if (!mail.includes('@')) {
-            return res.status(400).json({ error: 'Email inválido. Fijate bien.' });
+        // que no tenga un arroba ni al comienzo ni al final + un 'dominio' cualquiera
+        const regexMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!mail.match(regexMail)) {
+            return res.status(400).json({ error: 'El formato del email no es válido.' });
+        }
+
+        // al menos 10 caracteres
+        if (contrasenia.length < 10) {
+            return res.status(400).json({ error: 'La contraseña debe tener al menos 10 caracteres.' });
         }
         
+        // al menos una Mayus
+        if (!contrasenia.match(/[A-Z]/)) {
+            return res.status(400).json({ error: 'La contraseña debe tener al menos una mayúscula.' });
+        }
 
-        // si pasa las condiciones, ingresamos todo para crear el usuario.
+
+        // nos devuelve la lista ["2000", "05", "20"] para elegir el año (pos 0)
+        const partes = fecha_nacimiento.split("-"); 
+        const anioNacimiento = parseInt(partes[0]); 
+
+        const anioActual = 2025;
+        const edad = anioActual - anioNacimiento;
+        // valido la edad
+        if (edad < 18 || edad > 100) {
+            return res.status(400).json({ error: 'Edad inválida (tenes que ser mayor de edad (>18) y menor a 100 años).' });
+        }
+
+        // metemos todo a la base de datos
         const result = await pool.query(
             `INSERT INTO usuarios (nombre, apellido, fecha_nacimiento, mail, contrasenia, sexo_genero,
             descripcion_personal, foto_perfil, ubicacion, edad_preferida_min, edad_preferida_max)
@@ -55,23 +86,16 @@ const crearUsuario = async (req, res) => {
         );
 
         res.status(201).json(result.rows[0]);
-    //} catch (err) {
-    //    console.error(err);
-    //    if (err.code === '23505') { // error 23505 que manda ps = usuario ya existe
-    //        return res.status(400).json({ error: 'El email ya está registrado' });
-    //    }
-    //    res.status(500).json({ error: 'Error al crear usuario' });
-    //}
 
     } catch (err) {
-    console.error("ERROR POSTGRES:", err);
-    res.status(500).json({ 
-        error: err.message,
-        code: err.code,
-        detail: err.detail
-    });
-}
-}
+        console.error("ERROR POSTGRES:", err);
+        res.status(500).json({ 
+            error: err.message,
+            code: err.code,
+            detail: err.detail
+        });
+    }      
+};
 
 const actualizarUsuario = async (req, res) => {
     try {
@@ -129,7 +153,7 @@ const loginUsuario = async (req, res) => {
         const { mail, contrasenia } = req.body;
         
         if (!mail || !contrasenia) {
-            return res.status(400).json({ error: 'El email y la contraseña son requeridos.' });
+            return res.status(400).json({ error: 'El email y la contraseña son necesarios.' });
         }
         
         const result = await pool.query(

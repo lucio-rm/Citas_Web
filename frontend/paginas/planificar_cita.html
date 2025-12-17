@@ -1,14 +1,16 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Styles/styles.css">
     <title>Planificar Cita - Red Thread</title>
+    
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <link rel="stylesheet" href="../Styles/planificar_cita.css">
 </head>
 <body>
-    <nav>
+    <nav class="navbar-planificar">
         <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
         <ul class="nav-links">
             <li><a href="/paginas/explorar.html">Explorar</a></li>
@@ -17,34 +19,49 @@
         </ul>
     </nav>
     
-    <main>
-        <h1>Planificar Cita</h1>
+    <section class="planificar-container">
+        <h1 class="titulo-planificar">Planificar Cita</h1>
+        
         <form id="form-planificar-cita">
-            <label>Lugar</label>
-            <input type="text" id="lugar" required>
             
-            <label>Fecha y Hora</label>
-            <input type="datetime-local" id="fecha_hora" required>
+            <div class="form-group">
+                <label for="lugar">Lugar</label>
+                <input type="text" id="lugar" required placeholder="Ej: Café Martínez, Parque...">
+            </div>
             
-            <label>Tipo de Encuentro</label>
-            <input type="text" id="tipo_encuentro">
+            <div class="form-group">
+                <label for="fecha_hora">Fecha y Hora</label>
+                <input type="datetime-local" id="fecha_hora" required>
+            </div>
             
-            <label>Duración (minutos)</label>
-            <input type="number" id="duracion" min="1" required>
+            <div class="form-group">
+                <label for="tipo_encuentro">Tipo de Encuentro</label>
+                <input type="text" id="tipo_encuentro" placeholder="Ej: Cena, Caminata, Cine...">
+            </div>
             
-            <button type="submit" class="boton">Crear Cita</button>
+            <div class="form-group">
+                <label for="duracion">Duración estimada (minutos)</label>
+                <input type="number" id="duracion" min="1" required placeholder="Ej: 60">
+            </div>
+            
+            <button type="submit" class="boton-crear-cita">Confirmar Cita</button>
         </form>
-    </main>
+    </section>
     
     <script>
         const urlParams = new URLSearchParams(window.location.search);
         const matchId = urlParams.get('matchId');
         
+        // validacion simple para que no se rompa si entran sin matchId
+        if (!matchId) {
+            console.warn("No hay matchId en la URL. Esto es solo prueba visual.");
+        }
+
         document.getElementById('form-planificar-cita').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const cita = {
-                id_match: parseInt(matchId),
+                id_match: matchId ? parseInt(matchId) : 1, // el fallback pasa a 1 para pruebas si no hay ID
                 lugar: document.getElementById('lugar').value,
                 fecha_hora: document.getElementById('fecha_hora').value,
                 tipo_encuentro: document.getElementById('tipo_encuentro').value,
@@ -59,17 +76,17 @@
                 });
                 
                 if (response.ok) {
-                    alert('Cita creada exitosamente');
+                    alert('¡Cita creada exitosamente!');
                     window.location.href = '/paginas/citas.html';
                 } else {
-                    alert('Error al crear la cita');
+                    const data = await response.json();
+                    alert('Error al crear la cita: ' + (data.error || 'Desconocido'));
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error al crear la cita');
+                alert('Error de conexión con el servidor');
             }
         });
     </script>
 </body>
 </html>
-
