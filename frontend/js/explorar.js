@@ -23,6 +23,13 @@ function calcularEdad(fecha) {
     return edad;
 }
 
+function texto(texto){
+    return texto
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+}
+
 async function cargarTags(id_pareja) {
     const response = await fetch(`http://localhost:3000/usuarios/tags?id=${id_pareja}`);
     const tags = await response.json();
@@ -200,12 +207,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const filtros = {
             edad_min: parseInt(document.getElementById("filtro-edad-min").value) || undefined,
             edad_max: parseInt(document.getElementById("filtro-edad-max").value) || undefined,
-            ciudad: document.getElementById("filtro-ciudad").value || undefined,
-            genero: document.getElementById("filtro-genero").value || undefined,
-            orientacion: document.getElementById("filtro-orientacion").value || undefined,
+            ciudad: texto(document.getElementById("filtro-ciudad").value) || undefined,
+            genero: texto(document.getElementById("filtro-genero").value) || undefined,
+            orientacion: texto(document.getElementById("filtro-orientacion").value) || undefined,
             signo: document.getElementById("filtro-signo").value || undefined,
-            hobbies: document.getElementById("filtro-hobby").value || undefined,
-            habitos: document.getElementById("filtro-habito").value || undefined
+            hobbies: texto(document.getElementById("filtro-hobby").value) || undefined,
+            habitos: texto(document.getElementById("filtro-habito").value) || undefined
 
         }
         overlay.style.display = "none";
