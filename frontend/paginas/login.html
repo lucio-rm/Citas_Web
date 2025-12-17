@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Iniciar sesión · Red Thread</title>
+
+    <!-- Bulma -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+
+    <!-- Estilos del proyecto -->
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <link rel="stylesheet" href="../Styles/login.css">
+</head>
+
+<body>
+
+    <nav class="navbar-login">
+        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+
+        <ul class="nav-links">
+            <li><a href="explorar.html">Explorar</a></li>
+            <li><a href="matches.html">Mis matches</a></li>
+        </ul>
+
+        <div class="nav-botones">
+            <a href="register.html">Registrarse</a>
+        </div>
+    </nav>
+
+    <section class="login-container">
+        <h1 class="login-titulo">Iniciar sesión</h1>
+
+        <form id="login-form" class="login-form">
+            <label>Email</label>
+            <input type="email" id="email" required>
+
+            <label>Contraseña</label>
+            <input type="password" id="password" required>
+
+            <button type="submit" class="login-boton">
+                Entrar
+            </button>
+        </form>
+
+        <p class="login-extra">
+            ¿No tenés cuenta?
+            <a href="register.html">Crear una</a>
+        </p>
+    </section>
+
+    <script src="../js/login.js"></script>
+</body>
+</html>

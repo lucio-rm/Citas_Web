@@ -37,6 +37,7 @@
 
 //const id_logueado = usuario.id; // Mas adelante se importa usuario desde el login
 let usuarioActual = null;
+const personaas = fetch('http://localhost:3000/:id');
 const img = document.getElementById("match-img");
 const nombre = document.getElementById("match-nombre");
 const descripcion = document.getElementById("match-desc");

@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <title>Planificar Cita - Red Thread</title>
+</head>
+<body>
+    <nav>
+        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class="nav-links">
+            <li><a href="/paginas/explorar.html">Explorar</a></li>
+            <li><a href="/paginas/matches.html">Mis matches</a></li>
+            <li><a href="/paginas/citas.html">Mis citas</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <h1>Planificar Cita</h1>
+        <form id="form-planificar-cita">
+            <label>Lugar</label>
+            <input type="text" id="lugar" required>
+            
+            <label>Fecha y Hora</label>
+            <input type="datetime-local" id="fecha_hora" required>
+            
+            <label>Tipo de Encuentro</label>
+            <input type="text" id="tipo_encuentro">
+            
+            <label>Duración (minutos)</label>
+            <input type="number" id="duracion" min="1" required>
+            
+            <button type="submit" class="boton">Crear Cita</button>
+        </form>
+    </main>
+    
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const matchId = urlParams.get('matchId');
+        
+        document.getElementById('form-planificar-cita').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const cita = {
+                id_match: parseInt(matchId),
+                lugar: document.getElementById('lugar').value,
+                fecha_hora: document.getElementById('fecha_hora').value,
+                tipo_encuentro: document.getElementById('tipo_encuentro').value,
+                duracion_estimada_minutos: parseInt(document.getElementById('duracion').value)
+            };
+            
+            try {
+                const response = await fetch('http://localhost:3000/citas', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(cita)
+                });
+                
+                if (response.ok) {
+                    alert('Cita creada exitosamente');
+                    window.location.href = '/paginas/citas.html';
+                } else {
+                    alert('Error al crear la cita');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al crear la cita');
+            }
+        });
+    </script>
+</body>
+</html>
+
