@@ -97,7 +97,9 @@ formulario.addEventListener('submit', async (e) => {
     
     const idCita = modal.dataset.idCita; //recupera el id de la tarjeta que se guardó en el modal *1
     const idPareja = modal.dataset.idPareja; //recupera el id de la pareja que se guardó en el modal *2
-    const idUsuario = localStorage.getItem('idUsuario') || 1; //id del usuario que califica (desde el localStorage o 1 por defecto)
+    const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
+
+    const idUsuario = usuarioLogeado ? usuarioLogeado.id : null;
     
     // objeto con los datos a enviar
     const calificaciones = {
@@ -177,7 +179,10 @@ formularioEditar.addEventListener('submit', async (e) => {
 const cargarCitas = async () => {
     try {
 
-        const idUsuario = localStorage.getItem('idUsuario') || 1; //dato temporal hasta tener el login
+        const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
+
+        const idUsuario = usuarioLogeado ? usuarioLogeado.id : null;
+
         // pide las citas al backend
         const respuesta = await fetch(`http://localhost:3000/citas/ver?idUsuario=${idUsuario}`);
         const citas = await respuesta.json();
@@ -188,6 +193,11 @@ const cargarCitas = async () => {
 
         // por cada cita que recibe del backend crea una tarjeta
         citas.forEach( cita => {
+
+            const fotoAMostrar = (cita.foto_perfil && cita.foto_perfil !== "null") 
+        ? cita.foto_perfil 
+        : 'https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg';
+
             const fechaFormateada = new Date(cita.fecha_hora).toLocaleString('es-AR', {
                 day : '2-digit',
                 month : '2-digit',
@@ -201,7 +211,7 @@ const cargarCitas = async () => {
             //crea la tarjeta de la cita (pendiente o anterior, calificada o no calificada)
             const tarjeta = `
             <article class="tarjeta-cita" data-id="${cita.id_cita}" data-pareja="${cita.id_pareja}" data-info='${citaJSON}'>
-                    <img src="${cita.foto_perfil}" alt="foto-perfil" class="foto-cita">
+                    <img src="${fotoAMostrar}" alt="foto-perfil" class="foto-cita">
                     <div class="info-cita">
                         <h3 class="letra">${cita.nombre_pareja}</h3>
                         <p class="info-fecha">${fechaFormateada}</p>

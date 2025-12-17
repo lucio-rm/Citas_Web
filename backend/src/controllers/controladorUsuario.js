@@ -76,21 +76,25 @@ const crearUsuario = async (req, res) => {
 const actualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre, apellido, descripcion_personal, ubicacion, 
-                edad_preferida_min, edad_preferida_max } = req.body;
+        const { nombre,
+        apellido, foto_perfil, descripcion_personal, sexo_genero,
+        ubicacion, fecha_nacimiento, contrasenia
+        } = req.body;
         
         const result = await pool.query( // COALESCE que significa usar el primer valor que no sea NULL de la lista
             `UPDATE usuarios 
-             SET nombre = COALESCE($1, nombre),
-                 apellido = COALESCE($2, apellido),
-                 descripcion_personal = COALESCE($3, descripcion_personal),
-                 ubicacion = COALESCE($4, ubicacion),
-                 edad_preferida_min = COALESCE($5, edad_preferida_min),
-                 edad_preferida_max = COALESCE($6, edad_preferida_max)
-             WHERE id = $7
+             SET nombre = COALESCE($2, nombre),
+                 apellido = COALESCE($3, apellido),
+                 foto_perfil = COALESCE($4, foto_perfil),
+                 descripcion_personal = COALESCE($5, descripcion_personal),
+                 sexo_genero = COALESCE($6, sexo_genero),
+                 ubicacion = COALESCE($7, ubicacion),
+                 fecha_nacimiento = COALESCE($8, fecha_nacimiento),
+                 contrasenia = COALESCE($9, contrasenia)
+             WHERE id = $1
              RETURNING *`,
-            [nombre, apellido, descripcion_personal, ubicacion,
-             edad_preferida_min, edad_preferida_max, id]
+            [id, nombre, apellido, foto_perfil, descripcion_personal, sexo_genero,
+            ubicacion, fecha_nacimiento, contrasenia]
         );
         
         if (result.rows.length === 0) {
