@@ -356,6 +356,7 @@ const guardarCambiosUsuario = async (e) => {
 
 }
 
+// elimina los datos del usuario
 const eliminarPerfil = async (e) => {
     if (e) e.preventDefault();
 
