@@ -198,7 +198,7 @@ const usuariosDisponibles = async (req, res) => {
             params.push(orientacion);
             idx++;
         }
-        query += ` WHERE u.id != $1 AND l.id IS NULL AND m.id IS NULL `;
+        query += ` WHERE u.id != $1 AND m.id IS NULL AND (l.id IS NULL OR l.gusta = FALSE) `;
         if (ciudad) {
             query += ` AND unaccent(u.ubicacion) ILIKE unaccent($${idx}) `;
             params.push(ciudad);

@@ -1,6 +1,7 @@
 const usuario_logueado = JSON.parse(localStorage.getItem("usuario"));
 let usuario_actual = null;
 let cola = [];
+const usuario_dislike = [];
 const img = document.getElementById("match-img");
 const nombre = document.getElementById("match-nombre");
 const descripcion = document.getElementById("match-desc");
@@ -100,6 +101,7 @@ async function inicializarCola() {
 }
 
 function obtenerSiguientePersona() {
+    cola = cola.filter(persona => !usuario_dislike.includes(persona.id))
     if (cola.length === 0) {
         mostrarFinDePersonas();
         return;
@@ -136,7 +138,7 @@ async function mostrarPersona(usuario_actual) {
 }
 
 async function darLike() {
-    if (!usuario_actual) return; // por si no hay usuario cargado
+    if (!usuario_actual) return;
 
     try {
         const response = await fetch("http://localhost:3000/matches/like", {
@@ -154,10 +156,9 @@ async function darLike() {
         const data = await response.json();
 
         if (data.match) {
-            // Si se creó un match
             alert(`¡Es match con ${usuario_actual.nombre}!`);
         } else {
-            console.log(data.message); // solo like registrado
+            console.log(data.message);
         }
 
     } catch (error) {
@@ -165,15 +166,38 @@ async function darLike() {
     }
 }
 
+async function darDislike() {
+    if (!usuario_actual) return;
+
+    try {
+        const response = await fetch("http://localhost:3000/matches/like", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_usuario_1: usuario_logueado.id,
+                id_usuario_2: usuario_actual.id,
+                gusta: false
+            })
+        });
+
+        usuario_dislike.push(usuario_actual.id)
+
+    } catch (error) {
+        console.error('Error al dar dislike:', error);
+    }
+}
+
 document.getElementById("like").addEventListener("click", async function (event) {
     event.preventDefault();
     await darLike();
-    cola = await cargarPersonas();
     obtenerSiguientePersona();
 });
 
-document.getElementById("xmark").addEventListener("click", function (event) {
+document.getElementById("xmark").addEventListener("click", async function (event) {
     event.preventDefault();
+    await darDislike();
     obtenerSiguientePersona();
 });
 
