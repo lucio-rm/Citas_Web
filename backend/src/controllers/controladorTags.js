@@ -76,3 +76,55 @@ export const obtenerTagsPorUsuarioId = async (req, res) => {
         })
     }
 }
+
+export const actualizarTagsUsuario = async (req, res) => {
+    const { id : usuarioId } = req.params; // llamamos usuarioId al id del usuario
+    const { tags } = req.body; // array de tags
+
+    const client = await pool.connect();
+
+    try {
+        await client.query('BEGIN'); // comienza a hacer "cambios temporales" en la base de datos
+
+        await client.query(
+            'DELETE FROM usuarios_tags WHERE id_usuario = $1', [usuarioId]
+        ); // elimina los tags actuales del usuario
+
+        if (tags && tags.length > 0) { // solo si hay tags para insertar
+
+            const tagNombrePlaceholders = tags.map((_, index) => `$${index + 1}`).join(', '); // crea una lista de placeholders por cada tag
+
+            const tagIdResul = await client.query(
+                `SELECT id FROM tags WHERE nombre IN (${tagNombrePlaceholders})`,
+                tags
+            ); // obtiene los ids de los tags que coinciden con los nombres proporcionados (usa los placeholders para la query)
+
+            const tagIds = tagIdResul.rows.map(fila => fila.id); // crea un array con los ids de los tags encontrados
+
+            if (tagIds.length > 0) { // si encuentra tags coincidente
+
+                const queryInsert = tagIds.map(tagId => 
+                    client.query('INSERT INTO usuarios_tags (id_usuario, id_tag) VALUES ($1, $2)',
+                        [usuarioId, tagId]
+                    )
+                ); // crea la promesa de insercion por cada tagId
+                await Promise.all(queryInsert); // ejecuta todas las inserciones simultaneamente
+            }
+
+        }
+
+        await client.query('COMMIT'); // confirma y aplica permanentemente todos los cambios realizados desde BEGIN
+
+        res.json(
+            { mensaje: 'Tags actualizados correctamente'}
+        )
+
+    } catch (err) {
+        await client.query('ROLLBACK'); // si algo falla anula los cambios temporales realizados desde BEGIN
+        console.error(err);
+        res.status(500).json({ error: 'Error al actualizar los tags del usuario' });
+    } finally {
+        client.release();
+    }
+
+}
