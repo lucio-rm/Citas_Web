@@ -26,15 +26,12 @@ import feedbackRouter from './routes/feedback.js';
 
 
 
-
-
 initDB();
 
 app.use('/usuarios', usuariosRouter);
 app.use('/citas', citasRouter);
 app.use('/matches', matchesRouter);
 app.use('/feedback', feedbackRouter);
-
 
 
 app.get('/', (req, res) => {
