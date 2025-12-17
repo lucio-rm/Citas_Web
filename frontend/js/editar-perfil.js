@@ -221,7 +221,7 @@ const cargarDatosUsuario = async () => {
 
         const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
 
-        const usuarioId = usuarioLogeado ? usuarioLogeado.id : 1;
+        const usuarioId = usuarioLogeado ? usuarioLogeado.id : null;
 
         const respuesta = await fetch(`http://localhost:3000/usuarios/${usuarioId}`, {
             method : 'GET'
@@ -302,7 +302,7 @@ const guardarCambiosUsuario = async (e) => {
 
     const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
 
-    const idUsuario = usuarioLogeado ? usuarioLogeado.id : 1;
+    const idUsuario = usuarioLogeado ? usuarioLogeado.id : null;
 
     const datosAActualizar = {
         nombre : inputNombre.value.trim(),
