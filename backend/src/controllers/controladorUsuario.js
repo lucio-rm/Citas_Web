@@ -138,10 +138,19 @@ const loginUsuario = async (req, res) => {
 
 const usuariosDisponibles = async (req, res) => {
     const id_logueado = parseInt(req.query.id);
-    const signo = req.query.signo;
+    const {
+        signo,
+        ciudad,
+        genero,
+        edad_min,
+        edad_max,
+        hobbies,
+        habitos,
+        orientacion
+    }= req.query;
     try{
         let query = `
-            SELECT u.* FROM usuarios u
+            SELECT DISTINCT u.* FROM usuarios u
             LEFT JOIN likes l
                 ON l.id_usuario_1 = $1 AND l.id_usuario_2 = u.id
             LEFT JOIN matches m
@@ -151,17 +160,65 @@ const usuariosDisponibles = async (req, res) => {
                     (m.id_usuario_1 = u.id AND m.id_usuario_2 = $1)
                 )
         `;
-        const params = [id_logueado]
+        const params = [id_logueado];
+        let idx = 2;
         if (signo) {
-            query +=  `
-                JOIN usuarios_tags ut ON ut.id_usuario = u.id
-                JOIN tags t ON t.id = ut.id_tags AND t.categoria = 'SIGNO' AND t.nombre = $2 
+            query += `
+                JOIN usuarios_tags ut_signo ON ut_signo.id_usuario = u.id
+                JOIN tags t_signo ON t_signo.id = ut_signo.id_tag 
+                AND t_signo.categoria = 'SIGNO' AND t_signo.nombre = $${idx} 
             `;
-            params.add(signo);
+            params.push(signo);
+            idx++;
         }
-        query += `
-            WHERE u.id != $1 AND l.id IS NULL AND m.id IS NULL;
+        if (hobbies) {
+            query += `
+            JOIN usuarios_tags ut_hobby ON ut_hobby.id_usuario = u.id
+            JOIN tags t_hobby ON t_hobby.id = ut_hobby.id_tag
+            AND t_hobby.categoria = 'HOBBY' AND t_hobby.nombre = $${idx}
         `;
+            params.push(hobbies);
+            idx++;
+        }
+        if (habitos) {
+            query += `
+                JOIN usuarios_tags ut_habitos ON ut_habitos.id_usuario = u.id
+                JOIN tags t_habitos ON t_habitos.id = ut_habitos.id_tag
+                AND t_habitos.categoria = 'HABITOS' AND t_habitos.nombre = $${idx}
+            `;
+            params.push(habitos);
+            idx++;
+        }
+        if (orientacion) {
+            query += `
+                JOIN usuarios_tags ut_orientacion ON ut_orientacion.id_usuario = u.id
+                JOIN tags t_orientacion ON t_orientacion.id = ut_orientacion.id_tag
+                AND t_orientacion.categoria = 'ORIENTACION' AND t_orientacion.nombre = $${idx}
+        `;
+            params.push(orientacion);
+            idx++;
+        }
+        query += ` WHERE u.id != $1 AND l.id IS NULL AND m.id IS NULL `;
+        if (ciudad) {
+            query += ` AND u.ubicacion = $${idx} `;
+            params.push(ciudad);
+            idx++;
+        }
+        if (genero) {
+            query += ` AND u.sexo_genero = $${idx} `;
+            params.push(genero);
+            idx++;
+        }
+        if (edad_min) {
+            query += ` AND DATE_PART('year', AGE(u.fecha_nacimiento)) >= $${idx} `;
+            params.push(edad_min);
+            idx++;
+        }
+        if (edad_max) { 
+            query += ` AND DATE_PART('year', AGE(u.fecha_nacimiento)) <= $${idx} `;
+            params.push(edad_max);
+            idx++;
+        }
         const result = await pool.query(query, params);
         res.json(result.rows);
     }catch(error){
@@ -177,7 +234,7 @@ const obtenerTags = async (req, res) => {
             SELECT t.nombre, t.categoria FROM tags t
             JOIN usuarios_tags ut
                 ON ut.id_tag = t.id
-            WHERE ut.id_usuario = $1;
+            WHERE ut.id_usuario = $1
             `, [id_pareja])
         res.json(result.rows);
     }catch(error){
