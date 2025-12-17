@@ -27,10 +27,10 @@ const obtenerMatchPorId = async (req, res) => {
 
 const crearMatch = async (req, res) => {
     try {
-        const { id_usuario_1, id_usuario_2, fecha_match } = req.body;
+        const { id_usuario_1, id_usuario_2 } = req.body; 
         const result = await pool.query(
-            'INSERT INTO matches (id_usuario_1, id_usuario_2, fecha_match) VALUES ($1, $2, $3) RETURNING *',
-            [id_usuario_1, id_usuario_2, fecha_match]
+            'INSERT INTO matches (id_usuario_1, id_usuario_2) VALUES ($1, $2) RETURNING *', 
+            [id_usuario_1, id_usuario_2]
         );
         res.status(201).json(result.rows[0]);
     } catch (err) {
