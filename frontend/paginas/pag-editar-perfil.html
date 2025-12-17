@@ -34,7 +34,7 @@
             autocomplete="off"
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s])[\S]{8,}"
             title="Al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
-            >
+            required>
             <br>
             <label for="Foto-Perfil">Foto de Perfil</label>
             <input type="text" id="editar-foto-perfil" autocomplete="off">
@@ -46,7 +46,7 @@
             <input type="date" id="editar-fecha-nacimiento">
             <br>
             <label for="Genero">Género</label>
-            <select id="editar-genero">
+            <select id="editar-genero" required>
                 <option value="">Seleccionar</option>
                 <option value="masculino">Masculino</option>
                 <option value="femenino">Femenino</option>
