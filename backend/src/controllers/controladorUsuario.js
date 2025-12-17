@@ -136,7 +136,55 @@ const loginUsuario = async (req, res) => {
     }
 };
 
+const usuariosDisponibles = async (req, res) => {
+    const id_logueado = parseInt(req.query.id);
+    const signo = req.query.signo;
+    try{
+        let query = `
+            SELECT u.* FROM usuarios u
+            LEFT JOIN likes l
+                ON l.id_usuario_1 = $1 AND l.id_usuario_2 = u.id
+            LEFT JOIN matches m
+                ON ( 
+                    (m.id_usuario_1 = $1 AND m.id_usuario_2 = u.id)
+                    OR
+                    (m.id_usuario_1 = u.id AND m.id_usuario_2 = $1)
+                )
+        `;
+        const params = [id_logueado]
+        if (signo) {
+            query +=  `
+                JOIN usuarios_tags ut ON ut.id_usuario = u.id
+                JOIN tags t ON t.id = ut.id_tags AND t.categoria = 'SIGNO' AND t.nombre = $2 
+            `;
+            params.add(signo);
+        }
+        query += `
+            WHERE u.id != $1 AND l.id IS NULL AND m.id IS NULL;
+        `;
+        const result = await pool.query(query, params);
+        res.json(result.rows);
+    }catch(error){
+        console.log(error);
+        res.status(500).send('Error al cargar usuarios disponibles')
+    }
+};
 
+const obtenerTags = async (req, res) => {
+    const id_pareja = parseInt(req.query.id)
+    try{
+        const result = await pool.query(`
+            SELECT t.nombre, t.categoria FROM tags t
+            JOIN usuarios_tags ut
+                ON ut.id_tag = t.id
+            WHERE ut.id_usuario = $1;
+            `, [id_pareja])
+        res.json(result.rows);
+    }catch(error){
+        console.log(error);
+        res.status(500).send('Error al cargar tags')
+    }
+}
 //const actualizarPreferencias = async (req, res) => {
 //    try {
 //        const { id } = req.params;
@@ -168,6 +216,8 @@ export {
     crearUsuario,
     actualizarUsuario,
     eliminarUsuario,
-    loginUsuario
+    loginUsuario,
+    usuariosDisponibles,
+    obtenerTags
     //actualizarPreferencias
 };
