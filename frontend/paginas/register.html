@@ -4,84 +4,78 @@
     <meta charset="UTF-8">
     <title>Crear cuenta · Red Thread</title>
 
-    <!-- Bulma -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
-
-    <!-- Estilos del proyecto -->
     <link rel="stylesheet" href="../Styles/styles.css">
     <link rel="stylesheet" href="../Styles/register.css">
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar-registro">
-        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+<nav>
+    <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
 
-        <ul class="nav-links">
-            <li><a href="explorar.html">Explorar</a></li>
-            <li><a href="matches.html">Mis matches</a></li>
-        </ul>
+    <ul class="nav-links" id="nav-links">
+        <li><a href="explorar.html">Explorar</a></li>
+        <li><a href="matches.html">Mis matches</a></li>
+        <!-- Mis citas se agrega por JS si está logueado -->
+    </ul>
 
-        <div class="nav-botones">
-            <a href="login.html">Iniciar sesión</a>
+    <div class="nav-botones" id="nav-botones">
+        <!-- Se completa por JS -->
+    </div>
+</nav>
+
+
+<section class="form-container">
+    <h1 class="titulo-registro">Crear tu cuenta</h1>
+
+    <form id="register-form" class="registro-form">
+
+        <!-- COLUMNA 1 -->
+        <div class="columna">
+            <label>Nombre</label>
+            <input type="text" id="nombre" required>
+
+            <label>Apellido</label>
+            <input type="text" id="apellido" required>
+
+            <label>Email</label>
+            <input type="email" id="email" required>
+
+            <label>Contraseña</label>
+            <input type="password" id="password" required>
+
+            <label>Fecha de nacimiento</label>
+            <input type="date" id="fecha_nacimiento" required>
         </div>
-    </nav>
 
-    <!-- CONTENEDOR FORM -->
-    <section class="form-container">
-        <h1 class="titulo-registro">Crear tu cuenta</h1>
-
-        <form id="register-form" class="registro-form">
-
-            <!-- COLUMNA 1 -->
-            <div class="columna">
-                <label>Nombre</label>
-                <input type="text" id="nombre" required>
-
-                <label>Apellido</label>
-                <input type="text" id="apellido" required>
-
-                <label>Email</label>
-                <input type="email" id="email" required>
-
-                <label>Contraseña</label>
-                <input type="password" id="password" required>
-
-                <label>Fecha de nacimiento</label>
-                <input type="date" id="fecha_nacimiento" required>
+        <!-- COLUMNA 2 -->
+        <div class="columna">
+            <label>Sexo / Género</label>
+            <div class="contenedor-tags-editor" id="sexo-genero">
+                <button type="button" class="tag-btn" data-value="Femenino">Femenino</button>
+                <button type="button" class="tag-btn" data-value="Masculino">Masculino</button>
+                <button type="button" class="tag-btn" data-value="No binario">No binario</button>
+                <button type="button" class="tag-btn" data-value="Prefiero no decirlo">Prefiero no decirlo</button>
             </div>
 
-            <!-- COLUMNA 2 -->
-            <div class="columna">
-                <label>Sexo / Género</label>
-                <select id="sexo_genero" required>
-                    <option value="">Seleccionar</option>
-                    <option value="Femenino">Femenino</option>
-                    <option value="Masculino">Masculino</option>
-                    <option value="No binario">No binario</option>
-                    <option value="Prefiero no decirlo">Prefiero no decirlo</option>
-                </select>
+            <label>Ciudad</label>
+            <input type="text" id="ciudad">
 
-                <label>Ciudad</label>
-                <input type="text" id="ciudad">
+            <label>Bio</label>
+            <textarea id="bio" rows="3"></textarea>
 
-                <label>Bio</label>
-                <textarea id="bio" rows="3"></textarea>
+            <label>Foto de perfil (URL)</label>
+            <input type="text" id="foto_url" placeholder="https://...">
+        </div>
 
-                <label>Foto de perfil</label>
-                <input type="file" id="foto" accept="image/*">
-            </div>
+        <button class="boton-crear-cuenta" type="submit">
+            Crear cuenta
+        </button>
 
-            <!-- BOTÓN -->
-            <button class="boton-crear-cuenta" type="submit">
-                Crear cuenta
-            </button>
+    </form>
+</section>
 
-        </form>
-    </section>
-
-    <!-- JS -->
-    <script src="../js/register.js"></script>
+<script src="../js/register.js"></script>
 </body>
 </html>
