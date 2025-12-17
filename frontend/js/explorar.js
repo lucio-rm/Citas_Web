@@ -1,43 +1,7 @@
-// const personas = [
-//  {
-//         id : 1,
-//         nombre: "Ana Torres",
-//         descripcion: "Amo viajar y sacar fotos.",
-//         imagen: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Miyabi_Moriya_during_Gotham_Angel_City_Sep_7_25-010_%28cropped%29.jpg",
-//         edad: 24,
-//         ciudad: "Buenos Aires",
-//         orientacion: "Heterosexual",
-//         hobbies: "Cine, viajes, fotografía",
-//         tags: "#aventurera #artística"
-//     },
-//     {
-//         id : 2,
-//         nombre: "Lucas Pérez",
-//         descripcion: "Fan de los videojuegos y el gym.",
-//         imagen: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHww",
-//         edad: 27,
-//         ciudad: "Córdoba",
-//         orientacion: "Bisexual",
-//         hobbies: "Gym, streaming, música",
-//         tags: "#gamer #fit"
-//     },
-//     {
-//         id : 3,
-//         nombre: "María Gómez",
-//         descripcion: "Me encanta cocinar y leer.",
-//         imagen: "https://img.freepik.com/free-photo/expressive-woman-posing-outdoor_344912-3079.jpg?semt=ais_hybrid&w=740&q=80lma.io/assets/images/placeholders/1280x960.pnghttps://img.freepik.com/free-photo/expressive-woman-posing-outdoor_344912-3079.jpg?semt=ais_hybrid&w=740&q=80https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHwwhttps://i.pinimg.com/474x/31/9d/1e/319d1e1b798ae1da876b122cf078c51b.jpghttps://mir-s3-cdn-cf.behance.net/project_modules/1400/e98f2535036667.58bc6981515a3.jpg",
-//         edad: 30,
-//         ciudad: "Rosario",
-//         orientacion: "Heterosexual",
-//         hobbies: "Lectura, cocina, yoga",
-//         tags: "#chef #relax"
-//     }
-// ];
-//let cola = [...personas];
-
-//const id_logueado = usuario.id; // Mas adelante se importa usuario desde el login
-let usuarioActual = null;
-const personaas = fetch('http://localhost:3000/:id');
+const usuario_logueado = JSON.parse(localStorage.getItem("usuario"));
+let usuario_actual = null;
+let cola = [];
+const usuario_dislike = [];
 const img = document.getElementById("match-img");
 const nombre = document.getElementById("match-nombre");
 const descripcion = document.getElementById("match-desc");
@@ -48,6 +12,24 @@ const hobbies = document.getElementById("match-hobbies");
 const habitos = document.getElementById("match-habitos");
 const orientacion = document.getElementById("match-orientacion");
 const signo = document.getElementById("match-signo");
+
+function calcularEdad(fecha) {
+    const hoy = new Date();
+    const nacimiento = new Date(fecha);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const m = hoy.getMonth() - nacimiento.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+        edad--;
+    }
+    return edad;
+}
+
+function texto(texto){
+    return texto
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim();
+}
 
 async function cargarTags(id_pareja) {
     const response = await fetch(`http://localhost:3000/usuarios/tags?id=${id_pareja}`);
@@ -64,16 +46,16 @@ async function cargarTags(id_pareja) {
 
 async function cargarPersonas () {
     try {
-        const response = await fetch(`http://localhost:3000/usuarios/disponibles?id=${id_logueado}`);
+        const response = await fetch(`http://localhost:3000/usuarios/disponibles?id=${usuario_logueado.id}`);
         const personas = await response.json();
         const personas_filtradas = personas
-        .filter(persona => persona.id !== id_logueado)
+        .filter(persona => persona.id !== usuario_logueado.id)
         .map(persona => ({
             id: persona.id,
             nombre: `${persona.nombre} ${persona.apellido}`,
             descripcion: persona.descripcion_personal,
-            imagen: persona.imagen_url,
-            edad: persona.edad,
+            imagen: persona.foto_perfil,
+            edad: calcularEdad(persona.fecha_nacimiento),
             ciudad: persona.ubicacion,
             genero: persona.sexo_genero
         }));
@@ -85,17 +67,27 @@ async function cargarPersonas () {
 }
 
 async function cargarPersonasConFiltro(filtros) {
-    const personas = await cargarPersonas();
-    if (!personas) return [];
+    const params = new URLSearchParams({id: usuario_logueado.id});
+    if (filtros.signo) params.append('signo', filtros.signo);
+    if (filtros.hobbies) params.append('hobbies', filtros.hobbies);
+    if (filtros.habitos) params.append('habitos', filtros.habitos);
+    if (filtros.orientacion) params.append('orientacion', filtros.orientacion)
+    if (filtros.ciudad) params.append('ciudad', filtros.ciudad);
+    if (filtros.edad_min) params.append('edad_min', filtros.edad_min);
+    if (filtros.edad_max) params.append('edad_max', filtros.edad_max);
+    if (filtros.genero) params.append('genero', filtros.genero);
+    const response = await fetch(`http://localhost:3000/usuarios/disponibles?${params.toString()}`);
+    const personas = await response.json();
 
-    return personas.filter(p => {
-        if (filtros.edad_min && p.edad < filtros.edad_min) return false;
-        if (filtros.edad_max && p.edad > filtros.edad_max) return false;
-        if (filtros.ciudad && p.ciudad.toLowerCase() !== filtros.ciudad.toLowerCase()) return false;
-        if (filtros.genero && p.genero.toLowerCase() !== filtros.genero.toLowerCase()) return false; 
-        if (filtros.signo && p.signo !== filtros.signo) return false;
-
-    })
+    return personas.map(persona => ({
+            id: persona.id,
+            nombre: `${persona.nombre} ${persona.apellido}`,
+            descripcion: persona.descripcion_personal,
+            imagen: persona.foto_perfil,
+            edad: calcularEdad(persona.fecha_nacimiento),
+            ciudad: persona.ubicacion,
+            genero: persona.sexo_genero
+    }))
 }
 
 async function inicializarCola() {
@@ -104,17 +96,18 @@ async function inicializarCola() {
         mostrarFinDePersonas();
         return;
     }
-    usuarioActual = cola.shift();
-    mostrarPersona(usuarioActual);
+    usuario_actual = cola.shift();
+    mostrarPersona(usuario_actual);
 }
 
 function obtenerSiguientePersona() {
+    cola = cola.filter(persona => !usuario_dislike.includes(persona.id))
     if (cola.length === 0) {
         mostrarFinDePersonas();
         return;
     }
-    usuarioActual = cola.shift();
-    mostrarPersona(usuarioActual);
+    usuario_actual = cola.shift();
+    mostrarPersona(usuario_actual);
 }
 
 function mostrarFinDePersonas() {
@@ -130,49 +123,81 @@ function mostrarFinDePersonas() {
     signo.textContent = "";
 }
 
-async function mostrarPersona(usuarioActual) {
-    img.src = usuarioActual.imagen;
-    nombre.textContent = usuarioActual.nombre;
-    descripcion.textContent = usuarioActual.descripcion;
-    ubicacion.textContent = `Ciudad: ${usuarioActual.ciudad}`;
-    edad.textContent = `Edad: ${usuarioActual.edad}`;
-    genero.textContent = `Genero: ${usuarioActual.genero}`;
-    const tags = await cargarTags(usuarioActual.id);
+async function mostrarPersona(usuario_actual) {
+    img.src = usuario_actual.imagen || "https://cdn-icons-png.flaticon.com/512/4076/4076549.png";
+    nombre.textContent = usuario_actual.nombre;
+    descripcion.textContent = usuario_actual.descripcion;
+    ubicacion.textContent = `Ciudad: ${usuario_actual.ciudad}`;
+    edad.textContent = `Edad: ${usuario_actual.edad}`;
+    genero.textContent = `Genero: ${usuario_actual.genero}`;
+    const tags = await cargarTags(usuario_actual.id);
     hobbies.textContent = tags.hobbies.join(', ') || "";
     habitos.textContent = tags.habitos.join(', ') || "";
-    orientacion.textContent = tags.orientacion || "";
-    signo.textContent = tags.signo || "";
+    orientacion.textContent = tags.orientacion.join(', ') || "";
+    signo.textContent = tags.signo.join(', ') || "";
 }
 
 async function darLike() {
+    if (!usuario_actual) return;
+
     try {
-        const response = await fetch(`http://localhost:3000/likes/`, {
+        const response = await fetch("http://localhost:3000/matches/like", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id_usuario_1: id_logueado,
-                id_usuario_2: usuarioActual.id,
+                id_usuario_1: usuario_logueado.id,
+                id_usuario_2: usuario_actual.id,
                 gusta: true
             })
         });
-        if (!response.ok) {
-            throw new Error('Error al registrar el like');
+
+        const data = await response.json();
+
+        if (data.match) {
+            alert(`¡Es match con ${usuario_actual.nombre}!`);
+        } else {
+            console.log(data.message);
         }
+
     } catch (error) {
         console.error('Error al dar like:', error);
     }
 }
 
-document.getElementById("like").addEventListener("click", function (event) {
+async function darDislike() {
+    if (!usuario_actual) return;
+
+    try {
+        const response = await fetch("http://localhost:3000/matches/like", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_usuario_1: usuario_logueado.id,
+                id_usuario_2: usuario_actual.id,
+                gusta: false
+            })
+        });
+
+        usuario_dislike.push(usuario_actual.id)
+
+    } catch (error) {
+        console.error('Error al dar dislike:', error);
+    }
+}
+
+document.getElementById("like").addEventListener("click", async function (event) {
     event.preventDefault();
-    darLike();
+    await darLike();
     obtenerSiguientePersona();
 });
 
-document.getElementById("xmark").addEventListener("click", function (event) {
+document.getElementById("xmark").addEventListener("click", async function (event) {
     event.preventDefault();
+    await darDislike();
     obtenerSiguientePersona();
 });
 
@@ -206,9 +231,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const filtros = {
             edad_min: parseInt(document.getElementById("filtro-edad-min").value) || undefined,
             edad_max: parseInt(document.getElementById("filtro-edad-max").value) || undefined,
-            ciudad: document.getElementById("filtro-ciudad").value || undefined,
-            genero: document.getElementById("filtro-genero").value || undefined,
+            ciudad: texto(document.getElementById("filtro-ciudad").value) || undefined,
+            genero: texto(document.getElementById("filtro-genero").value) || undefined,
+            orientacion: texto(document.getElementById("filtro-orientacion").value) || undefined,
             signo: document.getElementById("filtro-signo").value || undefined,
+            hobbies: texto(document.getElementById("filtro-hobby").value) || undefined,
+            habitos: texto(document.getElementById("filtro-habito").value) || undefined
 
         }
         overlay.style.display = "none";
@@ -219,8 +247,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        usuarioActual = cola.shift();
-        mostrarPersona(usuarioActual);
+        usuario_actual = cola.shift();
+        mostrarPersona(usuario_actual);
     })
 });
 

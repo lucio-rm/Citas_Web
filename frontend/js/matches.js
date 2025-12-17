@@ -1,8 +1,8 @@
-const id_logueado = usuario.id; // Mas adelante se importa usuario desde el login
+const usuario_logueado = JSON.parse(localStorage.getItem("usuario"));
 
 async function cargarMatches () {
     try {
-        const response = await fetch(`http://localhost:3000/matches/${id_logueado}`);
+        const response = await fetch(`http://localhost:3000/matches/${usuario_logueado.id}`);
         const matches = await response.json();
         return matches;
     }
@@ -33,14 +33,14 @@ async function mostrarMatches () {
         matchActual.innerHTML = template;
         matchDiv.appendChild(matchActual);
         let id_pareja;
-        if (match.id_usuario_1 === id_logueado) {
+        if (match.id_usuario_1 === usuario_logueado.id) {
             id_pareja = match.id_usuario_2;
         } else {
             id_pareja = match.id_usuario_1;
         }
         const pareja = await cargarPersona(id_pareja);
         const nombre = pareja.nombre + ' ' + pareja.apellido;
-        const img = pareja.imagen_url;
+        const img = pareja.foto_perfil || 'https://bulma.io/assets/images/placeholders/96x96.png';
         matchActual.querySelector('.nombre').textContent = nombre;
         matchActual.querySelector('.foto').src = img;
         matchActual.dataset.matchId = match.id;

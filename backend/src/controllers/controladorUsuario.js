@@ -149,7 +149,112 @@ const loginUsuario = async (req, res) => {
     }
 };
 
+const usuariosDisponibles = async (req, res) => {
+    const id_logueado = parseInt(req.query.id);
+    const {
+        signo,
+        ciudad,
+        genero,
+        edad_min,
+        edad_max,
+        hobbies,
+        habitos,
+        orientacion
+    }= req.query;
+    try{
+        let query = `
+            SELECT DISTINCT u.* FROM usuarios u
+            LEFT JOIN likes l
+                ON l.id_usuario_1 = $1 AND l.id_usuario_2 = u.id
+            LEFT JOIN matches m
+                ON ( 
+                    (m.id_usuario_1 = $1 AND m.id_usuario_2 = u.id)
+                    OR
+                    (m.id_usuario_1 = u.id AND m.id_usuario_2 = $1)
+                )
+        `;
+        const params = [id_logueado];
+        let idx = 2;
+        if (signo) {
+            query += `
+                JOIN usuarios_tags ut_signo ON ut_signo.id_usuario = u.id
+                JOIN tags t_signo ON t_signo.id = ut_signo.id_tag 
+                AND t_signo.categoria = 'SIGNO' AND t_signo.nombre = $${idx} 
+            `;
+            params.push(signo);
+            idx++;
+        }
+        if (hobbies) {
+            query += `
+            JOIN usuarios_tags ut_hobby ON ut_hobby.id_usuario = u.id
+            JOIN tags t_hobby ON t_hobby.id = ut_hobby.id_tag
+            AND t_hobby.categoria = 'HOBBY' AND unaccent(t_hobby.nombre) ILIKE unaccent($${idx})
+        `;
+            params.push(hobbies);
+            idx++;
+        }
+        if (habitos) {
+            query += `
+                JOIN usuarios_tags ut_habitos ON ut_habitos.id_usuario = u.id
+                JOIN tags t_habitos ON t_habitos.id = ut_habitos.id_tag
+                AND t_habitos.categoria = 'HABITOS' AND unaccent(t_habitos.nombre) ILIKE unaccent($${idx})
+            `;
+            params.push(habitos);
+            idx++;
+        }
+        if (orientacion) {
+            query += `
+                JOIN usuarios_tags ut_orientacion ON ut_orientacion.id_usuario = u.id
+                JOIN tags t_orientacion ON t_orientacion.id = ut_orientacion.id_tag
+                AND t_orientacion.categoria = 'ORIENTACION' AND unaccent(t_orientacion.nombre) ILIKE unaccent($${idx})
+        `;
+            params.push(orientacion);
+            idx++;
+        }
+        query += ` WHERE u.id != $1 AND m.id IS NULL AND (l.id IS NULL OR l.gusta = FALSE) `;
+        if (ciudad) {
+            query += ` AND unaccent(u.ubicacion) ILIKE unaccent($${idx}) `;
+            params.push(ciudad);
+            idx++;
+        }
+        if (genero) {
+            query += ` AND unaccent(u.sexo_genero) ILIKE unaccent($${idx}) `;
+            params.push(genero);
+            idx++;
+        }
+        if (edad_min) {
+            query += ` AND DATE_PART('year', AGE(u.fecha_nacimiento)) >= $${idx} `;
+            params.push(edad_min);
+            idx++;
+        }
+        if (edad_max) { 
+            query += ` AND DATE_PART('year', AGE(u.fecha_nacimiento)) <= $${idx} `;
+            params.push(edad_max);
+            idx++;
+        }
+        const result = await pool.query(query, params);
+        res.json(result.rows);
+    }catch(error){
+        console.log(error);
+        res.status(500).send('Error al cargar usuarios disponibles')
+    }
+};
 
+const obtenerTags = async (req, res) => {
+    const id_pareja = parseInt(req.query.id)
+    try{
+        const result = await pool.query(`
+            SELECT t.nombre, t.categoria FROM tags t
+            JOIN usuarios_tags ut
+                ON ut.id_tag = t.id
+            WHERE ut.id_usuario = $1
+            `, [id_pareja])
+        res.json(result.rows);
+    }catch(error){
+        console.log(error);
+        res.status(500).send('Error al cargar tags')
+    }
+}
 //const actualizarPreferencias = async (req, res) => {
 //    try {
 //        const { id } = req.params;
@@ -181,6 +286,8 @@ export {
     crearUsuario,
     actualizarUsuario,
     eliminarUsuario,
-    loginUsuario
+    loginUsuario,
+    usuariosDisponibles,
+    obtenerTags
     //actualizarPreferencias
 };
