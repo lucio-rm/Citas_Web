@@ -28,17 +28,21 @@ const obtenerUsuarioPorId = async (req, res) => {
 
 const crearUsuario = async (req, res) => {
     try {
-        const { nombre, apellido, fecha_nacimiento, mail, 
-            contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion, 
-            edad_preferida_min, edad_preferida_max} = req.body;
-        
-        if (!nombre || !apellido || !mail || !contrasenia) {
-            return res.status(400).json({ error: 'Faltan campos obligatorios.' });
-        }
+        const { nombre, apellido, fecha_nacimiento, mail,
+            contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion,
+            edad_preferida_min, edad_preferida_max } = req.body;
+
+        if ( !nombre || !apellido || !mail || !contrasenia || !fecha_nacimiento || !sexo_genero) {
+            return res.status(400).json({
+            error: "Faltan campos obligatorios: nombre, apellido, mail, contrasenia, fecha_nacimiento, sexo_genero"
+        });
+}
+
 
         if (!mail.includes('@')) {
             return res.status(400).json({ error: 'Email inválido. Fijate bien.' });
         }
+        
 
         // si pasa las condiciones, ingresamos todo para crear el usuario.
         const result = await pool.query(
@@ -51,14 +55,23 @@ const crearUsuario = async (req, res) => {
         );
 
         res.status(201).json(result.rows[0]);
+    //} catch (err) {
+    //    console.error(err);
+    //    if (err.code === '23505') { // error 23505 que manda ps = usuario ya existe
+    //        return res.status(400).json({ error: 'El email ya está registrado' });
+    //    }
+    //    res.status(500).json({ error: 'Error al crear usuario' });
+    //}
+
     } catch (err) {
-        console.error(err);
-        if (err.code === '23505') { // error 23505 que manda ps = usuario ya existe
-            return res.status(400).json({ error: 'El email ya está registrado' });
-        }
-        res.status(500).json({ error: 'Error al crear usuario' });
-    }
-};
+    console.error("ERROR POSTGRES:", err);
+    res.status(500).json({ 
+        error: err.message,
+        code: err.code,
+        detail: err.detail
+    });
+}
+}
 
 const actualizarUsuario = async (req, res) => {
     try {
@@ -136,6 +149,32 @@ const loginUsuario = async (req, res) => {
     }
 };
 
+
+//const actualizarPreferencias = async (req, res) => {
+//    try {
+//        const { id } = req.params;
+//        const { edad_preferida_min, edad_preferida_max } = req.body;
+//
+//        const result = await pool.query(
+//            `UPDATE usuarios
+//             SET edad_preferida_min = $1,
+//                 edad_preferida_max = $2
+//            WHERE id = $3
+//             RETURNING *`,
+//            [edad_preferida_min, edad_preferida_max, id]
+//        );
+//
+//        if (result.rows.length === 0) {
+//            return res.status(404).json({ error: "Usuario no encontrado" });
+//        }
+//
+//        res.json(result.rows[0]);
+//    } catch (err) {
+//        console.error(err);
+//        res.status(500).json({ error: "Error al guardar preferencias" });
+//    }
+//};
+
 export {
     obtenerUsuarios,
     obtenerUsuarioPorId,
@@ -143,4 +182,5 @@ export {
     actualizarUsuario,
     eliminarUsuario,
     loginUsuario
+    //actualizarPreferencias
 };

@@ -1,5 +1,6 @@
 import express from 'express';
 import * as controladores from '../controllers/controladorUsuario.js';
+//import { guardarPreferencias } from "../controllers/controladorPreferencias.js";
 const router = express.Router();
 
 // obtenemos todos los usuarios
@@ -19,5 +20,9 @@ router.delete('/:id', controladores.eliminarUsuario);
 
 // login
 router.post('/login', controladores.loginUsuario);
+
+//router.put("/:id/preferencias", controladores.actualizarPreferencias);
+// 👇 otras rutas que ya tengas
+//router.post("/preferencias", guardarPreferencias);
 
 export default router;
