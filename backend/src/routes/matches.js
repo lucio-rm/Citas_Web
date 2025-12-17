@@ -6,6 +6,9 @@ router.get('/', controladores.obtenerMatches);
 
 router.get('/:id', controladores.obtenerMatchPorId);
 
+// dar like
+router.post('/like', controladores.darLike);
+
 router.post('/', controladores.crearMatch);
 
 router.delete('/:id', controladores.eliminarMatch);
