@@ -97,7 +97,9 @@ formulario.addEventListener('submit', async (e) => {
     
     const idCita = modal.dataset.idCita; //recupera el id de la tarjeta que se guardó en el modal *1
     const idPareja = modal.dataset.idPareja; //recupera el id de la pareja que se guardó en el modal *2
-    const idUsuario = localStorage.getItem('idUsuario') || 1; //id del usuario que califica (desde el localStorage o 1 por defecto)
+    const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
+
+    const idUsuario = usuarioLogeado ? usuarioLogeado.id : 1;
     
     // objeto con los datos a enviar
     const calificaciones = {
@@ -177,7 +179,10 @@ formularioEditar.addEventListener('submit', async (e) => {
 const cargarCitas = async () => {
     try {
 
-        const idUsuario = localStorage.getItem('idUsuario') || 1; //dato temporal hasta tener el login
+        const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
+
+        const idUsuario = usuarioLogeado ? usuarioLogeado.id : 1;
+
         // pide las citas al backend
         const respuesta = await fetch(`http://localhost:3000/citas/ver?idUsuario=${idUsuario}`);
         const citas = await respuesta.json();
