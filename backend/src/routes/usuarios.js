@@ -1,6 +1,5 @@
 import express from 'express';
 import * as controladores from '../controllers/controladorUsuario.js';
-
 import { guardarPreferencias } from "../controllers/controladorPreferencias.js";
 const router = express.Router();
 

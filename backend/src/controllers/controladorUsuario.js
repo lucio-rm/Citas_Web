@@ -26,9 +26,8 @@ const obtenerUsuarioPorId = async (req, res) => {
     }
 };
 
-import { pool } from "../db.js";
 
-export const crearUsuario = async (req, res) => {
+const crearUsuario = async (req, res) => {
     try {
         const { nombre, apellido, fecha_nacimiento, mail,
             contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion,
@@ -46,9 +45,8 @@ export const crearUsuario = async (req, res) => {
             return res.status(400).json({ error: 'El nombre y apellido no pueden tener números.' });
         }
 
-        // que no tenga un arroba ni al comienzo ni al final + un 'dominio' cualquiera
+        // regex mail
         const regexMail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        
         if (!mail.match(regexMail)) {
             return res.status(400).json({ error: 'El formato del email no es válido.' });
         }
@@ -63,13 +61,12 @@ export const crearUsuario = async (req, res) => {
             return res.status(400).json({ error: 'La contraseña debe tener al menos una mayúscula.' });
         }
 
-
-        // nos devuelve la lista ["2000", "05", "20"] para elegir el año (pos 0)
+        // Calculo de edad
         const partes = fecha_nacimiento.split("-"); 
         const anioNacimiento = parseInt(partes[0]); 
-
-        const anioActual = 2025;
+        const anioActual = new Date().getFullYear(); // Usamos fecha real por las dudas
         const edad = anioActual - anioNacimiento;
+
         // valido la edad
         if (edad < 18 || edad > 100) {
             return res.status(400).json({ error: 'Edad inválida (tenes que ser mayor de edad (>18) y menor a 100 años).' });
@@ -89,6 +86,10 @@ export const crearUsuario = async (req, res) => {
 
     } catch (err) {
         console.error("ERROR POSTGRES:", err);
+        // Si el mail ya existe (error unique violation)
+        if (err.code === '23505') {
+            return res.status(400).json({ error: 'El email ya está registrado.' });
+        }
         res.status(500).json({ 
             error: err.message,
             code: err.code,
@@ -105,7 +106,7 @@ const actualizarUsuario = async (req, res) => {
         ubicacion, fecha_nacimiento, contrasenia
         } = req.body;
         
-        const result = await pool.query( // COALESCE que significa usar el primer valor que no sea NULL de la lista
+        const result = await pool.query(
             `UPDATE usuarios 
              SET nombre = COALESCE($2, nombre),
                  apellido = COALESCE($3, apellido),
@@ -212,6 +213,8 @@ const usuariosDisponibles = async (req, res) => {
             params.push(signo);
             idx++;
         }
+        // NOTA: Para que funcione 'unaccent' tu base de datos debe tener la extensión instalada.
+        // Si falla, cambialo a ILIKE normal.
         if (hobbies) {
             query += `
             JOIN usuarios_tags ut_hobby ON ut_hobby.id_usuario = u.id
@@ -283,30 +286,7 @@ const obtenerTags = async (req, res) => {
         res.status(500).send('Error al cargar tags')
     }
 }
-//const actualizarPreferencias = async (req, res) => {
-//    try {
-//        const { id } = req.params;
-//        const { edad_preferida_min, edad_preferida_max } = req.body;
-//
-//        const result = await pool.query(
-//            `UPDATE usuarios
-//             SET edad_preferida_min = $1,
-//                 edad_preferida_max = $2
-//            WHERE id = $3
-//             RETURNING *`,
-//            [edad_preferida_min, edad_preferida_max, id]
-//        );
-//
-//        if (result.rows.length === 0) {
-//            return res.status(404).json({ error: "Usuario no encontrado" });
-//        }
-//
-//        res.json(result.rows[0]);
-//    } catch (err) {
-//        console.error(err);
-//        res.status(500).json({ error: "Error al guardar preferencias" });
-//    }
-//};
+
 
 export {
     obtenerUsuarios,
@@ -317,5 +297,4 @@ export {
     loginUsuario,
     usuariosDisponibles,
     obtenerTags
-    //actualizarPreferencias
 };
