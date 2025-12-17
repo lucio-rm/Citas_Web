@@ -1,5 +1,6 @@
 import express from 'express';
 import * as controladores from '../controllers/controladorUsuario.js';
+
 import { guardarPreferencias } from "../controllers/controladorPreferencias.js";
 const router = express.Router();
 
@@ -26,6 +27,7 @@ router.post('/login', controladores.loginUsuario);
 
 // acá creamos un nuevo usuario:
 router.post('/', controladores.crearUsuario);
+
 
 router.post("/preferencias", guardarPreferencias);
 
