@@ -219,7 +219,9 @@ function mostrarVistaPreviaTags(){
 const cargarDatosUsuario = async () => {
     try {
 
-        const usuarioId = localStorage.getItem('idUsuario') || 1;
+        const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
+
+        const usuarioId = usuarioLogeado ? usuarioLogeado.id : 1;
 
         const respuesta = await fetch(`http://localhost:3000/usuarios/${usuarioId}`, {
             method : 'GET'
@@ -298,7 +300,9 @@ const guardarCambiosUsuario = async (e) => {
 
     e.preventDefault();
 
-    const idUsuario = localStorage.getItem('idUsuario') || 1;
+    const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
+
+    const idUsuario = usuarioLogeado ? usuarioLogeado.id : 1;
 
     const datosAActualizar = {
         nombre : inputNombre.value.trim(),
