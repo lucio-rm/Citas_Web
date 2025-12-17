@@ -21,17 +21,12 @@
     
     <div class="editar-perfil">
         <strong>Editar perfil</strong>
-        <form class="editar-perfil-form" action="editar-perfil" method="post">
+        <form class="editar-perfil-form">
             <label for="nombre">Nombre</label>
             <input type="text" id="editar-nombre" autocomplete="off">
             <br>
-            <label for="Email">Email</label>
-            <input type="email"
-            id="editar-email"
-            autocomplete="off"
-            required
-            pattern="[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,}$"
-            title="nombre@dominio.com">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="editar-apellido" autocomplete="off">
             <br>
             <label for="Contraseña">Contraseña</label>
             <input type="password"
@@ -39,7 +34,7 @@
             autocomplete="off"
             pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s])[\S]{8,}"
             title="Al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
-            >
+            required>
             <br>
             <label for="Foto-Perfil">Foto de Perfil</label>
             <input type="text" id="editar-foto-perfil" autocomplete="off">
@@ -47,11 +42,17 @@
             <label for="Bio">Bio</label>
             <textarea id="editar-bio" rows="4"></textarea>
             <br>
-            <label for="Edad">Edad</label>
-            <input type="number" id="editar-edad" min="18">
+            <label for="Fecha-Nacimiento">Fecha de Nacimiento</label>
+            <input type="date" id="editar-fecha-nacimiento">
             <br>
             <label for="Genero">Género</label>
-            <input type="text" id="editar-genero" autocomplete="off">
+            <select id="editar-genero" required>
+                <option value="">Seleccionar</option>
+                <option value="masculino">Masculino</option>
+                <option value="femenino">Femenino</option>
+                <option value="no-binario">No binario</option>
+                <option value="prefiero-no-decirlo">Prefiero no decirlo</option>
+            </select>
             <br>
             <label for="Ubicacion">Ubicación</label>
             <input type="text" id="editar-ubicacion" autocomplete="off">
@@ -59,17 +60,14 @@
             <label for="Orientacion-Sexual">Orientación Sexual</label>
             <div class="editor-orientacion contenedor-tags-editor"></div>
             <label for="Hobbies">Hobbies (Max 5)</label>
-            <div class="editor-hobbies contenedor-tags-editor"></div>
+            <div class="editor-hobby contenedor-tags-editor"></div>
             <label for="Habitos">Habitos (Max 5)</label>
             <div class="editor-habitos contenedor-tags-editor"></div>
             <label for="Signos">Signos</label>
-            <div class="editor-signos contenedor-tags-editor"></div>
-            <label for="edad-preferida-min">Edad Preferida (mínima)</label>
-            <input type="number" id="editar-edad-pref-min" autcomplete="off" min="18">
-            <label for="edad-preferida-max">Edad Preferida (máxima)</label>
-            <input type="number" id="editar-edad-pref-max">
+            <div class="editor-signo contenedor-tags-editor"></div>
             
             <button class="boton" type="submit">Guardar cambios</button>
+            <button class="boton boton-eliminar" type="button" id="btn-eliminar-perfil">Eliminar perfil</button>
         </form>
     </div>
 
@@ -78,6 +76,7 @@
         <div class="carta-perfil">
             <img id="vista-previa-img" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="foto-perfil">
             <h3 class="letra" id="vista-previa-nombre"></h3>
+            <h3 class="letra" id="vista-previa-apellido"></h3>
             <p id="vista-previa-bio"></p>
 
             <h3 class="letra">Información</h3>

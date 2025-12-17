@@ -118,6 +118,21 @@ nav{
     outline: none;
     border-color: #fa9f9f;
 }
+.editar-perfil-form select{
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid #FE7877;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    background-color: #fef9f9;
+
+}
+.editar-perfil-form select:focus {
+    outline: none;
+    border-color: #fa9f9f;
+}
 
 .vista-previa{
     grid-area: vista-previa;
@@ -149,6 +164,7 @@ nav{
     font-weight: 700;
     margin-bottom: 5px;
     margin-top: 10px;
+    display: inline-block;
 }
 .carta-perfil p{
     font-size: 20px;
@@ -351,4 +367,11 @@ strong.strong1{
 .botones-contenedor .boton {
     text-align: center;
     margin-bottom: 5px;
+}
+.boton-eliminar {
+    background-color: #ff4d4d;
+    color: white;
+}
+.boton-eliminar:hover {
+    background-color: #ff7a7a;
 }
