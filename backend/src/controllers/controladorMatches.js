@@ -41,15 +41,24 @@ const crearMatch = async (req, res) => {
 
 const eliminarMatch = async (req, res) => {
     try {
-        const { id } = req.params;
+        const id = parseInt(req.params.id);
+        if (isNaN(id)){
+            return res.status(400).json({error: "ID inválido"});
+        }
         const result = await pool.query('DELETE FROM matches WHERE id = $1 RETURNING *', [id]);
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'Match no encontrado' });
         }
+        const { id_usuario_1, id_usuario_2 } = result.rows[0];
+        await pool.query(`
+            UPDATE likes SET gusta = FALSE
+            WHERE (id_usuario_1 = $1 AND id_usuario_2 = $2)
+            OR (id_usuario_1 = $2 AND id_usuario_2 = $1)
+            `, [id_usuario_1, id_usuario_2]);
         res.json({ message: 'Match eliminado', match: result.rows[0] });
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Error al eliminar match' });
+        console.error("Error al eliminar match:", err.message);
+        res.status(500).json({ error: err.message });
     }
 };
 
