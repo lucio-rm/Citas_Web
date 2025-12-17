@@ -35,8 +35,9 @@
 // ];
 //let cola = [...personas];
 
-//const id_logueado = usuario.id; // Mas adelante se importa usuario desde el login
-let usuarioActual = null;
+const usuario_logueado = JSON.parse(localStorage.getItem("usuario")); // Mas adelante se importa usuario desde el login
+let usuario_actual = null;
+let cola = [];
 const img = document.getElementById("match-img");
 const nombre = document.getElementById("match-nombre");
 const descripcion = document.getElementById("match-desc");
@@ -47,6 +48,17 @@ const hobbies = document.getElementById("match-hobbies");
 const habitos = document.getElementById("match-habitos");
 const orientacion = document.getElementById("match-orientacion");
 const signo = document.getElementById("match-signo");
+
+function calcularEdad(fecha) {
+    const hoy = new Date();
+    const nacimiento = new Date(fecha);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const m = hoy.getMonth() - nacimiento.getMonth();
+    if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+        edad--;
+    }
+    return edad;
+}
 
 async function cargarTags(id_pareja) {
     const response = await fetch(`http://localhost:3000/usuarios/tags?id=${id_pareja}`);
@@ -63,16 +75,16 @@ async function cargarTags(id_pareja) {
 
 async function cargarPersonas () {
     try {
-        const response = await fetch(`http://localhost:3000/usuarios/disponibles?id=${id_logueado}`);
+        const response = await fetch(`http://localhost:3000/usuarios/disponibles?id=${usuario_logueado.id}`);
         const personas = await response.json();
         const personas_filtradas = personas
-        .filter(persona => persona.id !== id_logueado)
+        .filter(persona => persona.id !== usuario_logueado.id)
         .map(persona => ({
             id: persona.id,
             nombre: `${persona.nombre} ${persona.apellido}`,
             descripcion: persona.descripcion_personal,
-            imagen: persona.imagen_url,
-            edad: persona.edad,
+            imagen: persona.foto_perfil,
+            edad: calcularEdad(persona.fecha_nacimiento),
             ciudad: persona.ubicacion,
             genero: persona.sexo_genero
         }));
@@ -84,17 +96,15 @@ async function cargarPersonas () {
 }
 
 async function cargarPersonasConFiltro(filtros) {
-    const personas = await cargarPersonas();
-    if (!personas) return [];
-
-    return personas.filter(p => {
-        if (filtros.edad_min && p.edad < filtros.edad_min) return false;
-        if (filtros.edad_max && p.edad > filtros.edad_max) return false;
-        if (filtros.ciudad && p.ciudad.toLowerCase() !== filtros.ciudad.toLowerCase()) return false;
-        if (filtros.genero && p.genero.toLowerCase() !== filtros.genero.toLowerCase()) return false; 
-        if (filtros.signo && p.signo !== filtros.signo) return false;
-
-    })
+    const params = new URLSearchParams({id: usuario_logueado.id});
+    if (filtros.signo) params.append('signo', filtros.signo);
+    if (filtros.ciudad) params.append('ciudad', filtros.ciudad);
+    if (filtros.edad_min) params.append('edad_min', filtros.edad_min);
+    if (filtros.edad_max) params.append('edad_max', filtros.edad_max);
+    if (filtros.genero) params.append('genero', filtros.genero);
+    const response = await fetch(`http://localhost:3000/usuarios/disponibles?${params.toString()}`);
+    const personas = await response.json();
+    return personas;
 }
 
 async function inicializarCola() {
@@ -103,8 +113,8 @@ async function inicializarCola() {
         mostrarFinDePersonas();
         return;
     }
-    usuarioActual = cola.shift();
-    mostrarPersona(usuarioActual);
+    usuario_actual = cola.shift();
+    mostrarPersona(usuario_actual);
 }
 
 function obtenerSiguientePersona() {
@@ -112,8 +122,8 @@ function obtenerSiguientePersona() {
         mostrarFinDePersonas();
         return;
     }
-    usuarioActual = cola.shift();
-    mostrarPersona(usuarioActual);
+    usuario_actual = cola.shift();
+    mostrarPersona(usuario_actual);
 }
 
 function mostrarFinDePersonas() {
@@ -129,44 +139,54 @@ function mostrarFinDePersonas() {
     signo.textContent = "";
 }
 
-async function mostrarPersona(usuarioActual) {
-    img.src = usuarioActual.imagen;
-    nombre.textContent = usuarioActual.nombre;
-    descripcion.textContent = usuarioActual.descripcion;
-    ubicacion.textContent = `Ciudad: ${usuarioActual.ciudad}`;
-    edad.textContent = `Edad: ${usuarioActual.edad}`;
-    genero.textContent = `Genero: ${usuarioActual.genero}`;
-    const tags = await cargarTags(usuarioActual.id);
+async function mostrarPersona(usuario_actual) {
+    img.src = usuario_actual.imagen || "https://cdn-icons-png.flaticon.com/512/4076/4076549.png";
+    nombre.textContent = usuario_actual.nombre;
+    descripcion.textContent = usuario_actual.descripcion;
+    ubicacion.textContent = `Ciudad: ${usuario_actual.ciudad}`;
+    edad.textContent = `Edad: ${usuario_actual.edad}`;
+    genero.textContent = `Genero: ${usuario_actual.genero}`;
+    const tags = await cargarTags(usuario_actual.id);
     hobbies.textContent = tags.hobbies.join(', ') || "";
     habitos.textContent = tags.habitos.join(', ') || "";
-    orientacion.textContent = tags.orientacion || "";
-    signo.textContent = tags.signo || "";
+    orientacion.textContent = tags.orientacion.join(', ') || "";
+    signo.textContent = tags.signo.join(', ') || "";
 }
 
 async function darLike() {
+    if (!usuario_actual) return; // por si no hay usuario cargado
+
     try {
-        const response = await fetch(`http://localhost:3000/likes/`, {
+        const response = await fetch("http://localhost:3000/matches/like", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id_usuario_1: id_logueado,
-                id_usuario_2: usuarioActual.id,
+                id_usuario_1: usuario_logueado.id,
+                id_usuario_2: usuario_actual.id,
                 gusta: true
             })
         });
-        if (!response.ok) {
-            throw new Error('Error al registrar el like');
+
+        const data = await response.json();
+
+        if (data.match) {
+            // Si se creó un match
+            alert(`¡Es match con ${usuario_actual.nombre}!`);
+        } else {
+            console.log(data.message); // solo like registrado
         }
+
     } catch (error) {
         console.error('Error al dar like:', error);
     }
 }
 
-document.getElementById("like").addEventListener("click", function (event) {
+document.getElementById("like").addEventListener("click", async function (event) {
     event.preventDefault();
-    darLike();
+    await darLike();
+    cola = await cargarPersonas();
     obtenerSiguientePersona();
 });
 
@@ -218,8 +238,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        usuarioActual = cola.shift();
-        mostrarPersona(usuarioActual);
+        usuario_actual = cola.shift();
+        mostrarPersona(usuario_actual);
     })
 });
 
