@@ -3,6 +3,8 @@ let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]}; //tags sel
 
 //variable del formulario
 const formPerfil = document.querySelector('.editar-perfil-form');
+// variable del boton eliminar perfil
+const btnEliminarPerfil = document.getElementById('bnt-eliminar-perfil');
 
 //variables de los inputs
 const inputNombre = document.getElementById('editar-nombre');
@@ -339,6 +341,34 @@ const guardarCambiosUsuario = async (e) => {
 
 }
 
+const eliminarPerfil = async () => {
+
+    const usuarioLocal = JSON.parse(localStorage.getItem('usuario'));
+    const idUsuario = usuarioLocal ? usuarioLocal.id : null;
+
+    const confirmar = confirm("¿Estás seguro de que quieres eliminar tu cuenta? Esta acción no se puede deshacer.");
+
+    if (idUsuario && confirmar) {
+        try {
+            const respuesta = await fetch(`http://localhost:3000/usuarios/${idUsuario}`,{
+                method : 'DELETE'
+            });
+
+            if (respuesta.ok) {
+                alert("Tu cuenta ha sido eliminada exitosamente.");
+                localStorage.clear();
+                window.location.href = 'login.html';
+            } else {
+                alert("Error al eliminar la cuenta.");
+            }
+            
+        } catch (error){
+            console.error("Error al eliminar la cuenta: ", error);
+            alert("No se pudo eliminar la cuenta. Por favor, intenta nuevamente.");
+        }
+    }
+}
+
 
 document.addEventListener('DOMContentLoaded', async () =>{
     await inicializarListaTags();
@@ -348,4 +378,7 @@ document.addEventListener('DOMContentLoaded', async () =>{
 
 if (formPerfil) { 
     formPerfil.addEventListener('submit', guardarCambiosUsuario);
+}
+if (btnEliminarPerfil) {
+    btnEliminarPerfil.addEventListener('click', eliminarPerfil);
 }
