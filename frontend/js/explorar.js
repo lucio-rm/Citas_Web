@@ -1,41 +1,4 @@
-// const personas = [
-//  {
-//         id : 1,
-//         nombre: "Ana Torres",
-//         descripcion: "Amo viajar y sacar fotos.",
-//         imagen: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Miyabi_Moriya_during_Gotham_Angel_City_Sep_7_25-010_%28cropped%29.jpg",
-//         edad: 24,
-//         ciudad: "Buenos Aires",
-//         orientacion: "Heterosexual",
-//         hobbies: "Cine, viajes, fotografía",
-//         tags: "#aventurera #artística"
-//     },
-//     {
-//         id : 2,
-//         nombre: "Lucas Pérez",
-//         descripcion: "Fan de los videojuegos y el gym.",
-//         imagen: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHww",
-//         edad: 27,
-//         ciudad: "Córdoba",
-//         orientacion: "Bisexual",
-//         hobbies: "Gym, streaming, música",
-//         tags: "#gamer #fit"
-//     },
-//     {
-//         id : 3,
-//         nombre: "María Gómez",
-//         descripcion: "Me encanta cocinar y leer.",
-//         imagen: "https://img.freepik.com/free-photo/expressive-woman-posing-outdoor_344912-3079.jpg?semt=ais_hybrid&w=740&q=80lma.io/assets/images/placeholders/1280x960.pnghttps://img.freepik.com/free-photo/expressive-woman-posing-outdoor_344912-3079.jpg?semt=ais_hybrid&w=740&q=80https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cmFuZG9tJTIwcGVvcGxlfGVufDB8fDB8fHwwhttps://i.pinimg.com/474x/31/9d/1e/319d1e1b798ae1da876b122cf078c51b.jpghttps://mir-s3-cdn-cf.behance.net/project_modules/1400/e98f2535036667.58bc6981515a3.jpg",
-//         edad: 30,
-//         ciudad: "Rosario",
-//         orientacion: "Heterosexual",
-//         hobbies: "Lectura, cocina, yoga",
-//         tags: "#chef #relax"
-//     }
-// ];
-//let cola = [...personas];
-
-const usuario_logueado = JSON.parse(localStorage.getItem("usuario")); // Mas adelante se importa usuario desde el login
+const usuario_logueado = JSON.parse(localStorage.getItem("usuario"));
 let usuario_actual = null;
 let cola = [];
 const img = document.getElementById("match-img");
@@ -98,13 +61,25 @@ async function cargarPersonas () {
 async function cargarPersonasConFiltro(filtros) {
     const params = new URLSearchParams({id: usuario_logueado.id});
     if (filtros.signo) params.append('signo', filtros.signo);
+    if (filtros.hobbies) params.append('hobbies', filtros.hobbies);
+    if (filtros.habitos) params.append('habitos', filtros.habitos);
+    if (filtros.orientacion) params.append('orientacion', filtros.orientacion)
     if (filtros.ciudad) params.append('ciudad', filtros.ciudad);
     if (filtros.edad_min) params.append('edad_min', filtros.edad_min);
     if (filtros.edad_max) params.append('edad_max', filtros.edad_max);
     if (filtros.genero) params.append('genero', filtros.genero);
     const response = await fetch(`http://localhost:3000/usuarios/disponibles?${params.toString()}`);
     const personas = await response.json();
-    return personas;
+
+    return personas.map(persona => ({
+            id: persona.id,
+            nombre: `${persona.nombre} ${persona.apellido}`,
+            descripcion: persona.descripcion_personal,
+            imagen: persona.foto_perfil,
+            edad: calcularEdad(persona.fecha_nacimiento),
+            ciudad: persona.ubicacion,
+            genero: persona.sexo_genero
+    }))
 }
 
 async function inicializarCola() {
@@ -227,7 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
             edad_max: parseInt(document.getElementById("filtro-edad-max").value) || undefined,
             ciudad: document.getElementById("filtro-ciudad").value || undefined,
             genero: document.getElementById("filtro-genero").value || undefined,
+            orientacion: document.getElementById("filtro-orientacion").value || undefined,
             signo: document.getElementById("filtro-signo").value || undefined,
+            hobbies: document.getElementById("filtro-hobby").value || undefined,
+            habitos: document.getElementById("filtro-habito").value || undefined
 
         }
         overlay.style.display = "none";
