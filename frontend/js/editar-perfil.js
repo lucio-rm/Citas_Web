@@ -4,7 +4,7 @@ let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]}; //tags sel
 //variable del formulario
 const formPerfil = document.querySelector('.editar-perfil-form');
 // variable del boton eliminar perfil
-const btnEliminarPerfil = document.getElementById('bnt-eliminar-perfil');
+const btnEliminarPerfil = document.getElementById('btn-eliminar-perfil');
 
 //variables de los inputs
 const inputNombre = document.getElementById('editar-nombre');
@@ -37,6 +37,21 @@ const calcularEdad = (fechaNacimiento) => {
         edad--;
     }
     return edad;
+}
+
+// restringe la fecha de nacimiento
+const restringirFechaNacimiento = () => {
+    const hoy = new Date();
+
+    const anio = hoy.getFullYear() - 18;
+    const mes = String(hoy.getMonth() + 1 ).padStart(2, '0'); // le suma 1 porque los meses van del 0 al 11, y le agrega un
+    const dia = String(hoy.getDate()).padStart(2, '0'); // y le agrega un 0 al inicio si es de un solo digito
+
+    // el formato es YYYY-MM-DD
+    const fechaMax = `${anio}-${mes}-${dia}`;
+
+    // le agregamos la restriccion al input
+    inputFechaNacimiento.setAttribute('max', fechaMax);
 }
 
 // muestra los datos en la vista previa a medida que se escriben
@@ -341,7 +356,8 @@ const guardarCambiosUsuario = async (e) => {
 
 }
 
-const eliminarPerfil = async () => {
+const eliminarPerfil = async (e) => {
+    if (e) e.preventDefault();
 
     const usuarioLocal = JSON.parse(localStorage.getItem('usuario'));
     const idUsuario = usuarioLocal ? usuarioLocal.id : null;
@@ -373,6 +389,8 @@ const eliminarPerfil = async () => {
 document.addEventListener('DOMContentLoaded', async () =>{
     await inicializarListaTags();
 
+    restringirFechaNacimiento();
+
     cargarDatosUsuario();
 });
 
@@ -380,5 +398,5 @@ if (formPerfil) {
     formPerfil.addEventListener('submit', guardarCambiosUsuario);
 }
 if (btnEliminarPerfil) {
-    btnEliminarPerfil.addEventListener('click', eliminarPerfil);
+    btnEliminarPerfil.onclick = eliminarPerfil;
 }
