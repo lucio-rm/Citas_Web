@@ -175,7 +175,7 @@ const usuariosDisponibles = async (req, res) => {
             query += `
             JOIN usuarios_tags ut_hobby ON ut_hobby.id_usuario = u.id
             JOIN tags t_hobby ON t_hobby.id = ut_hobby.id_tag
-            AND t_hobby.categoria = 'HOBBY' AND t_hobby.nombre = $${idx}
+            AND t_hobby.categoria = 'HOBBY' AND unaccent(t_hobby.nombre) ILIKE unaccent($${idx})
         `;
             params.push(hobbies);
             idx++;
@@ -184,7 +184,7 @@ const usuariosDisponibles = async (req, res) => {
             query += `
                 JOIN usuarios_tags ut_habitos ON ut_habitos.id_usuario = u.id
                 JOIN tags t_habitos ON t_habitos.id = ut_habitos.id_tag
-                AND t_habitos.categoria = 'HABITOS' AND t_habitos.nombre = $${idx}
+                AND t_habitos.categoria = 'HABITOS' AND unaccent(t_habitos.nombre) ILIKE unaccent($${idx})
             `;
             params.push(habitos);
             idx++;
@@ -193,19 +193,19 @@ const usuariosDisponibles = async (req, res) => {
             query += `
                 JOIN usuarios_tags ut_orientacion ON ut_orientacion.id_usuario = u.id
                 JOIN tags t_orientacion ON t_orientacion.id = ut_orientacion.id_tag
-                AND t_orientacion.categoria = 'ORIENTACION' AND t_orientacion.nombre = $${idx}
+                AND t_orientacion.categoria = 'ORIENTACION' AND unaccent(t_orientacion.nombre) ILIKE unaccent($${idx})
         `;
             params.push(orientacion);
             idx++;
         }
         query += ` WHERE u.id != $1 AND l.id IS NULL AND m.id IS NULL `;
         if (ciudad) {
-            query += ` AND u.ubicacion = $${idx} `;
+            query += ` AND unaccent(u.ubicacion) ILIKE unaccent($${idx}) `;
             params.push(ciudad);
             idx++;
         }
         if (genero) {
-            query += ` AND u.sexo_genero = $${idx} `;
+            query += ` AND unaccent(u.sexo_genero) ILIKE unaccent($${idx}) `;
             params.push(genero);
             idx++;
         }
