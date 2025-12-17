@@ -2,12 +2,12 @@ import { pool } from "../db.js";
 
 const crearFeedback = async (req, res) => {
     try {
-        const { id_citas, id_usuario, clasificacion_evento, clasificacion_pareja,
+        const { id_citas, id_usuario_calificador, id_usuario_calificado, clasificacion_evento, clasificacion_pareja,
                 repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento,
                 nota_extra } = req.body;
         
         // validaciones obligatorias
-        if (!id_citas || !id_usuario || !clasificacion_evento || !clasificacion_pareja ||
+        if (!id_citas || !id_usuario_calificador || !id_usuario_calificado || !clasificacion_evento || !clasificacion_pareja ||
             !repetirias || !puntualidad || !fluidez_conexion || !comodidad || !calidad_evento) {
             return res.status(400).json({ error: 'Faltan campos obligatorios' });
         }
