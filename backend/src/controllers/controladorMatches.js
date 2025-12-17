@@ -12,13 +12,13 @@ const obtenerMatches = async (req, res) => {
 
 const obtenerMatchPorId = async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await pool.query('SELECT * FROM matches WHERE id_usuario_1 = $1 OR id_usuario_2 = $1', [id]);
+        const id = parseInt(req.params.id);
+        const result = await pool.query(
+            `SELECT * FROM matches 
+            WHERE id_usuario_1 = $1 OR id_usuario_2 = $1
+            ORDER BY fecha_match DESC`, [id]);
         
-        if (result.rows.length === 0) {
-            return res.status(404).json({ error: 'Match no encontrado' });
-        }
-        res.json(result.rows[0]);
+        res.json(result.rows);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Error al obtener match' });
