@@ -22,15 +22,18 @@ const crearFeedback = async (req, res) => {
         }
         
         const result = await pool.query(
-            `INSERT INTO feedback (id_citas, id_usuario, clasificacion_evento, clasificacion_pareja,
+            `INSERT INTO feedback (id_citas, id_usuario_calificador, id_usuario_calificado,
+             clasificacion_evento, clasificacion_pareja,
              repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra)
-             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
              RETURNING *`,
-            [id_citas, id_usuario, clasificacion_evento, clasificacion_pareja,
+            [id_citas, id_usuario_calificador, id_usuario_calificado,
+             clasificacion_evento, clasificacion_pareja,
              repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra || null]
         );
         
         res.status(201).json(result.rows[0]);
+        
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Error al crear feedback' });
