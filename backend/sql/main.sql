@@ -27,6 +27,14 @@ CREATE TABLE usuarios (
     edad_preferida_max INT DEFAULT 99
 );
 
+INSERT INTO usuarios (nombre, apellido, fecha_nacimiento, mail, contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion)
+VALUES
+('Ana', 'Torres', '1998-03-12', 'ana.torres@example.com', '123456', 'Femenino', 'Amo viajar y sacar fotos.', 'https://randomuser.me/api/portraits/women/68.jpg', 'Buenos Aires'),
+('Lucas', 'Pérez', '1995-07-23', 'lucas.perez@example.com', '123456', 'Masculino', 'Fanático del cine y los videojuegos.', 'https://randomuser.me/api/portraits/men/75.jpg', 'Córdoba'),
+('María', 'Gómez', '2000-01-05', 'maria.gomez@example.com', '123456', 'Femenino', 'Disfruto de la lectura y la música.', 'https://randomuser.me/api/portraits/women/45.jpg', 'Rosario'),
+('Juan', 'Martínez', '1992-11-17', 'juan.martinez@example.com', '123456', 'Masculino', 'Amante del deporte y la naturaleza.', 'https://randomuser.me/api/portraits/men/32.jpg', 'Mendoza'),
+('Valentina', 'Rojas', '1999-05-29', 'valentina.rojas@example.com', '123456', 'Femenino', 'Me encanta cocinar y pintar.', 'https://randomuser.me/api/portraits/women/12.jpg', 'Salta');
+
 
 
 CREATE TABLE tags (
@@ -54,11 +62,18 @@ INSERT INTO tags (nombre, categoria) VALUES
 CREATE TABLE usuarios_tags (
     id SERIAL PRIMARY KEY,
     id_usuario INT NOT NULL,
-    id_tag INT NOT NULL,
-    tipo_relacion VARCHAR(20) NOT NULL DEFAULT 'PROPIO', 
+    id_tag INT NOT NULL, 
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (id_tag) REFERENCES tags(id) ON DELETE CASCADE
 );
+
+INSERT INTO usuarios_tags(id_usuario, id_tag) VALUES
+(1, 1), (1, 4), (1, 5), (1, 34), (1, 25),
+(2, 2), (2, 3), (2, 6), (2, 35), (2, 27),
+(3, 5), (3, 8), (3, 10), (3, 36), (3, 30),
+(4, 1), (4, 4), (4, 5), (4, 34), (4, 24),
+(5, 1), (5, 4), (5, 5), (5, 34), (5, 28);
+
 
 CREATE TABLE matches (
     id SERIAL PRIMARY KEY,
@@ -77,6 +92,8 @@ CREATE TABLE likes (
     FOREIGN KEY (id_usuario_1) REFERENCES usuarios(id) ON DELETE CASCADE,
     FOREIGN KEY (id_usuario_2) REFERENCES usuarios(id) ON DELETE CASCADE
 );
+
+CREATE UNIQUE INDEX idx_likes_unicos ON likes(id_usuario_1, id_usuario_2);
 
 CREATE TABLE citas (
     id SERIAL PRIMARY KEY,
