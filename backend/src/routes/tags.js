@@ -8,7 +8,10 @@ router.get('/', controladores.obtenerTags);
 // obtener un solo tag por su id
 router.get('/:id', controladores.obtenerTagPorId);
 
-router.get('/usuario/:id', controladores.obtenerTagsPorUsuarioId);
 // obtener tags de un usuario por su id
+router.get('/usuario/:id', controladores.obtenerTagsPorUsuarioId);
+
+// actualizar los tags asociados a un usuario
+router.put('/usuario/:id', controladores.actualizarTagsUsuario)
 
 export default router;
