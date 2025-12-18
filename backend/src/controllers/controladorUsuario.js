@@ -287,6 +287,20 @@ const obtenerTags = async (req, res) => {
     }
 }
 
+const obtenerTodosLosTags = async (req, res) => {
+    try {
+        const result = await pool.query(`
+            SELECT id, nombre, categoria
+            FROM tags
+            ORDER BY categoria, nombre
+        `);
+
+        res.json(result.rows);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al cargar tags');
+    }
+};
 
 export {
     obtenerUsuarios,
@@ -296,5 +310,6 @@ export {
     eliminarUsuario,
     loginUsuario,
     usuariosDisponibles,
-    obtenerTags
+    obtenerTags,
+    obtenerTodosLosTags
 };
