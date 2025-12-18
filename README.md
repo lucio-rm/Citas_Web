@@ -116,7 +116,7 @@ DB_HOST=localhost
 DB_NAME=hilo_rojo
 DB_PORT=5432
 -
-![alt text](<screenshot/env.png>) (ctrl + click izquierdo para ver la screenshot)
+![alt text](<screenshot/env_1.png>) (ctrl + click izquierdo para ver la screenshot)
 
 
 Paso 3: Iniciar el Backend
@@ -233,4 +233,4 @@ De parte de los Creadores, les damos las gracias:
 - a los profesores que nos enseñaron y dieron las herramientas para crear todo.
 
 
-" El hilo rojo en la mitología japonesa es una creencia que dice que dos personas predestinadas están unidas por un hilo rojo invisible, atado al dedo meñique o tobillo, que los conecta para siempre, sin importar el tiempo, lugar o circunstancias, aunque pueda enredarse o tensarse, nunca se rompe, simbolizando almas gemelas y un destino increíble. "
+" El hilo rojo en la mitología china y japonesa es una creencia que dice que dos personas predestinadas están unidas por un hilo rojo invisible, atado al dedo meñique o tobillo, que los conecta para siempre, sin importar el tiempo, lugar o circunstancias, aunque pueda enredarse o tensarse, nunca se rompe, simbolizando almas gemelas y un destino increíble. "

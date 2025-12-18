@@ -7,14 +7,6 @@ const nombreEnModalEditar = document.getElementById('nombre-editar');
 const formulario = document.getElementById('form-calificar-cita');
 const formularioEditar = document.getElementById('form-editar-cita');
 
-(function verificarSesion() { // si no está logeado
-    const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
-
-    if (!usuarioLogeado || !usuarioLogeado.id) {
-        window.location.href = '/paginas/login.html'; // redirige al login
-    }
-})();
-
 //boton para cerrar el modal (formulario de calificacion)
 btnCerrarModal.addEventListener('click' , () => {
     modal.style.display = 'none'; //le quita el display al modal (formulario)
@@ -238,7 +230,7 @@ formularioEditar.addEventListener('submit', async (e) => {
         fecha_hora : document.getElementById('fecha-hora-editar').value,
         duracion_estimada_minutos : document.getElementById('duracion-editar').value,
         tipo_encuentro : document.getElementById('tipo-encuentro-editar').value,
-        estado : 'pendiente'
+        estado : document.getElementById('estado-editar').value
     }
 
     try {
@@ -286,6 +278,7 @@ const cargarCitas = async () => {
         : 'https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg';
 
             const fechaFormateada = new Date(cita.fecha_hora).toLocaleString('es-AR', {
+                timeZone: 'UTC',
                 day : '2-digit',
                 month : '2-digit',
                 year : 'numeric',

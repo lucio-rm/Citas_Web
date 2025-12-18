@@ -91,17 +91,20 @@
             <input id="tipo-encuentro-editar" type="text" required>
             <label>Duración estimada</label>
             <input id="duracion-editar" type="number" required>
-            
+            <select name="estado" id="estado-editar">
+                <option value="">seleccionar</option>
+                <option value="pendiente">pendiente</option>
+                <option value="confirmada">confirmada</option>
+            </select>
             <button class="boton" type="submit">Guardar cambios</button>
 
         </form>
     </div>
 
     
-
-
     <script src="../js/citas.js"></script>
-    <script src="../js/pag-inicial.js"></script>
+    <script src="../js/verifica-login.js"></script>
     <script src="../js/logout.js"></script>
+    
 </body>
 </html>

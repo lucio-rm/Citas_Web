@@ -15,9 +15,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     descripcion_personal TEXT,
     foto_perfil VARCHAR(255),
     ubicacion VARCHAR(100),
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    edad_preferida_min INT DEFAULT 18,
-    edad_preferida_max INT DEFAULT 99
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 INSERT INTO usuarios (nombre, apellido, fecha_nacimiento, mail, contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion)
@@ -38,19 +36,19 @@ VALUES
 ('Paula', 'Herrera', '1997-07-11', 'paula.herrera@example.com', '@Aa123456', 'Femenino', 'Diseño gráfico freelance.', 'https://randomuser.me/api/portraits/women/63.jpg', 'Santa Fe'),
 ('Diego', 'Ortiz', '1991-05-03', 'diego.ortiz@example.com', '@Aa123456', 'Masculino', 'Ciclismo urbano.', 'https://randomuser.me/api/portraits/men/27.jpg', 'Buenos Aires'),
 ('Carolina', 'Molina', '1999-11-22', 'carolina.molina@example.com', '@Aa123456', 'Femenino', 'Psicología y bienestar.', 'https://randomuser.me/api/portraits/women/7.jpg', 'Tucumán'),
-('Leandro', 'Silva', '1994-08-05', 'leandro.silva@example.com', '@Aa123456', 'Masculino', 'Música indie y vinilos.', 'https://randomuser.me/api/portraits/men/83.jpg', 'CABA'),
+('Leandro', 'Silva', '1994-08-05', 'leandro.silva@example.com', '@Aa123456', 'Prefiero no decirlo', 'Música indie y vinilos.', 'https://randomuser.me/api/portraits/men/83.jpg', 'CABA'),
 ('Micaela', 'Navarro', '2000-02-16', 'micaela.navarro@example.com', '@Aa123456', 'Femenino', 'Estudiante de medicina.', 'https://randomuser.me/api/portraits/women/40.jpg', 'Corrientes'),
-('Federico', 'Arias', '1993-06-28', 'federico.arias@example.com', '@Aa123456', 'Masculino', 'Barista y amante del café.', 'https://randomuser.me/api/portraits/men/91.jpg', 'Córdoba'),
+('Federico', 'Arias', '1993-06-28', 'federico.arias@example.com', '@Aa123456', 'No binario', 'Barista y amante del café.', 'https://randomuser.me/api/portraits/men/91.jpg', 'Córdoba'),
 ('Rocío', 'Benítez', '1996-09-19', 'rocio.benitez@example.com', '@Aa123456', 'Femenino', 'Senderismo y aire libre.', 'https://randomuser.me/api/portraits/women/26.jpg', 'Bariloche'),
 ('Pablo', 'Ibarra', '1989-12-14', 'pablo.ibarra@example.com', '@Aa123456', 'Masculino', 'Emprendedor tech.', 'https://randomuser.me/api/portraits/men/14.jpg', 'Buenos Aires'),
 ('Lara', 'Peralta', '2001-04-09', 'lara.peralta@example.com', '@Aa123456', 'Femenino', 'Ilustración digital.', 'https://randomuser.me/api/portraits/women/50.jpg', 'La Rioja'),
 ('Gonzalo', 'Rivas', '1997-01-31', 'gonzalo.rivas@example.com', '@Aa123456', 'Masculino', 'Streamer casual.', 'https://randomuser.me/api/portraits/men/36.jpg', 'San Luis'),
-('Belén', 'Cabrera', '1995-10-08', 'belen.cabrera@example.com', '@Aa123456', 'Femenino', 'Amante de los animales.', 'https://randomuser.me/api/portraits/women/72.jpg', 'Chaco'),
+('Belén', 'Cabrera', '1995-10-08', 'belen.cabrera@example.com', '@Aa123456', 'No binario', 'Amante de los animales.', 'https://randomuser.me/api/portraits/women/72.jpg', 'Chaco'),
 ('Emiliano', 'Acosta', '1992-03-25', 'emiliano.acosta@example.com', '@Aa123456', 'Masculino', 'Marketing digital.', 'https://randomuser.me/api/portraits/men/67.jpg', 'CABA'),
-('Natalia', 'Ponce', '1998-06-17', 'natalia.ponce@example.com', '@Aa123456', 'Femenino', 'Nutrición y vida sana.', 'https://randomuser.me/api/portraits/women/34.jpg', 'Mendoza'),
+('Natalia', 'Ponce', '1998-06-17', 'natalia.ponce@example.com', '@Aa123456', 'Prefiero no decirlo', 'Nutrición y vida sana.', 'https://randomuser.me/api/portraits/women/34.jpg', 'Mendoza'),
 ('Franco', 'Sosa', '1996-09-02', 'franco.sosa@example.com', '@Aa123456', 'Masculino', 'Escalada deportiva.', 'https://randomuser.me/api/portraits/men/48.jpg', 'San Martín'),
 ('Victoria', 'Luna', '1999-12-27', 'victoria.luna@example.com', '@Aa123456', 'Femenino', 'Astrología y tarot.', 'https://randomuser.me/api/portraits/women/9.jpg', 'Buenos Aires'),
-('Matías', 'Correa', '1994-05-15', 'matias.correa@example.com', '@Aa123456', 'Masculino', 'Docente de historia.', 'https://randomuser.me/api/portraits/men/5.jpg', 'La Pampa')
+('Matías', 'Correa', '1994-05-15', 'matias.correa@example.com', '@Aa123456', 'No binario', 'Docente de historia.', 'https://randomuser.me/api/portraits/men/5.jpg', 'La Pampa')
 ON CONFLICT DO NOTHING;
 
 
@@ -89,7 +87,31 @@ INSERT INTO usuarios_tags(id_usuario, id_tag) VALUES
 (2, 2), (2, 3), (2, 6), (2, 35), (2, 27),
 (3, 5), (3, 8), (3, 10), (3, 36), (3, 30),
 (4, 1), (4, 4), (4, 5), (4, 34), (4, 24),
-(5, 1), (5, 4), (5, 5), (5, 34), (5, 28)
+(5, 1), (5, 4), (5, 5), (5, 34), (5, 28),
+(6, 18), (6, 15), (6, 32), (6, 34),
+(7, 12), (7, 16), (7, 30), (7, 34),
+(8, 9), (8, 2), (8, 25), (8, 34),
+(9, 12), (9, 4), (9, 24), (9, 34),
+(10, 8), (10, 3), (10, 28), (10, 36),
+(11, 1), (11, 14), (11, 22), (11, 34),
+(12, 9), (12, 21), (12, 29), (12, 34),
+(13, 17), (13, 16), (13, 33), (13, 35),
+(14, 8), (14, 9), (14, 25), (14, 34),
+(15, 20), (15, 15), (15, 27), (15, 34),
+(16, 3), (16, 18), (16, 23), (16, 36),
+(17, 7), (17, 14), (17, 30), (17, 34),
+(18, 3), (18, 15), (18, 32), (18, 34),
+(19, 15), (19, 2), (19, 26), (19, 36),
+(20, 9), (20, 20), (20, 29), (20, 34),
+(21, 12), (21, 4), (21, 28), (21, 34),
+(22, 8), (22, 2), (22, 22), (22, 36),
+(23, 4), (23, 12), (23, 32), (23, 34),
+(24, 10), (24, 5), (24, 24), (24, 36),
+(25, 9), (25, 14), (25, 22), (25, 34),
+(26, 6), (26, 17), (26, 26), (26, 34),
+(27, 17), (27, 20), (27, 29), (27, 34),
+(28, 3), (28, 18), (28, 33), (28, 36),
+(29, 3), (29, 21), (29, 27), (29, 35)
 ON CONFLICT DO NOTHING;
 
 
