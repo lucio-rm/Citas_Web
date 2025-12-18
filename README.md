@@ -70,7 +70,7 @@ Este proyecto está preparado para correr en cualquier máquina que tenga Docker
 *Instalación de Dependencias:*
 (los comandos utilizados son en la terminal de Bash)
 
-Primero instalá las librerías del backend. Abrí una terminal en la carpeta 'backend' del proyecto y ejecutá:
+Primero instalá las librerías del backend (el código "npm install" solo se ejecuta la PRIMERA vez). Abrí una terminal en la carpeta 'backend' del proyecto y ejecutá:
 *
 cd backend
 npm install
