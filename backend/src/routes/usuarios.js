@@ -7,7 +7,9 @@ const router = express.Router();
 router.get('/disponibles', controladores.usuariosDisponibles);
 
 //obtener tags
-router.get('/tags', controladores.obtenerTags)
+router.get('/tags', controladores.obtenerTags);
+
+router.get('/alltags', controladores.obtenerTodosLosTags);
 
 // obtener un solo usuario
 router.get('/:id', controladores.obtenerUsuarioPorId);
