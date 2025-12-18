@@ -105,13 +105,12 @@ export const eliminarFeedbackPorCita = async (req, res) => {
     }
 }
 
-export const actualizarFeedbackPorCita = async (req, res) => {
+export const actualizarFeedback = async (req, res) => {
     try {
-        const { id_cita } = req.params;
-        const {
+        const {id_citas, id_usuario_calificado, id_usuario_calificador,
             evento, pareja, repetirias, puntualidad, fluidez_conexion,
             comodidad, calidad_evento, nota_extra
-            } = req.body;
+        } = req.body;
         
         const querySql = `
         UPDATE feedback 
@@ -127,7 +126,7 @@ export const actualizarFeedbackPorCita = async (req, res) => {
         RETURNING *`;
 
         const datos = [
-            id_cita, evento, pareja, repetirias, puntualidad,
+            id_citas, evento, pareja, repetirias, puntualidad,
             fluidez_conexion, comodidad, calidad_evento, nota_extra
         ];
 
