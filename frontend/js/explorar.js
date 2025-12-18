@@ -205,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
         overlay.style.display = "none";
     });
 
-    // Cerrar overlay al hacer clic fuera del contenido
+    // Cerrar overlay al hacer clic fuera del contenedor
     overlay.addEventListener("click", (e) => {
         if (e.target === overlay) {
             overlay.style.display = "none";
