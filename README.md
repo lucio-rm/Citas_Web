@@ -47,7 +47,7 @@ Para desarrollar este proyecto usamos:
 - Node.js: Entorno de ejecución para JavaScript del lado del servidor.
 - Express.js: Framework para manejar las rutas y el servidor HTTP.
 - PostgreSQL: Motor de la base de datos.
-- pg (node-postgres): Librería para conectar Node.js con la base de datos PostgreSQL.
+- pg (node postgres): Librería para conectar Node.js con la base de datos PostgreSQL.
 
 *Infraestructura:*
 - Docker: Para tener contenedores de la base de datos y la aplicación.
@@ -61,8 +61,11 @@ Este proyecto está preparado para correr en cualquier máquina que tenga Docker
 
 *Requisitos Previos:*
 1. Docker Desktop: Tiene que estar instalado y abierto (la lucecita verde de "Engine running").
+![alt text](<screenshot/docker_running_engine.png>) (ctrl + click izquierdo para ver la screenshot)
+
 2. Node.js: Necesario para instalar las librerías.
-3. Git: Para clonar el repositorio (o simplemente descargar el código).
+
+3. Git: Para clonar el repositorio (o solo descargar el código).
 
 *Instalación de Dependencias:*
 (los comandos utilizados son en la terminal de Bash)
