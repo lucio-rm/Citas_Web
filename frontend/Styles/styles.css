@@ -247,12 +247,14 @@ strong.strong1{
     margin-top: 20px;
 }
 .tarjeta-cita {
-    background-color: #fef9f9; /* Tu color de fondo de carta */
+    background-color: #fef9f9;
     border-radius: 30px;
     padding: 20px;
     display: flex;
     align-items: center;
     box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.05);
+    min-height: 170px;
+    overflow: hidden;
 }
 .foto-cita {
     width: 75px;
@@ -350,23 +352,31 @@ strong.strong1{
     background-color: #dcdada;
     color: white;
 }
-.boton-calificado {
-    background-color: #d3d3d3;
-    color: #999;
-    cursor: not-allowed;
-    pointer-events: none;
+.boton-editar-calificacion {
+    margin-bottom: 5px;
+}
+.boton-eliminar-calificacion {
+    background-color: #FE7877;
+    color: white;
+}
+.boton-eliminar-calificacion:hover {
+    background-color: #f96363;
 }
 .botones-contenedor {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    margin-left: auto;
-    padding-left: 20px;
+    align-items: flex-end;
+    margin-left: 15px;
+    flex-shrink: 0;
 }
 .botones-contenedor .boton {
     text-align: center;
+    width: 190px;
     margin-bottom: 5px;
+}
+.botones-contenedor .boton:last-child {
+    margin-bottom: 0;
 }
 .boton-eliminar {
     background-color: #ff4d4d;

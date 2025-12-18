@@ -224,9 +224,12 @@ const cargarCitas = async () => {
                             <button class="boton boton-editar">Editar</button>
                         </div>`:
                         cita.id_feedback ? //si id_feedback tiene valor
-                        '<button class="boton boton-calificado">Ya calificado</button>' : //si ya calificó
-                        '<button class="boton boton-abrir-modal">Calificar</button>' //si no calificó aun
-                        }
+                            `<div class="botones-contenedor">
+                                <button class="boton boton-editar-calificacion">Editar nota</button>
+                                <button class="boton boton-eliminar-calificacion">Borrar nota</button>
+                            </div>` : 
+                            '<button class="boton boton-abrir-modal">Calificar</button>'
+                    }
                     
                 </article>
             `;
