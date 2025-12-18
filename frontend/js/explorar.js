@@ -31,19 +31,6 @@ function texto(texto){
     .trim();
 }
 
-async function cargarTags(id_pareja) {
-    const response = await fetch(`http://localhost:3000/usuarios/tags?id=${id_pareja}`);
-    const tags = await response.json();
-    
-    const hobbies = tags.filter(tag => tag.categoria === 'HOBBY').map(tag => tag.nombre);
-    const habitos = tags.filter(tag => tag.categoria === 'HABITOS').map(tag => tag.nombre);
-    const orientacion = tags.filter(tag => tag.categoria === 'ORIENTACION').map(tag => tag.nombre);
-    const signo = tags.filter(tag => tag.categoria === 'SIGNO').map(tag => tag.nombre);
-
-    return { hobbies, habitos, orientacion, signo };
-
-}
-
 async function cargarPersonas () {
     try {
         const response = await fetch(`http://localhost:3000/usuarios/disponibles?id=${usuario_logueado.id}`);
@@ -66,6 +53,19 @@ async function cargarPersonas () {
     }
 }
 
+async function cargarTags(id_pareja) {
+    const response = await fetch(`http://localhost:3000/usuarios/tags?id=${id_pareja}`);
+    const tags = await response.json();
+    
+    const hobbies = tags.filter(tag => tag.categoria === 'HOBBY').map(tag => tag.nombre);
+    const habitos = tags.filter(tag => tag.categoria === 'HABITOS').map(tag => tag.nombre);
+    const orientacion = tags.filter(tag => tag.categoria === 'ORIENTACION').map(tag => tag.nombre);
+    const signo = tags.filter(tag => tag.categoria === 'SIGNO').map(tag => tag.nombre);
+
+    return { hobbies, habitos, orientacion, signo };
+
+}
+
 async function cargarTagsDisponibles() {
     const response = await fetch("http://localhost:3000/tags");
     const tags = await response.json();
@@ -76,24 +76,6 @@ async function cargarTagsDisponibles() {
     const signo = tags.filter(tag => tag.categoria === 'SIGNO');
 
     return { hobbies, habitos, orientacion, signo };
-}
-
-function renderBotones(tags, containerId) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = "";
-
-    tags.forEach(tag => {
-        const btn = document.createElement("button");
-        btn.textContent = tag.nombre;
-        btn.classList.add("boton-opcion");
-        btn.dataset.id = tag.id;
-
-        btn.addEventListener("click", () => {
-            btn.classList.toggle("activo");
-        });
-
-        container.appendChild(btn);
-    });
 }
 
 async function cargarPersonasConFiltro(filtros) {
@@ -130,6 +112,20 @@ async function inicializarCola() {
     mostrarPersona(usuario_actual);
 }
 
+async function mostrarPersona(usuario_actual) {
+    img.src = usuario_actual.imagen || "https://cdn-icons-png.flaticon.com/512/4076/4076549.png";
+    nombre.textContent = usuario_actual.nombre;
+    descripcion.textContent = usuario_actual.descripcion;
+    ubicacion.textContent = `Ciudad: ${usuario_actual.ciudad}`;
+    edad.textContent = `Edad: ${usuario_actual.edad}`;
+    genero.textContent = `Genero: ${usuario_actual.genero}`;
+    const tags = await cargarTags(usuario_actual.id);
+    hobbies.textContent = tags.hobbies.join(', ') || "";
+    habitos.textContent = tags.habitos.join(', ') || "";
+    orientacion.textContent = `Orientación: ${tags.orientacion.join(', ')}` || "";
+    signo.textContent = `Signo: ${tags.signo.join(', ')}` || "";
+}
+
 function obtenerSiguientePersona() {
     cola = cola.filter(persona => !usuario_dislike.includes(persona.id))
     if (cola.length === 0) {
@@ -153,70 +149,27 @@ function mostrarFinDePersonas() {
     signo.textContent = "";
 }
 
-async function mostrarPersona(usuario_actual) {
-    img.src = usuario_actual.imagen || "https://cdn-icons-png.flaticon.com/512/4076/4076549.png";
-    nombre.textContent = usuario_actual.nombre;
-    descripcion.textContent = usuario_actual.descripcion;
-    ubicacion.textContent = `Ciudad: ${usuario_actual.ciudad}`;
-    edad.textContent = `Edad: ${usuario_actual.edad}`;
-    genero.textContent = `Genero: ${usuario_actual.genero}`;
-    const tags = await cargarTags(usuario_actual.id);
-    hobbies.textContent = tags.hobbies.join(', ') || "";
-    habitos.textContent = tags.habitos.join(', ') || "";
-    orientacion.textContent = `Orientación: ${tags.orientacion.join(', ')}` || "";
-    signo.textContent = `Signo: ${tags.signo.join(', ')}` || "";
-}
+function renderBotones(tags, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
 
-async function darLike() {
-    if (!usuario_actual) return;
+    tags.forEach(tag => {
+        const btn = document.createElement("button");
+        btn.textContent = tag.nombre;
+        btn.classList.add("boton-opcion");
+        btn.dataset.id = tag.id;
 
-    try {
-        const response = await fetch("http://localhost:3000/matches/like", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id_usuario_1: usuario_logueado.id,
-                id_usuario_2: usuario_actual.id,
-                gusta: true
-            })
+        btn.addEventListener("click", () => {
+            btn.classList.toggle("activo");
         });
 
-        const data = await response.json();
-
-        if (data.match) {
-            alert(`¡Es match con ${usuario_actual.nombre}!`);
-        } else {
-            console.log(data.message);
-        }
-
-    } catch (error) {
-        console.error('Error al dar like:', error);
-    }
+        container.appendChild(btn);
+    });
 }
 
-async function darDislike() {
-    if (!usuario_actual) return;
-
-    try {
-        const response = await fetch("http://localhost:3000/matches/like", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id_usuario_1: usuario_logueado.id,
-                id_usuario_2: usuario_actual.id,
-                gusta: false
-            })
-        });
-
-        usuario_dislike.push(usuario_actual.id)
-
-    } catch (error) {
-        console.error('Error al dar dislike:', error);
-    }
+function obtenerSeleccionados(containerId) {
+    const activo = document.querySelector(`#${containerId} .boton-opcion.activo`);
+    return activo ? activo.textContent : undefined;
 }
 
 document.getElementById("like").addEventListener("click", async function (event) {
@@ -230,11 +183,6 @@ document.getElementById("xmark").addEventListener("click", async function (event
     await darDislike();
     obtenerSiguientePersona();
 });
-
-function obtenerSeleccionados(containerId) {
-    const activo = document.querySelector(`#${containerId} .boton-opcion.activo`);
-    return activo ? activo.textContent : undefined;
-}
 
 document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.getElementById("overlay-filtros");
@@ -305,6 +253,57 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+async function darLike() {
+    if (!usuario_actual) return;
+
+    try {
+        const response = await fetch("http://localhost:3000/matches/like", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_usuario_1: usuario_logueado.id,
+                id_usuario_2: usuario_actual.id,
+                gusta: true
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.match) {
+            alert(`¡Es match con ${usuario_actual.nombre}!`);
+        } else {
+            console.log(data.message);
+        }
+
+    } catch (error) {
+        console.error('Error al dar like:', error);
+    }
+}
+
+async function darDislike() {
+    if (!usuario_actual) return;
+
+    try {
+        const response = await fetch("http://localhost:3000/matches/like", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id_usuario_1: usuario_logueado.id,
+                id_usuario_2: usuario_actual.id,
+                gusta: false
+            })
+        });
+
+        usuario_dislike.push(usuario_actual.id)
+
+    } catch (error) {
+        console.error('Error al dar dislike:', error);
+    }
+}
 
 inicializarCola();
 
