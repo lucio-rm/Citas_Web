@@ -1,4 +1,11 @@
 # Citas_Web
+2 OPCIONEs de levantar el proyecto
+npm + docker db
+
+docker completo
+
+
+
 Página de citas a ciegas. 
 1.
     Para levantar backend y frontend fuera de docker (Localmente)
@@ -34,6 +41,44 @@ el 2 es para cuando este terminado y no haya que hacer muchos cambios (pq si cam
 # Instrucciones para correrlo
 
 # Capturas de pantalla
-
+![alt text](<screenshot/Screenshot from 2025-12-17 21-08-08.png>)
 # Tecnologías usadas
+
+
+
+Tobi:
+    boton de organizar evento, lo apretas y te manda a planificar_cita
+    te guarda el id de quien crea la cita y con quien la crea
+    y la cita creada va para mis citas
+
+
+de crear cuenta a editar-perfil -> widder
+
+CRUD FEEDBACK -> tommy
+    eliminar feedback
+    editar feedback
+
+
+personas en la db -> widder
+
+poner contraseña chequeada -> lucio
+
+completar README.md -------__> Lucio
+
+Makefile - pal npm
+
+borrar preferencias htlm css js + Todas las funciones y llamdos (ojo)-> widder
+
+chequear comentarios chatgpt -> lucio
+
+
+
+
+LLAMDA ds 17:00
+FINAL:
+pulir detalles 
+chequeamos comentarios
+revisar github
+ramas ¿
+Publicarlo - Deploy -> todos juntitos
 
