@@ -7,8 +7,6 @@ router.get('/disponibles', controladores.usuariosDisponibles);
 
 router.get('/tags', controladores.obtenerTags);
 
-router.get('/alltags', controladores.obtenerTodosLosTags);
-
 router.get('/:id', controladores.obtenerUsuarioPorId);
 
 router.get('/', controladores.obtenerUsuarios);

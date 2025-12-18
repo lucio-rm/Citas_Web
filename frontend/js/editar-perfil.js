@@ -26,6 +26,8 @@ const vistaPreviaEdad = document.getElementById('vista-previa-edad');
 const vistaPreviaOrientacion = document.getElementById('vista-previa-orientacion');
 const vistaPreviaFotoPerfil = document.getElementById('vista-previa-img');
 
+
+
 (function verificarSesion() { // si no está logeado
     const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
 
@@ -263,8 +265,10 @@ const cargarDatosUsuario = async () => {
         inputApellido.value = usuario.apellido || '';
         inputFotoPerfil.value = usuario.foto_perfil || '';
         inputBio.value = usuario.descripcion_personal || '';
-        inputGenero.value = usuario.sexo_genero.toLowerCase() || '';
+        inputGenero.value = usuario.sexo_genero || '';
         inputUbicacion.value = usuario.ubicacion || '';
+        inputContrasenia.value = usuario.contrasenia || '';
+
 
         if (usuario.fecha_nacimiento) {
             inputFechaNacimiento.value = usuario.fecha_nacimiento.substring(0, 10); // asigna la fecha recortada a YYYY-MM-DD
@@ -275,7 +279,7 @@ const cargarDatosUsuario = async () => {
         mostrarVistaPrevia(inputBio, vistaPreviaBio, 'Sin biografía');
         mostrarVistaPreviaImagen(inputFotoPerfil, vistaPreviaFotoPerfil, 'https://media.istockphoto.com/id/1451587807/vector/user-profile-icon-vector-avatar-or-person-icon-profile-picture-portrait-symbol-vector.jpg?b=1&s=612x612&w=0&k=20&c=xGKz23oV80Alrtdt1xj_jr_MBSiJ9gnlOYtQv14ISwY=');
         mostrarVistaPrevia(inputUbicacion, vistaPreviaUbicacion, '-', 'Ciudad: ');
-        
+
         const mostrarEdad = () => {
             const fecha = inputFechaNacimiento.value;
             const edad = calcularEdad(fecha);

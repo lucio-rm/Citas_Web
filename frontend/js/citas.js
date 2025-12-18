@@ -6,15 +6,7 @@ const nombreEnModal = document.getElementById('modal-nombre-persona');
 const nombreEnModalEditar = document.getElementById('nombre-editar');
 const formulario = document.getElementById('form-calificar-cita');
 const formularioEditar = document.getElementById('form-editar-cita');
-
-(function verificarSesion() { // si no está logeado
-    const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
-
-    if (!usuarioLogeado || !usuarioLogeado.id) {
-        window.location.href = '/paginas/login.html'; // redirige al login
-    }
-})();
-
+const inputFechaHora = document.getElementById('fecha-hora-editar')
 //boton para cerrar el modal (formulario de calificacion)
 btnCerrarModal.addEventListener('click' , () => {
     modal.style.display = 'none'; //le quita el display al modal (formulario)
@@ -23,6 +15,22 @@ btnCerrarModal.addEventListener('click' , () => {
 btnCerrarEditar.addEventListener('click', () => {
     modalEditar.style.display = 'none';
 });
+
+
+const restringirFechaHoraCita = () => {
+    const hoy = new Date();
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    const horas = String(hoy.getHours()).padStart(2, '0');
+    const minutos = String(hoy.getMinutes()).padStart(2, '0');
+
+    const fechaMin = `${anio}-${mes}-${dia}T${horas}:${minutos}`;
+
+    inputFechaHora.min = fechaMin;
+};
+
+
 
 const configurarBotones = () => {
     //boton para abrir el modal (formulario de calificacion)
@@ -238,7 +246,7 @@ formularioEditar.addEventListener('submit', async (e) => {
         fecha_hora : document.getElementById('fecha-hora-editar').value,
         duracion_estimada_minutos : document.getElementById('duracion-editar').value,
         tipo_encuentro : document.getElementById('tipo-encuentro-editar').value,
-        estado : 'pendiente'
+        estado : document.getElementById('estado-editar').value
     }
 
     try {
@@ -286,6 +294,7 @@ const cargarCitas = async () => {
         : 'https://www.shutterstock.com/image-vector/vector-flat-illustration-grayscale-avatar-600nw-2264922221.jpg';
 
             const fechaFormateada = new Date(cita.fecha_hora).toLocaleString('es-AR', {
+                timeZone: 'UTC',
                 day : '2-digit',
                 month : '2-digit',
                 year : 'numeric',
@@ -343,7 +352,9 @@ const cargarCitas = async () => {
         console.error("Error al cargar las citas", error)
 
     }
+
 }
+restringirFechaHoraCita();
 
 // carga las citas cuando el HTML esté listo
 document.addEventListener('DOMContentLoaded', cargarCitas);

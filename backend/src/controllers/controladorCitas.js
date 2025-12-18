@@ -72,6 +72,7 @@ const actualizarCita = async (req, res) => {
         if (result.rows.length === 0) {
             return res.status(404).json({ error: 'No encontré la cita para actualizar' });
         }
+        // fecha_hora = 2025-12-15 18:26:00.000
         
         res.json(result.rows[0]);
     } catch (err) {
