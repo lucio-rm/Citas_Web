@@ -1,19 +1,8 @@
 import express from 'express';
 import cors from 'cors';
-import { pool } from './db.js';
+import { pool, esperarDB } from './db.js';
 import fs from 'fs'
 import path from 'path';
-
-const initDB = async() => {
-      try {
-    const sqlPath = path.join(process.cwd(), 'sql', 'main.sql');
-    const sql = fs.readFileSync(sqlPath, 'utf-8'); // lee el archivo .sql
-    await pool.query(sql); // ejecuta todo el script
-    console.log('Base de datos inicializada con éxito');
-  } catch (err) {
-    console.error('Error inicializando la base de datos:', err);
-  }
-};
 
 const app = express();
 app.use(express.json());
@@ -24,10 +13,6 @@ import citasRouter from './routes/citas.js';
 import matchesRouter from './routes/matches.js';
 import feedbackRouter from './routes/feedback.js';
 import tagsRouter from './routes/tags.js';
-
-
-
-initDB();
 
 app.use('/usuarios', usuariosRouter);
 app.use('/citas', citasRouter);
@@ -47,6 +32,30 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+
+const initDB = async() => {
+  const res = await pool.query("SELECT to_regclass('public.usuarios')");
+  if (res.rows[0].to_regclass) {
+    console.log('DB ya inicializada, saltando initDB');
+    return;
+  }
+  try {
+    const sqlPath = path.join(process.cwd(), 'sql', 'main.sql');
+    const sql = fs.readFileSync(sqlPath, 'utf-8'); // lee el archivo .sql
+    await pool.query(sql); // ejecuta todo el script
+    console.log('Base de datos inicializada con éxito');
+  } catch (err) {
+    console.error('Error inicializando la base de datos:', err);
+  }
+};
+
+
+const startServer = async () => {
+  await esperarDB();
+  await initDB();
+  app.listen(PORT, () => {
     console.log(`El servidor está corriendo en http://localhost:${PORT}`);
-});
+  });
+};
+
+startServer();

@@ -8,8 +8,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - db_data:/var/lib/postgresql/data
-      - ./backend/sql:/docker-entrypoint-initdb.d
+      - hilo_rojo_postgres_data:/var/lib/postgresql/data
 
   backend:
     build: ./backend
@@ -30,4 +29,5 @@ services:
       - backend
 
 volumes:
-  db_data:
+  hilo_rojo_postgres_data:
+    name: hilo_rojo_postgres_data
