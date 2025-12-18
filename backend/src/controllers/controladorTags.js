@@ -50,7 +50,7 @@ export const obtenerTagsPorUsuarioId = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const resul = await pool.query( //pide el nombre y categoria de los tags asociados al usuario
+        const resul = await pool.query( // pide el nombre y categoria de los tags asociados al usuario
             `SELECT t.nombre, t.categoria
             FROM tags t
             JOIN usuarios_tags ut ON t.id = ut.id_tag

@@ -72,7 +72,7 @@ export const guardarFeedback = async (req, res) => {
         const resul = await pool.query(querySql, datos);
         
         res.status(201).json({
-            mensaje : 'Feedback guardado correctamente',//se muestra en el alert(front)
+            mensaje : 'Feedback guardado correctamente', //se muestra en el alert(front)
             feedback : resul.rows[0] //fila creada
         });
     } catch (err) {

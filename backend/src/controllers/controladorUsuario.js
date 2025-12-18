@@ -212,8 +212,7 @@ const usuariosDisponibles = async (req, res) => {
             params.push(signo);
             idx++;
         }
-        // NOTA: Para que funcione 'unaccent' tu base de datos debe tener la extensión instalada.
-        // Si falla, cambialo a ILIKE normal.
+
         if (hobbies) {
             query += `
             JOIN usuarios_tags ut_hobby ON ut_hobby.id_usuario = u.id
