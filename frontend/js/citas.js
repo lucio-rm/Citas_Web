@@ -20,6 +20,7 @@ const configurarBotones = () => {
     //boton para abrir el modal (formulario de calificacion)
     document.querySelectorAll('.boton-abrir-modal').forEach(boton => {
         boton.addEventListener('click', (e) => {
+            formulario.reset(); //resetea el formulario al abrirlo
             const tarjeta = e.target.closest('.tarjeta-cita'); //obtiene la tarjeta completa
             modal.dataset.idCita = tarjeta.dataset.id; //le pasamos el id de la tarjeta al modal *1
             modal.dataset.idPareja = tarjeta.dataset.pareja; //le pasamos el id de la pareja al modal *2
@@ -61,7 +62,7 @@ const configurarBotones = () => {
     document.querySelectorAll('.boton-eliminar-calificacion').forEach( boton => {
         boton.addEventListener('click', async (e) => {
             const tarjeta = e.target.closest('.tarjeta-cita'); //obtiene la tarjeta completa
-            
+
             const nombrePersona = tarjeta.querySelector('h3').innerText;
             const confirmar = confirm(`¿Seguro que quieres eliminar la calificación de ${nombrePersona}?`);
             
@@ -85,6 +86,47 @@ const configurarBotones = () => {
             }
         });
     });
+
+    //boton para editar calificacion
+    document.querySelectorAll('.boton-editar-calificacion').forEach( boton => {
+        boton.addEventListener('click', async (e) => {
+            const tarjeta = e.target.closest('.tarjeta-cita'); //obtiene la tarjeta completa
+            const nombrePersona = tarjeta.querySelector('h3').innerText; // obtiene el nombre de la persona
+            const idCita = tarjeta.dataset.id; // obtiene el id de la cita
+
+            try {
+                // le pide al backend que elimine la calificacion
+                const respuesta = await fetch(`http://localhost:3000/feedback/cita/${idCita}`, {
+                    method : 'GET'
+                });
+                const feedback = await respuesta.json();
+                
+                modal.dataset.idCita = idCita; //le pasamos el id de la tarjeta al modal
+                modal.dataset.idPareja = tarjeta.dataset.pareja; //le pasamos el id de la pareja al modal
+                nombreEnModal.innerText = nombrePersona;
+
+                const inputsPuntajes = formulario.querySelectorAll('input[type="number"]');
+                inputsPuntajes[0].value = feedback.clasificacion_evento;
+                inputsPuntajes[1].value = feedback.clasificacion_pareja;
+                inputsPuntajes[2].value = feedback.puntualidad;
+                inputsPuntajes[3].value = feedback.fluidez_conexion;
+                inputsPuntajes[4].value = feedback.comodidad;
+                inputsPuntajes[5].value = feedback.calidad_evento;
+
+                const radio = formulario.querySelectorAll(`input[type="radio"][value="${feedback.repetirias}"]`);
+                if (radio) radio.checked = true;
+
+                formulario.querySelector('textarea').value = feedback.nota_extra;
+
+                modal.querySelector('.strong1').innerText = "Editar Calificación";
+                modal.style.display = 'block';
+
+            } catch (error) {
+                console.error('Error al eliminar la calificación: ', error);
+            }
+
+        });
+    })
 
     //boton para editar cita
     document.querySelectorAll('.boton-editar').forEach( boton => {
@@ -168,6 +210,7 @@ formulario.addEventListener('submit', async (e) => {
 
 })
 
+// boton para enviar el formulario de editar cita
 formularioEditar.addEventListener('submit', async (e) => {
 
     e.preventDefault();
