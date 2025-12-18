@@ -30,8 +30,7 @@ const obtenerUsuarioPorId = async (req, res) => {
 const crearUsuario = async (req, res) => {
     try {
         const { nombre, apellido, fecha_nacimiento, mail,
-            contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion,
-            edad_preferida_min, edad_preferida_max } = req.body;
+            contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion} = req.body;
 
         // valido los campos obligatorios
         if (!nombre || !apellido || !mail || !contrasenia || !fecha_nacimiento || !sexo_genero) {
@@ -73,11 +72,11 @@ const crearUsuario = async (req, res) => {
         // metemos todo a la base de datos
         const result = await pool.query(
             `INSERT INTO usuarios (nombre, apellido, fecha_nacimiento, mail, contrasenia, sexo_genero,
-            descripcion_personal, foto_perfil, ubicacion, edad_preferida_min, edad_preferida_max)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+            descripcion_personal, foto_perfil, ubicacion)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
             RETURNING *`,
             [nombre, apellido, fecha_nacimiento, mail, contrasenia, sexo_genero,
-                descripcion_personal, foto_perfil, ubicacion, edad_preferida_min, edad_preferida_max]
+                descripcion_personal, foto_perfil, ubicacion]
         );
 
         res.status(201).json(result.rows[0]);
@@ -313,21 +312,6 @@ const obtenerTags = async (req, res) => {
     }
 }
 
-const obtenerTodosLosTags = async (req, res) => {
-    try {
-        const result = await pool.query(`
-            SELECT id, nombre, categoria
-            FROM tags
-            ORDER BY categoria, nombre
-        `);
-
-        res.json(result.rows);
-    } catch (error) {
-        console.log(error);
-        res.status(500).send('Error al cargar tags');
-    }
-};
-
 export {
     obtenerUsuarios,
     obtenerUsuarioPorId,
@@ -336,6 +320,5 @@ export {
     eliminarUsuario,
     loginUsuario,
     usuariosDisponibles,
-    obtenerTags,
-    obtenerTodosLosTags
+    obtenerTags
 };

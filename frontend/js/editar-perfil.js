@@ -265,7 +265,7 @@ const cargarDatosUsuario = async () => {
         inputApellido.value = usuario.apellido || '';
         inputFotoPerfil.value = usuario.foto_perfil || '';
         inputBio.value = usuario.descripcion_personal || '';
-        inputGenero.value = usuario.sexo_genero.toLowerCase() || '';
+        inputGenero.value = usuario.sexo_genero || '';
         inputUbicacion.value = usuario.ubicacion || '';
         inputContrasenia.value = usuario.contrasenia || '';
 

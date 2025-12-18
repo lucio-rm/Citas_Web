@@ -6,7 +6,7 @@ const nombreEnModal = document.getElementById('modal-nombre-persona');
 const nombreEnModalEditar = document.getElementById('nombre-editar');
 const formulario = document.getElementById('form-calificar-cita');
 const formularioEditar = document.getElementById('form-editar-cita');
-
+const inputFechaHora = document.getElementById('fecha-hora-editar')
 //boton para cerrar el modal (formulario de calificacion)
 btnCerrarModal.addEventListener('click' , () => {
     modal.style.display = 'none'; //le quita el display al modal (formulario)
@@ -15,6 +15,22 @@ btnCerrarModal.addEventListener('click' , () => {
 btnCerrarEditar.addEventListener('click', () => {
     modalEditar.style.display = 'none';
 });
+
+
+const restringirFechaHoraCita = () => {
+    const hoy = new Date();
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    const horas = String(hoy.getHours()).padStart(2, '0');
+    const minutos = String(hoy.getMinutes()).padStart(2, '0');
+
+    const fechaMin = `${anio}-${mes}-${dia}T${horas}:${minutos}`;
+
+    inputFechaHora.min = fechaMin;
+};
+
+
 
 const configurarBotones = () => {
     //boton para abrir el modal (formulario de calificacion)
@@ -336,7 +352,9 @@ const cargarCitas = async () => {
         console.error("Error al cargar las citas", error)
 
     }
+
 }
+restringirFechaHoraCita();
 
 // carga las citas cuando el HTML esté listo
 document.addEventListener('DOMContentLoaded', cargarCitas);
