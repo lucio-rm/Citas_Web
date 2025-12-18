@@ -57,6 +57,35 @@ const configurarBotones = () => {
         })
     });
 
+    // boton para eliminar calificacion
+    document.querySelectorAll('.boton-eliminar-calificacion').forEach( boton => {
+        boton.addEventListener('click', async (e) => {
+            const tarjeta = e.target.closest('.tarjeta-cita'); //obtiene la tarjeta completa
+            
+            const nombrePersona = tarjeta.querySelector('h3').innerText;
+            const confirmar = confirm(`¿Seguro que quieres eliminar la calificación de ${nombrePersona}?`);
+            
+            const idCita = tarjeta.dataset.id; // obtiene el id de la cita
+
+            if (confirmar) {
+                try {
+                    // le pide al backend que elimine la calificacion
+                    const respuesta = await fetch(`http://localhost:3000/feedback/${idCita}`, {
+                        method : 'DELETE'
+                    });
+                    const datos = await respuesta.json();
+                    alert(datos.mensaje);
+
+                    if (respuesta.ok) {
+                        location.reload();
+                    }
+                } catch (error) {
+                    console.error('Error al eliminar la calificación: ', error);
+                }
+            }
+        });
+    });
+
     //boton para editar cita
     document.querySelectorAll('.boton-editar').forEach( boton => {
         boton.addEventListener('click', async (e) => {
