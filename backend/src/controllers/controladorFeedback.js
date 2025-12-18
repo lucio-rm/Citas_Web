@@ -105,6 +105,52 @@ export const eliminarFeedbackPorCita = async (req, res) => {
     }
 }
 
+export const actualizarFeedbackPorCita = async (req, res) => {
+    try {
+        const { id_cita } = req.params;
+        const {
+            evento, pareja, repetirias, puntualidad, fluidez_conexion,
+            comodidad, calidad_evento, nota_extra
+            } = req.body;
+        
+        const querySql = `
+        UPDATE feedback 
+        SET clasificacion_evento = $2, 
+            clasificacion_pareja = $3, 
+            repetirias = $4, 
+            puntualidad = $5, 
+            fluidez_conexion = $6, 
+            comodidad = $7, 
+            calidad_evento = $8, 
+            nota_extra = $9
+        WHERE id_citas = $1
+        RETURNING *`;
+
+        const datos = [
+            id_cita, evento, pareja, repetirias, puntualidad,
+            fluidez_conexion, comodidad, calidad_evento, nota_extra
+        ];
+
+        const resul = await pool.query(querySql, datos);
+
+        if (resul.rowCount === 0) {
+            return res.status(404).json({
+                mensaje : 'No se encontró feedback para esa cita'
+            });
+        };
+
+        res.status(200).json({
+            mensaje : 'Feedback actualizado correctamente', //se muestra en el alert(front)
+            feedback : resul.rows[0] //fila modificada
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            mensaje : "Error al actualizar el feedback"
+        });
+    }
+}
+
 export {
     crearFeedback,
     obtenerFeedbackPorCita

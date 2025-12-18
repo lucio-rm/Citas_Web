@@ -10,4 +10,6 @@ router.delete('/:id_cita', controladores.eliminarFeedbackPorCita);
 
 router.get('/cita/:id_cita', controladores.obtenerFeedbackPorCita);
 
+router.put('/actualizar/:id_cita', controladores.actualizarFeedbackPorCita);
+
 export default router;
