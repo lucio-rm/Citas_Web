@@ -7,6 +7,14 @@ const nombreEnModalEditar = document.getElementById('nombre-editar');
 const formulario = document.getElementById('form-calificar-cita');
 const formularioEditar = document.getElementById('form-editar-cita');
 
+(function verificarSesion() { // si no está logeado
+    const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
+
+    if (!usuarioLogeado || !usuarioLogeado.id) {
+        window.location.href = '/paginas/login.html'; // redirige al login
+    }
+})();
+
 //boton para cerrar el modal (formulario de calificacion)
 btnCerrarModal.addEventListener('click' , () => {
     modal.style.display = 'none'; //le quita el display al modal (formulario)
