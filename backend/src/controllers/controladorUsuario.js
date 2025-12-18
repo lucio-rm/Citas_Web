@@ -53,17 +53,16 @@ const crearUsuario = async (req, res) => {
 
         
         const contraRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s])[\S]{8,}/;
-
         if (!contrasenia.match(contraRegex)) {
             return res.status(400).json({ 
                 error: 'La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial (sin espacios).' 
             });
         }
 
-        // Calculo de edad
+        // calculo la edad
         const partes = fecha_nacimiento.split("-"); 
         const anioNacimiento = parseInt(partes[0]); 
-        const anioActual = new Date().getFullYear(); // Usamos fecha real por las dudas
+        const anioActual = 2025; 
         const edad = anioActual - anioNacimiento;
 
         // valido la edad
@@ -85,7 +84,7 @@ const crearUsuario = async (req, res) => {
 
     } catch (err) {
         console.error("ERROR POSTGRES:", err);
-        // Si el mail ya existe (error unique violation)
+        // nos manda el error '23505' si el mail ya existe
         if (err.code === '23505') {
             return res.status(400).json({ error: 'El email ya está registrado.' });
         }

@@ -1,4 +1,4 @@
-/* Reset de conflictos con layouts globales */
+/* reset de los conflictos con layouts globales */
 body {
     display: block !important;
     height: auto !important;
