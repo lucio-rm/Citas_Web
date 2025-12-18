@@ -3,7 +3,7 @@
 
 # Creadores:
 * Tomás Zambrano
-* Tobías Marmolejo
+* Tobias Marmolejo
 * Ezequiel Widder
 * Lucio Romero Mascaró
 
@@ -120,11 +120,11 @@ DB_PORT=5432
 
 
 Paso 3: Iniciar el Backend
-En una terminal nueva (ctrl + alt + t), dentro de la carpeta backend, ejecutá:z
+En una terminal nueva (ctrl + alt + t), dentro de la carpeta backend, ejecutá:
 *
 npm start
 *
-Si todo está bien, vas a ver:z
+Si todo está bien, vas a ver:
 ![alt text](<screenshot/npm_backend.png>) (ctrl + click izquierdo para ver la screenshot)
 
 
@@ -189,6 +189,7 @@ Para verificar que todo funciona desde cero, seguí estos pasos:
 
 ![alt text](screenshot/login_2.png) (ctrl + click izquierdo para ver la screenshot)
 ![alt text](screenshot/completar_cuenta.png) (ctrl + click izquierdo para ver la screenshot)
+![alt text](screenshot/cuenta_eliminada.png) (ctrl + click izquierdo para ver la screenshot)
 
 3. *Explorar:* En la pantalla principal vas a ver a otros usuarios. Tenés dos botones: X para dislike (pasás al siguiente) y corazón para like. Si le das like a alguien que ya te dio like a vos, el sistema te avisa con un alerta de "¡MATCH!". También podés usar los filtros para buscar usuarios específicos.
 
@@ -197,17 +198,27 @@ Para verificar que todo funciona desde cero, seguí estos pasos:
 
 4. *Mis Matches:* Aparecen todas las personas con las que conectaste. Podés ver su foto y nombre, y tenés opciones para eliminar el match o organizar un evento.
 
-[SCREEN MATCHES]
+![alt text](screenshot/mis_matches.png) (ctrl + click izquierdo para ver la screenshot)
 
 5. *Planificar Cita:* Dentro de "Mis Matches", hacé clic en "Organizar evento". Esto te lleva a un formulario donde definís lugar, fecha y hora, tipo de encuentro y duración.
 
-[SCREEN crear cita]
+![alt text](screenshot/planificar_cita.png) (ctrl + click izquierdo para ver la screenshot)
+![alt text](screenshot/cita_creada.png) (ctrl + click izquierdo para ver la screenshot)
 
 6. *Mis Citas y Feedback:* En "Mis Citas" vas a ver los encuentros programados. Las citas pendientes podés cancelarlas o editarlas para cambiar el horario, lugar, etc. Las citas anteriores podés calificarlas con puntajes sobre el evento, la pareja, puntualidad, fluidez, comodidad y calidad.
 
-[CITAS PENDIENTES / ANTERIORES]
-[EDITAR CITA]
-[FEEDBACK]
+![alt text](screenshot/mis_citas_pendiente_2.png) (ctrl + click izquierdo para ver la screenshot)
+![alt text](screenshot/editar_cita.png) (ctrl + click izquierdo para ver la screenshot)
+![alt text](screenshot/aviso_cita_actualizada.png) (ctrl + click izquierdo para ver la screenshot)
+![alt text](screenshot/mis_citas_anteriores.png) (ctrl + click izquierdo para ver la screenshot)
+
+![alt text](screenshot/feedback.png) (ctrl + click izquierdo para ver la screenshot)
+![alt text](screenshot/aviso_feedback.png) (ctrl + click izquierdo para ver la screenshot)
+![alt text](screenshot/post_feedback.png) (ctrl + click izquierdo para ver la screenshot)
+![alt text](screenshot/editar_feedback.png) (ctrl + click izquierdo para ver la screenshot)
+![alt text](screenshot/eliminar_feedback.png) (ctrl + click izquierdo para ver la screenshot)
+
+
 
 
 # APAGAR TODO: 
