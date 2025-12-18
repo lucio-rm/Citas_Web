@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("register-form");
   let sexoSeleccionado = null;
 
-  // Manejo botones sexo/género
+  // manejod e botones sexo/género
   document.querySelectorAll("#sexo-genero .tag-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       document.querySelectorAll("#sexo-genero .tag-btn")

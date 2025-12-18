@@ -1,5 +1,5 @@
 -- CREATE DATABASE hilo_rojo;
--- tengo entendido que la creamos automáticamente desde la configuración del archivo docker-compose.yml.
+-- la creamos automáticamente desde la configuración del archivo docker-compose.yml.
 
 
 CREATE EXTENSION IF NOT EXISTS unaccent;
@@ -145,36 +145,3 @@ CREATE TABLE IF NOT EXISTS feedback (
     FOREIGN KEY (id_usuario_calificado) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
-
-/*
-si tenemos tiempo y si pinta, agregamos?:
-
-tabla usuarios / tags:
--orientacion_preferida: (tags)
--edad_preferida
--Hobbies_preferidos: (Tags)
--Habitos_preferidos: (Tags)
-
-tabla matches:
-fecha_match TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-estado VARCHAR(20) DEFAULT, -- 'activo', 'cancelado', 'bloqueado'
-score_compatibilidad INT,  -- Un número del 1 al 100 calculado por el backend
-
-tabla feedback:
-afinidad INT NOT NULL
-
-
-
-no olvidar:
-usuario_etiquetas
-    tipo_relacion VARCHAR(20) NOT NULL DEFAULT 'PROPIO', -- 'propio' 'busco'
-'busco' = estos tags
-'propio' = 'tengo' estos tags
-
-citas:
-    estado VARCHAR(20) DEFAULT 'pendiente', -- 'pendiente', 'confirmada', 'cancelada'
-
-usuarios_tags:
-    ON DELETE CASCADE hace que si borras al usuario, se borren sus tags.
-
-*/

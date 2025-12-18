@@ -70,7 +70,7 @@ const darLike = async (req, res) => {
     }
 
     try {
-        // 1️⃣ Insertar o actualizar el like
+        // actualiza el like
         await pool.query(
             `INSERT INTO likes (id_usuario_1, id_usuario_2, gusta)
              VALUES ($1, $2, $3)
@@ -79,7 +79,7 @@ const darLike = async (req, res) => {
             [id_usuario_1, id_usuario_2, gusta]
         );
 
-        // 2️⃣ Verificar si hay reciprocidad
+        // like mutuo
         if (gusta) {
             const result = await pool.query(
                 `SELECT * FROM likes
@@ -88,7 +88,7 @@ const darLike = async (req, res) => {
             );
 
             if (result.rows.length > 0) {
-                // 3️⃣ Revisar si el match ya existe
+                // aca revisa si el match ya existe
                 const matchExist = await pool.query(
                     `SELECT * FROM matches
                      WHERE (id_usuario_1 = $1 AND id_usuario_2 = $2)
@@ -110,7 +110,7 @@ const darLike = async (req, res) => {
             }
         }
 
-        // 4️⃣ Si no hay reciprocidad, solo registramos el like
+        // si no hay like mutuo, solo registramos el like
         res.json({ message: "Like registrado" });
 
     } catch (error) {

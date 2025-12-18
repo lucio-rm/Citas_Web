@@ -51,14 +51,13 @@ const crearUsuario = async (req, res) => {
             return res.status(400).json({ error: 'El formato del email no es válido.' });
         }
 
-        // al menos 10 caracteres
-        if (contrasenia.length < 10) {
-            return res.status(400).json({ error: 'La contraseña debe tener al menos 10 caracteres.' });
-        }
         
-        // al menos una Mayus
-        if (!contrasenia.match(/[A-Z]/)) {
-            return res.status(400).json({ error: 'La contraseña debe tener al menos una mayúscula.' });
+        const contraRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s])[\S]{8,}/;
+
+        if (!contrasenia.match(contraRegex)) {
+            return res.status(400).json({ 
+                error: 'La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial (sin espacios).' 
+            });
         }
 
         // Calculo de edad
@@ -213,8 +212,7 @@ const usuariosDisponibles = async (req, res) => {
             params.push(signo);
             idx++;
         }
-        // NOTA: Para que funcione 'unaccent' tu base de datos debe tener la extensión instalada.
-        // Si falla, cambialo a ILIKE normal.
+
         if (hobbies) {
             query += `
             JOIN usuarios_tags ut_hobby ON ut_hobby.id_usuario = u.id
