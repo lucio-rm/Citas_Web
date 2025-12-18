@@ -51,14 +51,13 @@ const crearUsuario = async (req, res) => {
             return res.status(400).json({ error: 'El formato del email no es válido.' });
         }
 
-        // al menos 10 caracteres
-        if (contrasenia.length < 10) {
-            return res.status(400).json({ error: 'La contraseña debe tener al menos 10 caracteres.' });
-        }
         
-        // al menos una Mayus
-        if (!contrasenia.match(/[A-Z]/)) {
-            return res.status(400).json({ error: 'La contraseña debe tener al menos una mayúscula.' });
+        const contraRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s])[\S]{8,}/;
+
+        if (!contrasenia.match(contraRegex)) {
+            return res.status(400).json({ 
+                error: 'La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial (sin espacios).' 
+            });
         }
 
         // Calculo de edad
