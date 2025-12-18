@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <link rel="stylesheet" href="../Styles/match.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Red Thread</title>
+</head>
+<body>
+
+    <nav>
+        <img class = "logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class = "nav-links">
+            <li><a href="/paginas/explorar.html">Explorar</a></li>
+            <li><a href="/paginas/matches.html">Mis matches</a></li>
+            <li><a href="/paginas/citas.html">Mis citas</a></li>
+        </ul>
+        <div class="nav-botones">
+            <a href="/paginas/pag-editar-perfil.html" class="boton">Cuenta</a>
+            <button id="logout-btn" class="boton">Cerrar sesión</button>
+        </div>
+    </nav>
+    <div id="overlay-filtros" class="overlay scrollable-container">
+        <div class="overlay-content editar-perfil-form">
+            <h2 class="title is-5">Filtrar personas</h2>
+            <label>Edad mínima: <input type="number" id="filtro-edad-min" min="18"></label>
+            <label>Edad máxima: <input type="number" id="filtro-edad-max" min="18"></label>
+            <label>Ubicacion: <input type="text" id="filtro-ciudad"></label>
+            <label>Género: 
+                <select id="filtro-genero">
+                    <option value="">Cualquiera</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Femenino">Femenino</option>
+                    <option value="No Binario">No binario</option>
+                    <option value="Prefiero No Decirlo">Prefiero no decirlo</option>
+                </select>
+            </label>
+            <label>Orientación:
+                <div id="filtro-orientacion" class="botones-filtro"></div>
+            </label>
+            <label>Signo: 
+                <div id="filtro-signo" class="botones-filtro"></div>
+            </label>
+            <label>Hobby:
+                <div id="filtro-hobby" class="botones-filtro"></div>
+            </label>
+            <label>Habito:
+                <div id="filtro-habito" class="botones-filtro"></div>
+            </label>
+            <div class="overlay-buttons">
+                <button id="aplicar-filtros" class="boton">Aplicar filtros</button>
+                <button id="cerrar-filtros" class="boton">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <div class="box">
+        <button id="abrir-filtros" class="boton">Filtros</button>
+        <div class="scrollable-container">
+            <div class="card-image">
+                <figure class="match-img">
+                    <img
+                        id = "match-img" src="https://bulma.io/assets/images/placeholders/1280x960.png"
+                        alt="Foto de perfil"
+                    />
+                </figure>
+            </div>
+            <div class="card-content">
+                <div class="media">
+                    <div >
+                        <p id = "match-nombre" class="title is-4">Nombre apellido</p>
+                    </div>
+                </div>
+
+                <div id = "match-desc" class="content">
+                    Descripcion personal del usuario
+                </div>
+                <div class="content">
+                    <p class="title is-5">Información</p>
+                    <p id = "match-edad" class="is-6">Edad:</p>
+                    <p id = "match-ubi" class="is-6">Ubicacion:</p>
+                    <p id = "match-genero" class="is-6">Genero:</p>
+                    <p id = "match-orientacion" class="is-6">Orientación:</p>
+                    <p id = "match-signo" class="is-6">Signo:</p>
+                </div>
+                <div class="content">
+                    <p class="title is-5">Hobbies</p>
+                    <p id = "match-hobbies" class="is-6">Hobbies</p>
+                </div>
+                <div class="content">
+                    <p class="title is-5">Habitos</p>
+                    <p id = "match-habitos" class="is-6">Habitos</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <footer class="card-footer match-footer">
+                <button id="like" class="card-footer-item color-boton">
+                    <i class="fa-solid fa-heart"></i>
+                </a>
+                <button id="xmark" class="card-footer-item color-boton">
+                    <i class="fa-solid fa-xmark"></i>
+                </a>
+            </footer>
+        </div>
+    </div>
+</body>
+<script src="../js/explorar.js"> </script>
+<script src="../js/verifica-login.js"></script>
+<script src="../js/logout.js"></script>
+</html>

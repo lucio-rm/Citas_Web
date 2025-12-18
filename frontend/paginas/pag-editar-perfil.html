@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <title>Red Thread</title>
+</head>
+<body>
+    <nav>
+        <img class = "logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class = "nav-links">
+            <li><a href="/paginas/explorar.html">Explorar</a></li>
+            <li><a href="/paginas/matches.html">Mis matches</a></li>
+            <li><a href="/paginas/citas.html">Mis citas</a></li>
+        </ul>
+        <div class="nav-botones">
+            <a href="/paginas/pag-editar-perfil.html" class="boton">Cuenta</a>
+            <button id="logout-btn" class="boton">Cerrar sesión</button>
+        </div>
+    </nav>
+    
+    <div class="editar-perfil">
+        <strong>Editar perfil</strong>
+        <form class="editar-perfil-form">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="editar-nombre" autocomplete="off">
+            <br>
+            <label for="apellido">Apellido</label>
+            <input type="text" id="editar-apellido" autocomplete="off">
+            <br>
+            <label for="Contraseña">Contraseña</label>
+            <input type="password"
+            id="editar-contraseña"
+            autocomplete="off"
+            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s])[\S]{8,}"
+            title="Al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial."
+            required>
+            <br>
+            <label for="Foto-Perfil">Foto de Perfil</label>
+            <input type="text" id="editar-foto-perfil" autocomplete="off">
+            <br>
+            <label for="Bio">Bio</label>
+            <textarea id="editar-bio" rows="4"></textarea>
+            <br>
+            <label for="Fecha-Nacimiento">Fecha de Nacimiento</label>
+            <input type="date" id="editar-fecha-nacimiento">
+            <br>
+            <label for="Genero">Género</label>
+            <select id="editar-genero">
+                <option value="">Seleccionar</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Femenino">Femenino</option>
+                <option value="No Binario">No binario</option>
+                <option value="Prefiero No Decirlo">Prefiero no decirlo</option>
+            </select>
+            <br>
+            <label for="Ubicacion">Ubicación</label>
+            <input type="text" id="editar-ubicacion" autocomplete="off">
+            <br>
+            <label for="Orientacion-Sexual">Orientación Sexual</label>
+            <div class="editor-orientacion contenedor-tags-editor"></div>
+            <label for="Hobbies">Hobbies (Max 5)</label>
+            <div class="editor-hobby contenedor-tags-editor"></div>
+            <label for="Habitos">Habitos (Max 5)</label>
+            <div class="editor-habitos contenedor-tags-editor"></div>
+            <label for="Signos">Signos</label>
+            <div class="editor-signo contenedor-tags-editor"></div>
+            
+            <button class="boton" type="submit">Guardar cambios</button>
+            <button class="boton boton-eliminar" type="button" id="btn-eliminar-perfil">Eliminar perfil</button>
+        </form>
+    </div>
+
+    <aside class="vista-previa">
+        <strong>Vista previa</strong>
+        <div class="carta-perfil">
+            <img id="vista-previa-img" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="foto-perfil">
+            <h3 class="letra" id="vista-previa-nombre"></h3>
+            <h3 class="letra" id="vista-previa-apellido"></h3>
+            <p id="vista-previa-bio"></p>
+
+            <h3 class="letra">Información</h3>
+            <p id="vista-previa-edad"></p>
+            <p id="vista-previa-ciudad"></p>
+            <div class="vista-previa-extras contenedor-tags-vista-previa"></div>
+            
+            <h3 class="letra">Hobbies</h3>
+            <div class="vista-previa-hobbies contenedor-tags-vista-previa"></div>
+
+            <h3 class="letra">Habitos</h3> 
+            <div class="vista-previa-habitos contenedor-tags-vista-previa"></div>
+        </div>
+    </aside>
+    
+    <script src="../js/editar-perfil.js"></script>
+    <script src="../js/verifica-lgoin.js"></script>
+    <script src="../js/logout.js"></script>
+</body>
+</html>

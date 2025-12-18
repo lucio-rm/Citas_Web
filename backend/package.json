@@ -1,5 +1,20 @@
 {
-    "comentario": "acá listamos todas las dependencias (express, pg, cors, dotenv)",
-    "com2": "definimos los scripts (npm run dev para correr el servidor)",
-    "c3": "definimos que es un módulo ES6 ('type': 'module')"
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "pg": "^8.16.3"
+  }
 }

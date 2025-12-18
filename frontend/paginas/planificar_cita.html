@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planificar Cita - Red Thread</title>
+    
+    <link rel="stylesheet" href="../Styles/styles.css">
+    <link rel="stylesheet" href="../Styles/planificar_cita.css">
+</head>
+<body>
+    <nav class="navbar-planificar">
+        <img class="logo" src="https://www.pngmart.com/files/23/Red-String-PNG.png" alt="logo">
+        <ul class="nav-links">
+            <li><a href="/paginas/explorar.html">Explorar</a></li>
+            <li><a href="/paginas/matches.html">Mis matches</a></li>
+            <li><a href="/paginas/citas.html">Mis citas</a></li>
+        </ul>
+    </nav>
+    
+    <section class="planificar-container">
+        <h1 class="titulo-planificar">Planificar Cita</h1>
+        
+        <form id="form-planificar-cita">
+            
+            <div class="form-group">
+                <label for="lugar">Lugar</label>
+                <input type="text" id="lugar" required placeholder="Ej: Café Martínez, Parque...">
+            </div>
+            
+            <div class="form-group">
+                <label for="fecha_hora">Fecha y Hora</label>
+                <input type="datetime-local" id="fecha_hora" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="tipo_encuentro">Tipo de Encuentro</label>
+                <input type="text" id="tipo_encuentro" placeholder="Ej: Cena, Caminata, Cine...">
+            </div>
+            
+            <div class="form-group">
+                <label for="duracion">Duración estimada (minutos)</label>
+                <input type="number" id="duracion" min="1" required placeholder="Ej: 60">
+            </div>
+            
+            <button type="submit" class="boton-crear-cita">Confirmar Cita</button>
+        </form>
+    </section>
+    
+    <script src="../js/planificar-cita.js"></script>
+    <script src="../js/verifica-login.js"></script>
+</body>
+</html>

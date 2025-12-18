@@ -1,0 +1,156 @@
+import { pool } from "../db.js";
+
+const crearFeedback = async (req, res) => {
+    try {
+        const { id_citas, id_usuario_calificador, id_usuario_calificado, clasificacion_evento, clasificacion_pareja,
+                repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento,
+                nota_extra } = req.body;
+        
+        // validaciones obligatorias
+        if (!id_citas || !id_usuario_calificador || !id_usuario_calificado || !clasificacion_evento || !clasificacion_pareja ||
+            !repetirias || !puntualidad || !fluidez_conexion || !comodidad || !calidad_evento) {
+            return res.status(400).json({ error: 'Faltan campos obligatorios' });
+        }
+        
+        // acá valido que las calificaciones estén entre 1 y 5
+        const calificaciones = [clasificacion_evento, clasificacion_pareja, puntualidad,
+                                fluidez_conexion, comodidad, calidad_evento];
+        for (const cal of calificaciones) {
+            if (cal < 1 || cal > 5) {
+                return res.status(400).json({ error: 'Las calificaciones deben estar entre 1 y 5' });
+            }
+        }
+        
+        const result = await pool.query(
+            `INSERT INTO feedback (id_citas, id_usuario_calificador, id_usuario_calificado,
+             clasificacion_evento, clasificacion_pareja,
+             repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra)
+             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+             RETURNING *`,
+            [id_citas, id_usuario_calificador, id_usuario_calificado,
+             clasificacion_evento, clasificacion_pareja,
+             repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra || null]
+        );
+        
+        res.status(201).json(result.rows[0]);
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al crear feedback' });
+    }
+};
+
+const obtenerFeedbackPorCita = async (req, res) => {
+    try {
+        const { id_cita } = req.params;
+        const resul = await pool.query(
+            'SELECT * FROM feedback WHERE id_citas = $1',
+            [id_cita]
+        );
+
+        if (resul.rows.length === 0) {
+            return res.status(404).json({ error: 'No se encontró feedback para esa cita' })
+        }
+
+        res.json(resul.rows[0]);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'Error al obtener feedback' });
+    }
+};
+
+export const guardarFeedback = async (req, res) => {
+    const {
+        id_citas, id_usuario_calificado, id_usuario_calificador, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra
+    } = req.body;
+    
+    try {
+        const querySql = `INSERT INTO feedback(id_citas, id_usuario_calificador, id_usuario_calificado, clasificacion_evento, clasificacion_pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *`
+        
+        const datos = [id_citas, id_usuario_calificador, id_usuario_calificado, evento, pareja, repetirias, puntualidad, fluidez_conexion, comodidad, calidad_evento, nota_extra];
+        
+        const resul = await pool.query(querySql, datos);
+        
+        res.status(201).json({
+            mensaje : 'Feedback guardado correctamente', //se muestra en el alert(front)
+            feedback : resul.rows[0] //fila creada
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            mensaje : "Error al guardar el feedback"
+        });
+    }
+}
+
+export const eliminarFeedbackPorCita = async (req, res) => {
+    try {
+        const { id_cita } = req.params; // Obtiene el id de la cita desde los parámetros de la ruta
+        const resul = await pool.query(
+            'DELETE FROM feedback WHERE id_citas = $1 RETURNING *',
+            [id_cita]
+        );
+
+        if (resul.rowCount === 0) {
+            return res.status(404).json({ mensaje: 'No se encontró feedback para esa cita' });
+        };
+
+        res.json({
+            mensaje: 'Feedback eliminado correctamente',
+            feedback: resul.rows[0] // fila eliminada
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ mensaje: 'Error al eliminar el feedback' });
+    }
+}
+
+export const actualizarFeedback = async (req, res) => {
+    try {
+        const {id_citas, id_usuario_calificado, id_usuario_calificador,
+            evento, pareja, repetirias, puntualidad, fluidez_conexion,
+            comodidad, calidad_evento, nota_extra
+        } = req.body;
+        
+        const querySql = `
+        UPDATE feedback 
+        SET clasificacion_evento = $2, 
+            clasificacion_pareja = $3, 
+            repetirias = $4, 
+            puntualidad = $5, 
+            fluidez_conexion = $6, 
+            comodidad = $7, 
+            calidad_evento = $8, 
+            nota_extra = $9
+        WHERE id_citas = $1
+        RETURNING *`;
+
+        const datos = [
+            id_citas, evento, pareja, repetirias, puntualidad,
+            fluidez_conexion, comodidad, calidad_evento, nota_extra
+        ];
+
+        const resul = await pool.query(querySql, datos);
+
+        if (resul.rowCount === 0) {
+            return res.status(404).json({
+                mensaje : 'No se encontró feedback para esa cita'
+            });
+        };
+
+        res.status(200).json({
+            mensaje : 'Feedback actualizado correctamente', //se muestra en el alert(front)
+            feedback : resul.rows[0] //fila modificada
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            mensaje : "Error al actualizar el feedback"
+        });
+    }
+}
+
+export {
+    crearFeedback,
+    obtenerFeedbackPorCita
+};
