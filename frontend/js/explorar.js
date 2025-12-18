@@ -31,19 +31,6 @@ function texto(texto){
     .trim();
 }
 
-async function cargarTags(id_pareja) {
-    const response = await fetch(`http://localhost:3000/usuarios/tags?id=${id_pareja}`);
-    const tags = await response.json();
-    
-    const hobbies = tags.filter(tag => tag.categoria === 'HOBBY').map(tag => tag.nombre);
-    const habitos = tags.filter(tag => tag.categoria === 'HABITOS').map(tag => tag.nombre);
-    const orientacion = tags.filter(tag => tag.categoria === 'ORIENTACION').map(tag => tag.nombre);
-    const signo = tags.filter(tag => tag.categoria === 'SIGNO').map(tag => tag.nombre);
-
-    return { hobbies, habitos, orientacion, signo };
-
-}
-
 async function cargarPersonas () {
     try {
         const response = await fetch(`http://localhost:3000/usuarios/disponibles?id=${usuario_logueado.id}`);
@@ -64,6 +51,31 @@ async function cargarPersonas () {
     catch (error) {
         console.error('Error al cargar los usuarios:', error);
     }
+}
+
+async function cargarTags(id_pareja) {
+    const response = await fetch(`http://localhost:3000/usuarios/tags?id=${id_pareja}`);
+    const tags = await response.json();
+    
+    const hobbies = tags.filter(tag => tag.categoria === 'HOBBY').map(tag => tag.nombre);
+    const habitos = tags.filter(tag => tag.categoria === 'HABITOS').map(tag => tag.nombre);
+    const orientacion = tags.filter(tag => tag.categoria === 'ORIENTACION').map(tag => tag.nombre);
+    const signo = tags.filter(tag => tag.categoria === 'SIGNO').map(tag => tag.nombre);
+
+    return { hobbies, habitos, orientacion, signo };
+
+}
+
+async function cargarTagsDisponibles() {
+    const response = await fetch("http://localhost:3000/tags");
+    const tags = await response.json();
+
+    const hobbies = tags.filter(tag => tag.categoria === 'HOBBY');
+    const habitos = tags.filter(tag => tag.categoria === 'HABITOS');
+    const orientacion = tags.filter(tag => tag.categoria === 'ORIENTACION');
+    const signo = tags.filter(tag => tag.categoria === 'SIGNO');
+
+    return { hobbies, habitos, orientacion, signo };
 }
 
 async function cargarPersonasConFiltro(filtros) {
@@ -100,6 +112,20 @@ async function inicializarCola() {
     mostrarPersona(usuario_actual);
 }
 
+async function mostrarPersona(usuario_actual) {
+    img.src = usuario_actual.imagen || "https://cdn-icons-png.flaticon.com/512/4076/4076549.png";
+    nombre.textContent = usuario_actual.nombre;
+    descripcion.textContent = usuario_actual.descripcion;
+    ubicacion.textContent = `Ciudad: ${usuario_actual.ciudad}`;
+    edad.textContent = `Edad: ${usuario_actual.edad}`;
+    genero.textContent = `Genero: ${usuario_actual.genero}`;
+    const tags = await cargarTags(usuario_actual.id);
+    hobbies.textContent = tags.hobbies.join(', ') || "";
+    habitos.textContent = tags.habitos.join(', ') || "";
+    orientacion.textContent = `Orientación: ${tags.orientacion.join(', ')}` || "";
+    signo.textContent = `Signo: ${tags.signo.join(', ')}` || "";
+}
+
 function obtenerSiguientePersona() {
     cola = cola.filter(persona => !usuario_dislike.includes(persona.id))
     if (cola.length === 0) {
@@ -123,19 +149,109 @@ function mostrarFinDePersonas() {
     signo.textContent = "";
 }
 
-async function mostrarPersona(usuario_actual) {
-    img.src = usuario_actual.imagen || "https://cdn-icons-png.flaticon.com/512/4076/4076549.png";
-    nombre.textContent = usuario_actual.nombre;
-    descripcion.textContent = usuario_actual.descripcion;
-    ubicacion.textContent = `Ciudad: ${usuario_actual.ciudad}`;
-    edad.textContent = `Edad: ${usuario_actual.edad}`;
-    genero.textContent = `Genero: ${usuario_actual.genero}`;
-    const tags = await cargarTags(usuario_actual.id);
-    hobbies.textContent = tags.hobbies.join(', ') || "";
-    habitos.textContent = tags.habitos.join(', ') || "";
-    orientacion.textContent = tags.orientacion.join(', ') || "";
-    signo.textContent = tags.signo.join(', ') || "";
+function renderBotones(tags, containerId) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
+
+    tags.forEach(tag => {
+        const btn = document.createElement("button");
+        btn.textContent = tag.nombre;
+        btn.classList.add("boton-opcion");
+        btn.dataset.id = tag.id;
+
+        btn.addEventListener("click", () => {
+            btn.classList.toggle("activo");
+        });
+
+        container.appendChild(btn);
+    });
 }
+
+function obtenerSeleccionados(containerId) {
+    const activo = document.querySelector(`#${containerId} .boton-opcion.activo`);
+    return activo ? activo.textContent : undefined;
+}
+
+document.getElementById("like").addEventListener("click", async function (event) {
+    event.preventDefault();
+    await darLike();
+    obtenerSiguientePersona();
+});
+
+document.getElementById("xmark").addEventListener("click", async function (event) {
+    event.preventDefault();
+    await darDislike();
+    obtenerSiguientePersona();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.getElementById("overlay-filtros");
+    const boton_abrir = document.getElementById("abrir-filtros");
+    const boton_cerrar = document.getElementById("cerrar-filtros");
+    const boton_aplicar = document.getElementById("aplicar-filtros")
+
+    // Abrir overlay
+    boton_abrir.addEventListener("click", async () => {
+        overlay.style.display = "flex";
+        const tags = await cargarTagsDisponibles();
+        renderBotones(tags.signo, "filtro-signo");
+        renderBotones(tags.orientacion, "filtro-orientacion");
+        renderBotones(tags.hobbies, "filtro-hobby");
+        renderBotones(tags.habitos, "filtro-habito");
+    });
+
+    // Cerrar overlay con botón
+    boton_cerrar.addEventListener("click", () => {
+        overlay.style.display = "none";
+    });
+
+    // Cerrar overlay al hacer clic fuera del contenido
+    overlay.addEventListener("click", (e) => {
+        if (e.target === overlay) {
+            overlay.style.display = "none";
+        }
+    });
+
+    // Aplicar filtros
+    boton_aplicar.addEventListener("click", async (e) => {
+        e.preventDefault();
+        const filtros = {
+            edad_min: parseInt(document.getElementById("filtro-edad-min").value) || undefined,
+            edad_max: parseInt(document.getElementById("filtro-edad-max").value) || undefined,
+            ciudad: texto(document.getElementById("filtro-ciudad").value) || undefined,
+            genero: texto(document.getElementById("filtro-genero").value) || undefined,
+            orientacion: obtenerSeleccionados("filtro-orientacion"),
+            signo: obtenerSeleccionados("filtro-signo"),
+            hobbies: obtenerSeleccionados("filtro-hobby"),
+            habitos: obtenerSeleccionados("filtro-habito")
+        }
+        overlay.style.display = "none";
+        cola = await cargarPersonasConFiltro(filtros);
+
+        if (!cola || cola.length === 0){
+            mostrarFinDePersonas();
+            return;
+        }
+
+        usuario_actual = cola.shift();
+        mostrarPersona(usuario_actual);
+    })
+
+    document.querySelectorAll(".botones-filtro").forEach(grupo => {
+    grupo.addEventListener("click", (e) => {
+        if (!e.target.classList.contains("boton-opcion")) return;
+
+        // desactivar todos los del grupo
+        grupo.querySelectorAll(".boton-opcion").forEach(chip =>
+            chip.classList.remove("activo")
+        );
+
+        // activar el clickeado
+        e.target.classList.add("activo");
+    });
+});
+
+});
 
 async function darLike() {
     if (!usuario_actual) return;
@@ -188,70 +304,6 @@ async function darDislike() {
         console.error('Error al dar dislike:', error);
     }
 }
-
-document.getElementById("like").addEventListener("click", async function (event) {
-    event.preventDefault();
-    await darLike();
-    obtenerSiguientePersona();
-});
-
-document.getElementById("xmark").addEventListener("click", async function (event) {
-    event.preventDefault();
-    await darDislike();
-    obtenerSiguientePersona();
-});
-
-
-document.addEventListener("DOMContentLoaded", () => {
-    const overlay = document.getElementById("overlay-filtros");
-    const boton_abrir = document.getElementById("abrir-filtros");
-    const boton_cerrar = document.getElementById("cerrar-filtros");
-    const boton_aplicar = document.getElementById("aplicar-filtros")
-
-    // Abrir overlay
-    boton_abrir.addEventListener("click", () => {
-        overlay.style.display = "flex";
-    });
-
-    // Cerrar overlay con botón
-    boton_cerrar.addEventListener("click", () => {
-        overlay.style.display = "none";
-    });
-
-    // Cerrar overlay al hacer clic fuera del contenido
-    overlay.addEventListener("click", (e) => {
-        if (e.target === overlay) {
-            overlay.style.display = "none";
-        }
-    });
-
-    // Aplicar filtros
-    boton_aplicar.addEventListener("click", async (e) => {
-        e.preventDefault();
-        const filtros = {
-            edad_min: parseInt(document.getElementById("filtro-edad-min").value) || undefined,
-            edad_max: parseInt(document.getElementById("filtro-edad-max").value) || undefined,
-            ciudad: texto(document.getElementById("filtro-ciudad").value) || undefined,
-            genero: texto(document.getElementById("filtro-genero").value) || undefined,
-            orientacion: texto(document.getElementById("filtro-orientacion").value) || undefined,
-            signo: document.getElementById("filtro-signo").value || undefined,
-            hobbies: texto(document.getElementById("filtro-hobby").value) || undefined,
-            habitos: texto(document.getElementById("filtro-habito").value) || undefined
-
-        }
-        overlay.style.display = "none";
-        cola = await cargarPersonasConFiltro(filtros);
-
-        if (!cola || cola.length === 0){
-            mostrarFinDePersonas();
-            return;
-        }
-
-        usuario_actual = cola.shift();
-        mostrarPersona(usuario_actual);
-    })
-});
-
 
 inicializarCola();
 
