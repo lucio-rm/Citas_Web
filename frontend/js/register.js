@@ -49,8 +49,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      alert("Usuario creado correctamente");
-      window.location.href = "login.html";
+     alert("Usuario creado correctamente");
+     localStorage.setItem("usuario", JSON.stringify(data));
+     window.location.href = "pag-editar-perfil.html";
+
 
     } catch (error) {
       console.error(error);
