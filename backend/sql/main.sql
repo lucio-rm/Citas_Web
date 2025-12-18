@@ -1,18 +1,10 @@
 -- CREATE DATABASE hilo_rojo;
 -- tengo entendido que la creamos automáticamente desde la configuración del archivo docker-compose.yml.
 
-DROP TABLE IF EXISTS feedback CASCADE;
-DROP TABLE IF EXISTS citas CASCADE;
-DROP TABLE IF EXISTS likes CASCADE;
-DROP TABLE IF EXISTS matches CASCADE;
-DROP TABLE IF EXISTS usuarios_tags CASCADE;
-DROP TABLE IF EXISTS tags CASCADE;
-DROP TABLE IF EXISTS usuarios CASCADE;
-
 
 CREATE EXTENSION IF NOT EXISTS unaccent;
 
-CREATE TABLE usuarios (
+CREATE TABLE IF NOT EXISTS usuarios (
     id SERIAL PRIMARY KEY, 
     nombre VARCHAR(50) NOT NULL,
     apellido VARCHAR(50) NOT NULL,
@@ -34,11 +26,11 @@ VALUES
 ('Lucas', 'Pérez', '1995-07-23', 'lucas.perez@example.com', '123456', 'Masculino', 'Fanático del cine y los videojuegos.', 'https://randomuser.me/api/portraits/men/75.jpg', 'Córdoba'),
 ('María', 'Gómez', '2000-01-05', 'maria.gomez@example.com', '123456', 'Femenino', 'Disfruto de la lectura y la música.', 'https://randomuser.me/api/portraits/women/45.jpg', 'Rosario'),
 ('Juan', 'Martínez', '1992-11-17', 'juan.martinez@example.com', '123456', 'Masculino', 'Amante del deporte y la naturaleza.', 'https://randomuser.me/api/portraits/men/32.jpg', 'Mendoza'),
-('Valentina', 'Rojas', '1999-05-29', 'valentina.rojas@example.com', '123456', 'Femenino', 'Me encanta cocinar y pintar.', 'https://randomuser.me/api/portraits/women/12.jpg', 'Salta');
+('Valentina', 'Rojas', '1999-05-29', 'valentina.rojas@example.com', '123456', 'Femenino', 'Me encanta cocinar y pintar.', 'https://randomuser.me/api/portraits/women/12.jpg', 'Salta')
+ON CONFLICT DO NOTHING;
 
 
-
-CREATE TABLE tags (
+CREATE TABLE IF NOT EXISTS tags (
     id SERIAL PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL,
     categoria VARCHAR(50) NOT NULL
@@ -56,11 +48,11 @@ INSERT INTO tags (nombre, categoria) VALUES
 ('Cáncer', 'SIGNO'), ('Géminis', 'SIGNO'), ('Tauro', 'SIGNO'),
 ('Sagitario', 'SIGNO'), ('Virgo', 'SIGNO'), ('Leo', 'SIGNO'),
 ('Piscis', 'SIGNO'), ('Acuario', 'SIGNO'), ('Capricornio', 'SIGNO'),
-('Heterosexual', 'ORIENTACION'), ('Homosexual', 'ORIENTACION'), ('Bisexual', 'ORIENTACION');
+('Heterosexual', 'ORIENTACION'), ('Homosexual', 'ORIENTACION'), ('Bisexual', 'ORIENTACION')
+ON CONFLICT DO NOTHING;
 
 
-
-CREATE TABLE usuarios_tags (
+CREATE TABLE IF NOT EXISTS usuarios_tags (
     id SERIAL PRIMARY KEY,
     id_usuario INT NOT NULL,
     id_tag INT NOT NULL, 
@@ -73,10 +65,11 @@ INSERT INTO usuarios_tags(id_usuario, id_tag) VALUES
 (2, 2), (2, 3), (2, 6), (2, 35), (2, 27),
 (3, 5), (3, 8), (3, 10), (3, 36), (3, 30),
 (4, 1), (4, 4), (4, 5), (4, 34), (4, 24),
-(5, 1), (5, 4), (5, 5), (5, 34), (5, 28);
+(5, 1), (5, 4), (5, 5), (5, 34), (5, 28)
+ON CONFLICT DO NOTHING;
 
 
-CREATE TABLE matches (
+CREATE TABLE IF NOT EXISTS matches (
     id SERIAL PRIMARY KEY,
     id_usuario_1 INT NOT NULL,
     id_usuario_2 INT NOT NULL,
@@ -85,7 +78,7 @@ CREATE TABLE matches (
     FOREIGN KEY (id_usuario_2) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
-CREATE TABLE likes (
+CREATE TABLE IF NOT EXISTS likes (
     id SERIAL PRIMARY KEY,
     id_usuario_1 INT NOT NULL,
     id_usuario_2 INT NOT NULL,
@@ -96,7 +89,7 @@ CREATE TABLE likes (
 
 CREATE UNIQUE INDEX idx_likes_unicos ON likes(id_usuario_1, id_usuario_2);
 
-CREATE TABLE citas (
+CREATE TABLE IF NOT EXISTS citas (
     id SERIAL PRIMARY KEY,
     id_match INT NOT NULL,
     lugar VARCHAR(100) NOT NULL,
@@ -109,7 +102,7 @@ CREATE TABLE citas (
 
 
 
-CREATE TABLE feedback (
+CREATE TABLE IF NOT EXISTS feedback (
     id SERIAL PRIMARY KEY,
     id_citas INT NOT NULL,
     id_usuario_calificador INT NOT NULL,
