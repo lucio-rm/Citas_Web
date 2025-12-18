@@ -21,6 +21,7 @@ const configurarBotones = () => {
     document.querySelectorAll('.boton-abrir-modal').forEach(boton => {
         boton.addEventListener('click', (e) => {
             formulario.reset(); //resetea el formulario al abrirlo
+            modal.querySelector('.strong1').innerText = "Calificar Cita"; //cambia el titulo del modal para evitar errores
             const tarjeta = e.target.closest('.tarjeta-cita'); //obtiene la tarjeta completa
             modal.dataset.idCita = tarjeta.dataset.id; //le pasamos el id de la tarjeta al modal *1
             modal.dataset.idPareja = tarjeta.dataset.pareja; //le pasamos el id de la pareja al modal *2
@@ -95,7 +96,6 @@ const configurarBotones = () => {
             const idCita = tarjeta.dataset.id; // obtiene el id de la cita
 
             try {
-                // le pide al backend que elimine la calificacion
                 const respuesta = await fetch(`http://localhost:3000/feedback/cita/${idCita}`, {
                     method : 'GET'
                 });
@@ -113,7 +113,7 @@ const configurarBotones = () => {
                 inputsPuntajes[4].value = feedback.comodidad;
                 inputsPuntajes[5].value = feedback.calidad_evento;
 
-                const radio = formulario.querySelectorAll(`input[type="radio"][value="${feedback.repetirias}"]`);
+                const radio = formulario.querySelector(`input[type="radio"][value="${feedback.repetirias}"]`);
                 if (radio) radio.checked = true;
 
                 formulario.querySelector('textarea').value = feedback.nota_extra;
@@ -122,9 +122,8 @@ const configurarBotones = () => {
                 modal.style.display = 'block';
 
             } catch (error) {
-                console.error('Error al eliminar la calificación: ', error);
+                console.error('Error al cargar los datos del feedback: ', error);
             }
-
         });
     })
 
@@ -188,10 +187,18 @@ formulario.addEventListener('submit', async (e) => {
     }
     //console.log(calificaciones)
     
+    const esEditar = modal.querySelector('.strong1').innerText === "Editar Calificación";
+
+    const url = esEditar ? 
+        `http://localhost:3000/feedback/actualizar` :
+        `http://localhost:3000/feedback/guardar`;
+
+    const metodo = esEditar ? 'PUT' : 'POST';
+
     try {
         // le pide al backendd que guarde el feedback
-        const respuesta = await fetch('http://localhost:3000/feedback/guardar', {
-            method : 'POST',
+        const respuesta = await fetch(url, {
+            method : metodo,
             headers : {'Content-Type' : 'application/json'},
             body : JSON.stringify(calificaciones)
         });
