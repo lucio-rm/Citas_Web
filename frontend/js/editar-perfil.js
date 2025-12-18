@@ -26,6 +26,14 @@ const vistaPreviaEdad = document.getElementById('vista-previa-edad');
 const vistaPreviaOrientacion = document.getElementById('vista-previa-orientacion');
 const vistaPreviaFotoPerfil = document.getElementById('vista-previa-img');
 
+(function verificarSesion() { // si no está logeado
+    const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
+
+    if (!usuarioLogeado || !usuarioLogeado.id) {
+        window.location.href = '/paginas/login.html'; // redirige al login
+    }
+})();
+
 // calcula la edad a partir de la fecha de nacimiento
 const calcularEdad = (fechaNacimiento) => {
     if (!fechaNacimiento) return 0;
@@ -255,7 +263,7 @@ const cargarDatosUsuario = async () => {
         inputApellido.value = usuario.apellido || '';
         inputFotoPerfil.value = usuario.foto_perfil || '';
         inputBio.value = usuario.descripcion_personal || '';
-        inputGenero.value = usuario.sexo_genero || '';
+        inputGenero.value = usuario.sexo_genero.toLowerCase() || '';
         inputUbicacion.value = usuario.ubicacion || '';
 
         if (usuario.fecha_nacimiento) {

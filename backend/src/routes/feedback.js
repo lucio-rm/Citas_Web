@@ -6,6 +6,10 @@ router.post('/', controladores.crearFeedback);
 
 router.post('/guardar', controladores.guardarFeedback);
 
+router.delete('/:id_cita', controladores.eliminarFeedbackPorCita);
+
 router.get('/cita/:id_cita', controladores.obtenerFeedbackPorCita);
+
+router.put('/actualizar', controladores.actualizarFeedback);
 
 export default router;
