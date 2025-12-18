@@ -105,8 +105,10 @@ Tendrías ver el contenedor postgres:17 corriendo.
 
 Paso 2: Configurar el Backend (.env)
 
-Andá a la carpeta backend y creá (o modificá si ya existe) el archivo .env con estos datos:
--
+Andá a la carpeta backend y creá (o modificá si ya lo habías creado) el archivo .env con estos datos:
+/backend/.env
+
+- adentro del .env:
 PORT=3000
 DB_USER=postgres
 DB_PASS=postgres

@@ -60,8 +60,8 @@ const crearUsuario = async (req, res) => {
         }
 
         // calculo la edad
-        const partes = fecha_nacimiento.split("-"); 
-        const anioNacimiento = parseInt(partes[0]); 
+        const partes = fecha_nacimiento.split("-");  // de la lista que devuelve sql ["1990-04-18"], la transformamos ["1990", "04", "18"]
+        const anioNacimiento = parseInt(partes[0]);  // agarramos la primer posicion (la del año) y lo pasamos a INT para poder restarlo al año actual
         const anioActual = 2025; 
         const edad = anioActual - anioNacimiento;
 
@@ -95,15 +95,44 @@ const crearUsuario = async (req, res) => {
         });
     }      
 };
-
 const actualizarUsuario = async (req, res) => {
     try {
         const { id } = req.params;
-        const { nombre,
-        apellido, foto_perfil, descripcion_personal, sexo_genero,
-        ubicacion, fecha_nacimiento, contrasenia
-        } = req.body;
+        const { nombre, apellido, foto_perfil, descripcion_personal, sexo_genero,
+        ubicacion, fecha_nacimiento, contrasenia } = req.body;
         
+        // hago las validaciones SOLO si estan enviando esas variables. si estan vacías (no las actualizaron/editaron) no verifica nada.
+        //valido los nombres y apellido 
+        if (nombre && nombre.match(/[0-9]/)) {
+            return res.status(400).json({ error: 'El nombre no puede tener números.' });
+        }
+        if (apellido && apellido.match(/[0-9]/)) {
+            return res.status(400).json({ error: 'El apellido no puede tener números.' });
+        }
+
+        // valido la contraseña
+        if (contrasenia) {
+            const contraRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^\w\s])[\S]{8,}/;
+            if (!contrasenia.match(contraRegex)) {
+                return res.status(400).json({ 
+                    error: 'La contraseña debe tener al menos 8 caracteres, incluir una mayúscula, una minúscula, un número y un carácter especial.' 
+                });
+            }
+        }
+
+        // validamos la edad
+        if (fecha_nacimiento) {
+            const partes = fecha_nacimiento.split("-"); 
+            const anioNacimiento = parseInt(partes[0]); 
+            const anioActual = 2025; 
+            const edad = anioActual - anioNacimiento;
+
+            if (edad < 18 || edad > 100) {
+                return res.status(400).json({ error: 'Edad inválida (tenes que ser mayor de edad y menor a 100 años).' });
+            }
+        }
+        
+         // guardamos todo en la base de datos
         const result = await pool.query(
             `UPDATE usuarios 
              SET nombre = COALESCE($2, nombre),
