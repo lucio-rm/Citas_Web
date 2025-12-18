@@ -43,11 +43,16 @@ const crearFeedback = async (req, res) => {
 const obtenerFeedbackPorCita = async (req, res) => {
     try {
         const { id_cita } = req.params;
-        const result = await pool.query(
+        const resul = await pool.query(
             'SELECT * FROM feedback WHERE id_citas = $1',
             [id_cita]
         );
-        res.json(result.rows);
+
+        if (resul.rows.length === 0) {
+            return res.status(404).json({ error: 'No se encontró feedback para esa cita' })
+        }
+
+        res.json(resul.rows[0]);
     } catch (err) {
         console.error(err);
         res.status(500).json({ error: 'Error al obtener feedback' });
