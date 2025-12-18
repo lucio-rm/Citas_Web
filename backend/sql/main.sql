@@ -22,11 +22,35 @@ CREATE TABLE IF NOT EXISTS usuarios (
 
 INSERT INTO usuarios (nombre, apellido, fecha_nacimiento, mail, contrasenia, sexo_genero, descripcion_personal, foto_perfil, ubicacion)
 VALUES
-('Ana', 'Torres', '1998-03-12', 'ana.torres@example.com', '123456', 'Femenino', 'Amo viajar y sacar fotos.', 'https://randomuser.me/api/portraits/women/68.jpg', 'Buenos Aires'),
-('Lucas', 'Pérez', '1995-07-23', 'lucas.perez@example.com', '123456', 'Masculino', 'Fanático del cine y los videojuegos.', 'https://randomuser.me/api/portraits/men/75.jpg', 'Córdoba'),
-('María', 'Gómez', '2000-01-05', 'maria.gomez@example.com', '123456', 'Femenino', 'Disfruto de la lectura y la música.', 'https://randomuser.me/api/portraits/women/45.jpg', 'Rosario'),
-('Juan', 'Martínez', '1992-11-17', 'juan.martinez@example.com', '123456', 'Masculino', 'Amante del deporte y la naturaleza.', 'https://randomuser.me/api/portraits/men/32.jpg', 'Mendoza'),
-('Valentina', 'Rojas', '1999-05-29', 'valentina.rojas@example.com', '123456', 'Femenino', 'Me encanta cocinar y pintar.', 'https://randomuser.me/api/portraits/women/12.jpg', 'Salta')
+('Ana', 'Torres', '1998-03-12', 'ana.torres@example.com', '@Aa123456', 'Femenino', 'Amo viajar y sacar fotos.', 'https://randomuser.me/api/portraits/women/68.jpg', 'Buenos Aires'),
+('Lucas', 'Pérez', '1995-07-23', 'lucas.perez@example.com', '@Aa123456', 'Masculino', 'Fanático del cine y los videojuegos.', 'https://randomuser.me/api/portraits/men/75.jpg', 'Córdoba'),
+('María', 'Gómez', '2000-01-05', 'maria.gomez@example.com', '@Aa123456', 'Femenino', 'Disfruto de la lectura y la música.', 'https://randomuser.me/api/portraits/women/45.jpg', 'Rosario'),
+('Juan', 'Martínez', '1992-11-17', 'juan.martinez@example.com', '@Aa123456', 'Masculino', 'Amante del deporte y la naturaleza.', 'https://randomuser.me/api/portraits/men/32.jpg', 'Mendoza'),
+('Valentina', 'Rojas', '1999-05-29', 'valentina.rojas@example.com', '@Aa123456', 'Femenino', 'Me encanta cocinar y pintar.', 'https://randomuser.me/api/portraits/women/12.jpg', 'Salta'),
+('Sofía', 'López', '1997-08-14', 'sofia.lopez@example.com', '@Aa123456', 'Femenino', 'Yoga, café y charlas largas.', 'https://randomuser.me/api/portraits/women/22.jpg', 'Buenos Aires'),
+('Tomás', 'Fernández', '1994-02-09', 'tomas.fernandez@example.com', '@Aa123456', 'Masculino', 'Ingeniero y amante del running.', 'https://randomuser.me/api/portraits/men/41.jpg', 'La Plata'),
+('Camila', 'Suárez', '2001-06-30', 'camila.suarez@example.com', '@Aa123456', 'Femenino', 'Fotografía y redes sociales.', 'https://randomuser.me/api/portraits/women/30.jpg', 'Mar del Plata'),
+('Nicolás', 'Ramírez', '1996-10-21', 'nicolas.ramirez@example.com', '@Aa123456', 'Masculino', 'Programador y gamer casual.', 'https://randomuser.me/api/portraits/men/53.jpg', 'Córdoba'),
+('Florencia', 'Castro', '1993-12-02', 'florencia.castro@example.com', '@Aa123456', 'Femenino', 'Arte, museos y caminatas.', 'https://randomuser.me/api/portraits/women/55.jpg', 'Buenos Aires'),
+('Martín', 'Díaz', '1990-04-18', 'martin.diaz@example.com', '@Aa123456', 'Masculino', 'Fan del asado y el fútbol.', 'https://randomuser.me/api/portraits/men/60.jpg', 'Rosario'),
+('Julieta', 'Vega', '1998-09-07', 'julieta.vega@example.com', '@Aa123456', 'Femenino', 'Viajes cortos y escapadas.', 'https://randomuser.me/api/portraits/women/19.jpg', 'Neuquén'),
+('Agustín', 'Morales', '1995-01-26', 'agustin.morales@example.com', '@Aa123456', 'Masculino', 'Entrenamiento funcional.', 'https://randomuser.me/api/portraits/men/18.jpg', 'San Juan'),
+('Paula', 'Herrera', '1997-07-11', 'paula.herrera@example.com', '@Aa123456', 'Femenino', 'Diseño gráfico freelance.', 'https://randomuser.me/api/portraits/women/63.jpg', 'Santa Fe'),
+('Diego', 'Ortiz', '1991-05-03', 'diego.ortiz@example.com', '@Aa123456', 'Masculino', 'Ciclismo urbano.', 'https://randomuser.me/api/portraits/men/27.jpg', 'Buenos Aires'),
+('Carolina', 'Molina', '1999-11-22', 'carolina.molina@example.com', '@Aa123456', 'Femenino', 'Psicología y bienestar.', 'https://randomuser.me/api/portraits/women/7.jpg', 'Tucumán'),
+('Leandro', 'Silva', '1994-08-05', 'leandro.silva@example.com', '@Aa123456', 'Masculino', 'Música indie y vinilos.', 'https://randomuser.me/api/portraits/men/83.jpg', 'CABA'),
+('Micaela', 'Navarro', '2000-02-16', 'micaela.navarro@example.com', '@Aa123456', 'Femenino', 'Estudiante de medicina.', 'https://randomuser.me/api/portraits/women/40.jpg', 'Corrientes'),
+('Federico', 'Arias', '1993-06-28', 'federico.arias@example.com', '@Aa123456', 'Masculino', 'Barista y amante del café.', 'https://randomuser.me/api/portraits/men/91.jpg', 'Córdoba'),
+('Rocío', 'Benítez', '1996-09-19', 'rocio.benitez@example.com', '@Aa123456', 'Femenino', 'Senderismo y aire libre.', 'https://randomuser.me/api/portraits/women/26.jpg', 'Bariloche'),
+('Pablo', 'Ibarra', '1989-12-14', 'pablo.ibarra@example.com', '@Aa123456', 'Masculino', 'Emprendedor tech.', 'https://randomuser.me/api/portraits/men/14.jpg', 'Buenos Aires'),
+('Lara', 'Peralta', '2001-04-09', 'lara.peralta@example.com', '@Aa123456', 'Femenino', 'Ilustración digital.', 'https://randomuser.me/api/portraits/women/50.jpg', 'La Rioja'),
+('Gonzalo', 'Rivas', '1997-01-31', 'gonzalo.rivas@example.com', '@Aa123456', 'Masculino', 'Streamer casual.', 'https://randomuser.me/api/portraits/men/36.jpg', 'San Luis'),
+('Belén', 'Cabrera', '1995-10-08', 'belen.cabrera@example.com', '@Aa123456', 'Femenino', 'Amante de los animales.', 'https://randomuser.me/api/portraits/women/72.jpg', 'Chaco'),
+('Emiliano', 'Acosta', '1992-03-25', 'emiliano.acosta@example.com', '@Aa123456', 'Masculino', 'Marketing digital.', 'https://randomuser.me/api/portraits/men/67.jpg', 'CABA'),
+('Natalia', 'Ponce', '1998-06-17', 'natalia.ponce@example.com', '@Aa123456', 'Femenino', 'Nutrición y vida sana.', 'https://randomuser.me/api/portraits/women/34.jpg', 'Mendoza'),
+('Franco', 'Sosa', '1996-09-02', 'franco.sosa@example.com', '@Aa123456', 'Masculino', 'Escalada deportiva.', 'https://randomuser.me/api/portraits/men/48.jpg', 'San Martín'),
+('Victoria', 'Luna', '1999-12-27', 'victoria.luna@example.com', '@Aa123456', 'Femenino', 'Astrología y tarot.', 'https://randomuser.me/api/portraits/women/9.jpg', 'Buenos Aires'),
+('Matías', 'Correa', '1994-05-15', 'matias.correa@example.com', '@Aa123456', 'Masculino', 'Docente de historia.', 'https://randomuser.me/api/portraits/men/5.jpg', 'La Pampa')
 ON CONFLICT DO NOTHING;
 
 
