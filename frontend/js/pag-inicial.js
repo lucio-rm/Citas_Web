@@ -2,22 +2,22 @@
 document.addEventListener("DOMContentLoaded", () => {
   const usuarioJSON = localStorage.getItem("usuario");
 
-  // Si NO hay sesión → login
+  // si NO hay sesión va al login
   if (!usuarioJSON) {
     window.location.href = "login.html";
     return;
   }
 
-  // Si hay sesión
+  // si hay sesión
   const usuario = JSON.parse(usuarioJSON);
 
-  // Mostrar nombre
+  // muestra el nombre
   const nombreElem = document.getElementById("match-nombre");
   if (nombreElem) {
     nombreElem.textContent = `${usuario.nombre} ${usuario.apellido}`;
   }
 
-  // Mostrar ciudad
+  // muestra la ciudad
   const ubicacionElem = document.getElementById("match-ubi");
   if (ubicacionElem && usuario.ubicacion) {
     ubicacionElem.textContent = "Ciudad: " + usuario.ubicacion;

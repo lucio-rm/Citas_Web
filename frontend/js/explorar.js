@@ -200,19 +200,19 @@ document.addEventListener("DOMContentLoaded", () => {
         renderBotones(tags.habitos, "filtro-habito");
     });
 
-    // Cerrar overlay con botón
+    // cierra el oveerlay con botón
     boton_cerrar.addEventListener("click", () => {
         overlay.style.display = "none";
     });
 
-    // Cerrar overlay al hacer clic fuera del contenedor
+    // cierra el overlay al hacer clic fuera del contenedor
     overlay.addEventListener("click", (e) => {
         if (e.target === overlay) {
             overlay.style.display = "none";
         }
     });
 
-    // Aplicar filtros
+    // aplica los filtros
     boton_aplicar.addEventListener("click", async (e) => {
         e.preventDefault();
         const filtros = {

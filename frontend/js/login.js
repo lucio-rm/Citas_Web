@@ -25,10 +25,10 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Guardamos usuario logueado (simple)
+      // guarda el usuario logueado (simple)
      localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
-      // Redirigimos a pantalla principal
+      // redirige a la pantalla principal
       window.location.href = "explorar.html";
 
     } catch (error) {
