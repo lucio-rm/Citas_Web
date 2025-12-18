@@ -70,7 +70,7 @@ Este proyecto está preparado para correr en cualquier máquina que tenga Docker
 *Instalación de Dependencias:*
 (los comandos utilizados son en la terminal de Bash)
 
-Primero instalá las librerías del backend. Abrí una terminal en la carpeta 'backend' del proyecto y ejecutá:
+Primero instalá las librerías del backend (el código "npm install" solo se ejecuta la PRIMERA vez). Abrí una terminal en la carpeta 'backend' del proyecto y ejecutá:
 *
 cd backend
 npm install
@@ -105,8 +105,10 @@ Tendrías ver el contenedor postgres:17 corriendo.
 
 Paso 2: Configurar el Backend (.env)
 
-Andá a la carpeta backend y creá (o modificá si ya existe) el archivo .env con estos datos:
--
+Andá a la carpeta backend y creá (o modificá si ya lo habías creado) el archivo .env con estos datos:
+/backend/.env
+
+- adentro del .env:
 PORT=3000
 DB_USER=postgres
 DB_PASS=postgres
