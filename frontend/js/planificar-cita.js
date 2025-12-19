@@ -1,3 +1,7 @@
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://citasweb-production.up.railway.app/';
+
 const matchId = JSON.parse(localStorage.getItem("id_match"));
 const inputFechaHora = document.getElementById('fecha_hora')
 
@@ -32,7 +36,7 @@ document.getElementById('form-planificar-cita').addEventListener('submit', async
     };
             
     try {
-        const response = await fetch('http://localhost:3000/citas', {
+        const response = await fetch(`${API_URL}/citas`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(cita)

@@ -1,3 +1,7 @@
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://citasweb-production.up.railway.app/';
+
 const usuario_logueado = JSON.parse(localStorage.getItem("usuario"));
 let usuario_actual = null;
 let cola = [];
@@ -33,7 +37,7 @@ function texto(texto){
 
 async function cargarPersonas () {
     try {
-        const response = await fetch(`http://localhost:3000/usuarios/disponibles?id=${usuario_logueado.id}`);
+        const response = await fetch(`${API_URL}/usuarios/disponibles?id=${usuario_logueado.id}`);
         const personas = await response.json();
         const personas_filtradas = personas
         .filter(persona => persona.id !== usuario_logueado.id)
@@ -54,7 +58,7 @@ async function cargarPersonas () {
 }
 
 async function cargarTags(id_pareja) {
-    const response = await fetch(`http://localhost:3000/usuarios/tags?id=${id_pareja}`);
+    const response = await fetch(`${API_URL}/usuarios/tags?id=${id_pareja}`);
     const tags = await response.json();
     
     const hobbies = tags.filter(tag => tag.categoria === 'HOBBY').map(tag => tag.nombre);
@@ -67,7 +71,7 @@ async function cargarTags(id_pareja) {
 }
 
 async function cargarTagsDisponibles() {
-    const response = await fetch("http://localhost:3000/tags");
+    const response = await fetch(`${API_URL}/tags`);
     const tags = await response.json();
 
     const hobbies = tags.filter(tag => tag.categoria === 'HOBBY');
@@ -88,7 +92,7 @@ async function cargarPersonasConFiltro(filtros) {
     if (filtros.edad_min) params.append('edad_min', filtros.edad_min);
     if (filtros.edad_max) params.append('edad_max', filtros.edad_max);
     if (filtros.genero) params.append('genero', filtros.genero);
-    const response = await fetch(`http://localhost:3000/usuarios/disponibles?${params.toString()}`);
+    const response = await fetch(`${API_URL}/usuarios/disponibles?${params.toString()}`);
     const personas = await response.json();
 
     return personas.map(persona => ({
@@ -257,7 +261,7 @@ async function darLike() {
     if (!usuario_actual) return;
 
     try {
-        const response = await fetch("http://localhost:3000/matches/like", {
+        const response = await fetch(`${API_URL}/matches/like`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -286,7 +290,7 @@ async function darDislike() {
     if (!usuario_actual) return;
 
     try {
-        const response = await fetch("http://localhost:3000/matches/like", {
+        const response = await fetch(`${API_URL}/matches/like`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

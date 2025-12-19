@@ -1,3 +1,7 @@
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://citasweb-production.up.railway.app/';
+
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("register-form");
   let sexoSeleccionado = null;
@@ -51,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     try {
-      const res = await fetch("http://localhost:3000/usuarios", {
+      const res = await fetch(`${API_URL}/usuarios`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(usuario)

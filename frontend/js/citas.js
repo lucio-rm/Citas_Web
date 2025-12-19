@@ -1,3 +1,7 @@
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://citasweb-production.up.railway.app/';
+
 const btnCerrarModal = document.getElementById('btn-cerrar-modal');
 const modal = document.querySelector('.modal-calificacion-cita');
 const btnCerrarEditar = document.getElementById('btn-cerrar-editar');
@@ -59,7 +63,7 @@ const configurarBotones = () => {
             if (confirmar) {
                 try {
                     // le pide al backend que cancele la cita
-                    const respuesta = await fetch(`http://localhost:3000/citas/cancelar/${idCita}`, {
+                    const respuesta = await fetch(`${API_URL}/citas/cancelar/${idCita}`, {
                         method : 'PATCH'
                     });
                     const datos = await respuesta.json();
@@ -88,7 +92,7 @@ const configurarBotones = () => {
             if (confirmar) {
                 try {
                     // le pide al backend que elimine la calificacion
-                    const respuesta = await fetch(`http://localhost:3000/feedback/${idCita}`, {
+                    const respuesta = await fetch(`${API_URL}/feedback/${idCita}`, {
                         method : 'DELETE'
                     });
                     const datos = await respuesta.json();
@@ -112,7 +116,7 @@ const configurarBotones = () => {
             const idCita = tarjeta.dataset.id; // obtiene el id de la cita
 
             try {
-                const respuesta = await fetch(`http://localhost:3000/feedback/cita/${idCita}`, {
+                const respuesta = await fetch(`${API_URL}/feedback/cita/${idCita}`, {
                     method : 'GET'
                 });
                 const feedback = await respuesta.json();
@@ -206,8 +210,8 @@ formulario.addEventListener('submit', async (e) => {
     const esEditar = modal.querySelector('.strong1').innerText === "Editar Calificación";
 
     const url = esEditar ? 
-        `http://localhost:3000/feedback/actualizar` :
-        `http://localhost:3000/feedback/guardar`;
+        `${API_URL}/feedback/actualizar` :
+        `${API_URL}/feedback/guardar`;
 
     const metodo = esEditar ? 'PUT' : 'POST';
 
@@ -251,7 +255,7 @@ formularioEditar.addEventListener('submit', async (e) => {
 
     try {
 
-        const respuesta = await fetch(`http://localhost:3000/citas/${idCita}`, {
+        const respuesta = await fetch(`${API_URL}/citas/${idCita}`, {
             method : 'PUT',
             headers : {'Content-Type' : 'application/json'},
             body : JSON.stringify(datosActualizados)
@@ -279,7 +283,7 @@ const cargarCitas = async () => {
         const idUsuario = usuarioLogeado ? usuarioLogeado.id : null;
 
         // pide las citas al backend
-        const respuesta = await fetch(`http://localhost:3000/citas/ver?idUsuario=${idUsuario}`);
+        const respuesta = await fetch(`${API_URL}/citas/ver?idUsuario=${idUsuario}`);
         const citas = await respuesta.json();
 
         //toma los contenedores de citas (pendientes y anteriores)

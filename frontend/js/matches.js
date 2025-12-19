@@ -1,8 +1,12 @@
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://citasweb-production.up.railway.app/';
+
 const usuario_logueado = JSON.parse(localStorage.getItem("usuario"));
 
 async function cargarMatches () {
     try {
-        const response = await fetch(`http://localhost:3000/matches/${usuario_logueado.id}`);
+        const response = await fetch(`${API_URL}/matches/${usuario_logueado.id}`);
         const matches = await response.json();
         return matches;
     }
@@ -11,7 +15,7 @@ async function cargarMatches () {
     }
 }
 async function cargarPersona (id) {
-    const response = await fetch(`http://localhost:3000/usuarios/${id}`);
+    const response = await fetch(`${API_URL}/usuarios/${id}`);
     const pareja = await response.json();
     return pareja;
 }
@@ -54,7 +58,7 @@ contenedorMatches.addEventListener('click', async (evento) => {
         const match_id = match_div.dataset.matchId;
         if (!confirm('¿Estás seguro de qué queres eliminar este match?')) return;
         try {
-            const response = await fetch(`http://localhost:3000/matches/${match_id}`, {
+            const response = await fetch(`${API_URL}/matches/${match_id}`, {
                 method: 'DELETE'
             });
             if (response.ok) {

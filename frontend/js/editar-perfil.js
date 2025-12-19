@@ -1,3 +1,7 @@
+const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://citasweb-production.up.railway.app/';
+
 const MAXIMOS= {HOBBY:5, HABITOS:5, SIGNO:1, ORIENTACION:1}; //maximos seleccionables por categoria
 let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]}; //tags seleccionados por categoria
 
@@ -100,7 +104,7 @@ let listaTags = []
 const inicializarListaTags = async () => {
 
     try {
-        const respuesta = await fetch('http://localhost:3000/tags', {
+        const respuesta = await fetch(`${API_URL}/tags`, {
             method : 'GET'
         });
         if (!respuesta.ok) {
@@ -152,7 +156,7 @@ function incializarTags() {
 const cargarTagsUsuario = async (usuarioId) => {
 
     try {
-        const respuesta = await fetch(`http://localhost:3000/tags/usuario/${usuarioId}`, {
+        const respuesta = await fetch(`${API_URL}/tags/usuario/${usuarioId}`, {
             method : 'GET'
         });
 
@@ -250,7 +254,7 @@ const cargarDatosUsuario = async () => {
 
         const usuarioId = usuarioLogeado ? usuarioLogeado.id : null;
 
-        const respuesta = await fetch(`http://localhost:3000/usuarios/${usuarioId}`, {
+        const respuesta = await fetch(`${API_URL}/usuarios/${usuarioId}`, {
             method : 'GET'
         })
 
@@ -307,7 +311,7 @@ const actualizarTagsUsuario = async (usuarioId) => {
     ]
 
     try {
-        const respuesta = await fetch(`http://localhost:3000/tags/usuario/${usuarioId}`, {
+        const respuesta = await fetch(`${API_URL}/tags/usuario/${usuarioId}`, {
             method : 'PUT',
             headers : {
                 'Content-Type' : 'application/json'
@@ -345,7 +349,7 @@ const guardarCambiosUsuario = async (e) => {
     };
 
     try {
-        const respuesta = await fetch(`http://localhost:3000/usuarios/${idUsuario}`, {
+        const respuesta = await fetch(`${API_URL}/usuarios/${idUsuario}`, {
             method : 'PUT',
             headers : {
                 'Content-Type' : 'application/json'
@@ -379,7 +383,7 @@ const eliminarPerfil = async (e) => {
 
     if (idUsuario && confirmar) {
         try {
-            const respuesta = await fetch(`http://localhost:3000/usuarios/${idUsuario}`,{
+            const respuesta = await fetch(`${API_URL}/usuarios/${idUsuario}`,{
                 method : 'DELETE'
             });
 
