@@ -81,7 +81,7 @@
         <strong class="strong1">Editar cita</strong>
         <p class="letra">Cita con <span id="nombre-editar"></span></p>
 
-        <form id="form-editar-cita" class="calificar-cita-form editar-perfil-form">
+        <form id="form-editar-cita" class="calificar-cita-form">
 
             <label>Lugar de la cita</label>
             <input id="lugar-editar" type="text" required>
@@ -91,7 +91,7 @@
             <input id="tipo-encuentro-editar" type="text" required>
             <label>Duración estimada</label>
             <input id="duracion-editar" type="number" required>
-            <select name="estado" id="estado-editar">
+            <select name="estado" id="estado-editar" class="editar-cita-select">
                 <option value="pendiente">pendiente</option>
                 <option value="confirmada">confirmada</option>
             </select>
@@ -100,7 +100,7 @@
         </form>
     </div>
 
-    
+    <script src="../js/config.js"></script>    
     <script src="../js/citas.js"></script>
     <script src="../js/verifica-login.js"></script>
     <script src="../js/logout.js"></script>

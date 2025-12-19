@@ -1,7 +1,3 @@
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000'
-    : 'https://citasweb-production.up.railway.app';
-
 const MAXIMOS= {HOBBY:5, HABITOS:5, SIGNO:1, ORIENTACION:1}; //maximos seleccionables por categoria
 let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]}; //tags seleccionados por categoria
 
@@ -29,16 +25,6 @@ const vistaPreviaUbicacion = document.getElementById('vista-previa-ciudad');
 const vistaPreviaEdad = document.getElementById('vista-previa-edad');
 const vistaPreviaOrientacion = document.getElementById('vista-previa-orientacion');
 const vistaPreviaFotoPerfil = document.getElementById('vista-previa-img');
-
-
-
-(function verificarSesion() { // si no está logeado
-    const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
-
-    if (!usuarioLogeado || !usuarioLogeado.id) {
-        window.location.href = '/paginas/login.html'; // redirige al login
-    }
-})();
 
 // calcula la edad a partir de la fecha de nacimiento
 const calcularEdad = (fechaNacimiento) => {
@@ -390,7 +376,7 @@ const eliminarPerfil = async (e) => {
             if (respuesta.ok) {
                 alert("Tu cuenta ha sido eliminada exitosamente.");
                 localStorage.clear();
-                window.location.href = '/paginas/';
+                window.location.href = 'login.html';
             } else {
                 alert("Error al eliminar la cuenta.");
             }
