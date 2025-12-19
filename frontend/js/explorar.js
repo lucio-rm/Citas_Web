@@ -287,7 +287,7 @@ async function darDislike() {
     if (!usuario_actual) return;
 
     try {
-        const response = await fetch(`${API_URL}/matches/dislike`, {
+        const response = await fetch(`${API_URL}/matches/like`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
