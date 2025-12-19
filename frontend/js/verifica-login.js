@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // si NO hay sesión va al login
   if (!usuarioJSON) {
-    window.location.href = "login.html";
+    window.location.href = "/paginas/login.html";
     return;
   }
 

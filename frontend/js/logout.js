@@ -4,6 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   btnLogout.addEventListener("click", () => {
     localStorage.removeItem("usuario");
-    window.location.href = "login.html";
+    window.location.href = "/paginas/login.html";
   });
 });
