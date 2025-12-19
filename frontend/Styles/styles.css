@@ -385,3 +385,21 @@ strong.strong1{
 .boton-eliminar:hover {
     background-color: #ff7a7a;
 }
+.editar-cita-select{
+    width: 100%;
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid #FE7877;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    background-color: #fef9f9;
+}
+.editar-cita-select:hover{
+    outline: none;
+    border-color: #fa9f9f;
+}
+.editar-cita-select:focus {
+    outline: none;
+    border-color: #fa9f9f;
+}
