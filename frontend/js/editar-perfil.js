@@ -386,7 +386,7 @@ const eliminarPerfil = async (e) => {
             if (respuesta.ok) {
                 alert("Tu cuenta ha sido eliminada exitosamente.");
                 localStorage.clear();
-                window.location.href = '/paginas/';
+                window.location.href = '/paginas/login.html';
             } else {
                 alert("Error al eliminar la cuenta.");
             }
