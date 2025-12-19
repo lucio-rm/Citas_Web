@@ -7,6 +7,7 @@
 * Ezequiel Widder
 * Lucio Romero Mascaró
 
+-Organización: https://trello.com/invite/b/690e484af5b56eb440dd297a/ATTIb592672b6e979deca1e99158ce742259315F8329/citas-web-tpfinal
 
 *Hilo Rojo* es una plataforma web diseñada para conectar personas basándose en sus gustos, pasiones y estilos de vida. 
 Es única, con una funcionalidad para planificar las citas integrada. Podes dar likes, dislikes, hacer match con mujeres y/o hombres que te likeen a vos. Podes crear tu perfil completo para conquistar a todas las personas que quieras.
