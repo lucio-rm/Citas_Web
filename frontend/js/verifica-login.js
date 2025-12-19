@@ -1,13 +1,9 @@
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000'
-    : 'https://citasweb-production.up.railway.app';
-
 document.addEventListener("DOMContentLoaded", () => {
   const usuarioJSON = localStorage.getItem("usuario");
 
   // si NO hay sesión va al login
   if (!usuarioJSON) {
-    window.location.href = "/paginas/login.html";
+    window.location.href = "login.html";
     return;
   }
 

@@ -1,7 +1,3 @@
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000'
-    : 'https://citasweb-production.up.railway.app';
-
 const usuario_logueado = JSON.parse(localStorage.getItem("usuario"));
 let usuario_actual = null;
 let cola = [];
@@ -16,6 +12,7 @@ const hobbies = document.getElementById("match-hobbies");
 const habitos = document.getElementById("match-habitos");
 const orientacion = document.getElementById("match-orientacion");
 const signo = document.getElementById("match-signo");
+const usuario_id = usuario_logueado.id;
 
 function calcularEdad(fecha) {
     const hoy = new Date();
@@ -37,10 +34,10 @@ function texto(texto){
 
 async function cargarPersonas () {
     try {
-        const response = await fetch(`${API_URL}/usuarios/disponibles?id=${usuario_logueado.id}`);
+        const response = await fetch(`${API_URL}/usuarios/disponibles?id=${usuario_id}`);
         const personas = await response.json();
         const personas_filtradas = personas
-        .filter(persona => persona.id !== usuario_logueado.id)
+        .filter(persona => persona.id !== usuario_id)
         .map(persona => ({
             id: persona.id,
             nombre: `${persona.nombre} ${persona.apellido}`,
@@ -290,7 +287,7 @@ async function darDislike() {
     if (!usuario_actual) return;
 
     try {
-        const response = await fetch(`${API_URL}/matches/like`, {
+        const response = await fetch(`${API_URL}/matches/dislike`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

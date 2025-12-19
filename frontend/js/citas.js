@@ -1,7 +1,3 @@
-const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:3000'
-    : 'https://citasweb-production.up.railway.app';
-
 const btnCerrarModal = document.getElementById('btn-cerrar-modal');
 const modal = document.querySelector('.modal-calificacion-cita');
 const btnCerrarEditar = document.getElementById('btn-cerrar-editar');
