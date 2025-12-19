@@ -1,6 +1,6 @@
 const API_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:3000'
-    : 'https://citasweb-production.up.railway.app/';
+    : 'https://citasweb-production.up.railway.app';
 
 const MAXIMOS= {HOBBY:5, HABITOS:5, SIGNO:1, ORIENTACION:1}; //maximos seleccionables por categoria
 let seleccionados = {HOBBY:[], HABITOS:[], SIGNO:[], ORIENTACION:[]}; //tags seleccionados por categoria
