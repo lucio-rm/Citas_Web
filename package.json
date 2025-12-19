@@ -1,0 +1,20 @@
+{
+  "name": "citas_web",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "- Te ayudamos a encontrar el otro extremo de tu hilo.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/src/index.js",
+    "dev": "nodemon backend/src/index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.1",
+    "pg": "^8.16.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

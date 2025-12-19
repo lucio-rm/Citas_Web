@@ -5,12 +5,10 @@ dotenv.config();
 
 const { Pool } = pkg;
 
+// Priorizamos la DATABASE_URL de Railway, si no, usamos los datos locales
 export const pool = new Pool({
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS,
-    host: process.env.DB_HOST,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
+    connectionString: process.env.DATABASE_URL,
+    ssl: process.env.DATABASE_URL ? { rejectUnauthorized: false } : false
 });
 
 export const esperarDB = async (retries = 15, delay = 2000) => {
@@ -25,5 +23,5 @@ export const esperarDB = async (retries = 15, delay = 2000) => {
             await new Promise(res => setTimeout(res, delay));
         }
     }
-    throw new Error('No se pudo conectar con Postgres')
+    throw new Error('No se pudo conectar con Postgres');
 };
