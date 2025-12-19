@@ -26,16 +26,6 @@ const vistaPreviaEdad = document.getElementById('vista-previa-edad');
 const vistaPreviaOrientacion = document.getElementById('vista-previa-orientacion');
 const vistaPreviaFotoPerfil = document.getElementById('vista-previa-img');
 
-
-
-(function verificarSesion() { // si no está logeado
-    const usuarioLogeado = JSON.parse(localStorage.getItem('usuario'));
-
-    if (!usuarioLogeado || !usuarioLogeado.id) {
-        window.location.href = '/paginas/login.html'; // redirige al login
-    }
-})();
-
 // calcula la edad a partir de la fecha de nacimiento
 const calcularEdad = (fechaNacimiento) => {
     if (!fechaNacimiento) return 0;
